@@ -43,7 +43,6 @@ public class UserController {
     log.info("map      ===> {}",map);
 
 
-
     System.out.println(userConfig.getName());
     return userService.findPage(current, pageSize);
   }
