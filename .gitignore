@@ -1,3 +1,9 @@
+
+# 路径, 通配符说明
+# **/target : 表示任意路径下(当前路径+子目录(及其递归)的target
+
+
+
 ### STS ###
 .apt_generated
 .classpath
