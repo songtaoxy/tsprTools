@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -10,23 +10,13 @@
         <relativePath/>
     </parent>
 
+
     <groupId>com.st.tools</groupId>
-    <artifactId>tspr</artifactId>
-    <version>tv20210521</version>
-    <name>tsprTools</name>
-    <description>Demo project for Spring Boot</description>
+    <artifactId>stcommon</artifactId>
+    <version>TV20210629</version>
 
-    <!--父包, 必须是pom-->
-    <!--聚合模块,  必须是pom-->
-    <packaging>pom</packaging>
 
-    <!--    项目的聚合-->
-    <modules>
-        <module>stcommon</module>
-        <module>springbootweb</module>
-        <module>utest</module>
-    </modules>
-
+    <modelVersion>4.0.0</modelVersion>
 
     <properties>
         <!--配置maven编译jdk的版本.效果同maven的setting.xml中的jdk设置-->
@@ -34,7 +24,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- 用于打包,功能类似于spring-boot-maven-plugin-->
-        <start-class>com.st.tools.MyApplication</start-class>
+        <!--        <start-class>com.st.tools.MyApplication</start-class>-->
         <!-- <mainClass>com.st.tools.springbootweb.SpringbootwebApplication</mainClass>-->
 
         <java.version>1.8</java.version>
@@ -61,12 +51,18 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+
         <!--        排除springboot的junit低版本, 使用高版本;见父工程中的的junit bom
         另外, 该依赖, 一般放在web项目中-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <!--            <scope>test</scope>-->
             <exclusions>
                 <exclusion>
                     <groupId>org.junit.vintage</groupId>
@@ -82,13 +78,9 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
+            <!--            <scope>test</scope>-->
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -102,16 +94,15 @@
         </dependency>
 
 
-        <!--
-                <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-log4j2</artifactId>
-                </dependency>
-        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
+<!--
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>-->
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -176,5 +167,6 @@
             -->
         </plugins>
     </build>
+
 
 </project>
