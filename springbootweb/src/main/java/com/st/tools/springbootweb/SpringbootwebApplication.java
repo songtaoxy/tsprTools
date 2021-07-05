@@ -14,6 +14,6 @@ public class SpringbootwebApplication {
   public static void main(String[] args) {
 
     SpringApplication.run(SpringbootwebApplication.class, args);
-
+    System.out.println("hi");
   }
 }
