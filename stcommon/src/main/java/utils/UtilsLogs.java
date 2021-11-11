@@ -57,6 +57,7 @@ public class UtilsLogs {
         JSON.toJSONString(obj, true));
   }
 
+
   /**
    * @deprecated since 2021.11.11 by ts, and replaced by {@link utils.UtilsLogs#formatObjAndLogging(Object, String)}
    * @param obj 日志要将该对象的内容打印出来

@@ -3,14 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 
-    <!--  <parent>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-parent</artifactId>
-          <version>2.5.0</version>
-          <relativePath/>
-      </parent>
-      -->
-
     <groupId>com.st.tools</groupId>
     <artifactId>stcommon</artifactId>
     <version>TV20210629</version>
@@ -29,6 +21,9 @@
         <hutool.version>5.7.16</hutool.version>
         <lombok.version>1.18.22</lombok.version>
         <gson.version>2.8.9</gson.version>
+        <log.back.version>1.2.6</log.back.version>
+        <slf4j.jcl.version>1.7.32</slf4j.jcl.version>
+        <fastjson.version>1.2.78</fastjson.version>
     </properties>
 
 
@@ -45,130 +40,80 @@
             </dependency>
 
 
-                <dependency>
-                    <groupId>org.apache.logging.log4j</groupId>
-                    <artifactId>log4j-bom</artifactId>
-                    <version>2.14.1</version>
-                    <scope>import</scope>
-                    <type>pom</type>
-                </dependency>
-
         </dependencies>
 
     </dependencyManagement>
 
 
     <dependencies>
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
--->
 
-        <!-- 排除springboot的junit低版本, 使用高版本;见父工程中的的junit bom
-        另外, 该依赖, 一般放在web项目中-->
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.junit.jupiter</groupId>
-                    <artifactId>junit-jupiter-engine</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
-
-
-        <!-- Only needed to run tests in a version of IntelliJ IDEA that bundles older versions -->
-        <!--<dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            &lt;!&ndash; 范围不能是test, 否则该依赖不能打入包里, 在istall时没有, 导致其他模块依赖时, 不能使用junit&ndash;&gt;
-            <scope>test</scope>
-        </dependency>
-    -->
+        <!-- ******************** junit 5 ****************** -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <!-- 范围不能是test, 否则该依赖不能打入包里, 在istall时没有, 导致其他模块依赖时, 不能使用junit-->
-            <scope>test</scope>
+            <!--            <scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
             <!-- 范围不能是test, 否则该依赖不能打入包里, 在istall时没有, 导致其他模块依赖时, 不能使用junit-->
-            <scope>test</scope>
+            <!--            <scope>test</scope>-->
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
         </dependency>
-
-
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        -->
-
-     <!--   <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.14.1</version>
-        </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.14.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-to-slf4j</artifactId>
-            <version>2.14.1</version>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.19.0</version>
+<!--            <scope>test</scope>-->
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>-->
 
+        <!-- ******************** logback  ****************** -->
         <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.6</version>
+            <version>${log.back.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.slf4j/jcl-over-slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.7.32</version>
+            <version>${slf4j.jcl.version}</version>
         </dependency>
 
 
+        <!-- ******************** lombok   ****************** -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
+            <version>${lombok.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!--  <dependency>
-              <groupId>org.springframework.boot</groupId>
-              <artifactId>spring-boot-starter-logging</artifactId>
-          </dependency>
-          -->
 
+
+        <!-- ******************** json:gson+fastJson  ****************** -->
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
 
 
@@ -197,12 +142,6 @@
             <version>5.0.2.RELEASE</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
 
         <!--https://hutool.cn/docs/#/-->
         <dependency>
@@ -210,7 +149,6 @@
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
         </dependency>
-
 
 
     </dependencies>
