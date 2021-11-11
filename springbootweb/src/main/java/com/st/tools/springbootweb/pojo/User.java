@@ -1,7 +1,6 @@
 package com.st.tools.springbootweb.pojo;
 
 import lombok.Data;
-import org.slf4j.Logger;
 
 /**
  * @author: st
@@ -11,8 +10,11 @@ import org.slf4j.Logger;
  */
 @Data
 public class User {
-	private Long id;
-	private String name;
-	private String email;
-	private Integer age;
+  private Long id;
+  private String name;
+  private String email;
+  private Integer age;
+  private String fa;
+  private static String fb;
+  private static final String fc = null;
 }

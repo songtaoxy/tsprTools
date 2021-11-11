@@ -1,6 +1,7 @@
 package com.st.api.practice.regx;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -41,7 +42,8 @@ public class ConvertParams {
 	}
 
 
-	public static void t1() {
+	@Test
+	 void t1() {
 		String resultStr = "select id, tenantid, pubts, effectivedate , countryzone, businessid from org.func.ITOrg where id>param$(p1) and tenantid<param$(p3) and tenantid between param$(p4) and param$(p5) and businessid=param$(p5) group by tenantid limit 100";
 
 		String paramPattern = "param\\$\\(\\w+\\)";

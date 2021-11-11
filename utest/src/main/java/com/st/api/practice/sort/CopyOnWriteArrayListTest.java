@@ -1,8 +1,6 @@
 package com.st.api.practice.sort;
 
-import com.oracle.tools.packager.Log;
 import com.st.api.practice.pojo.Person;
-import com.sun.javafx.tk.TKPulseListener;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

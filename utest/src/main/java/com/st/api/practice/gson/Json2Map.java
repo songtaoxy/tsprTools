@@ -2,7 +2,6 @@ package com.st.api.practice.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.sun.org.apache.bcel.internal.generic.GOTO;
 
 import java.util.Map;
 

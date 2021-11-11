@@ -15,6 +15,7 @@ import java.util.Map;
 @Slf4j
 @Controller
 public class HelloWorld {
+  static String template;
 
   @Autowired HelloService helloService;
 
