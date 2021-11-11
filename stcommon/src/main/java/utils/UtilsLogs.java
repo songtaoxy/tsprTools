@@ -2,6 +2,7 @@ package utils;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -121,6 +122,7 @@ public class UtilsLogs {
   }
 
   @Test
+  @DisplayName("hi")
   void testFormatObjAndLogging() {
     String o = "hi";
     String x = "";

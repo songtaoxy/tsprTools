@@ -1,7 +1,5 @@
 package com.st.uml;
 
-import lombok.experimental.PackagePrivate;
-import org.mockito.exceptions.misusing.FriendlyReminderException;
 
 /**
  * @author: st

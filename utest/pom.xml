@@ -29,15 +29,6 @@
         <!--        <mainClass>com.st.tools.TestMain</mainClass>-->
     </properties>
 
-    <dependencyManagement>
-
-        <dependencies>
-
-
-        </dependencies>
-
-    </dependencyManagement>
-
 
     <dependencies>
         <!-- <dependency>
