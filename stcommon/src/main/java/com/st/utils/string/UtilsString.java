@@ -19,21 +19,34 @@ public class UtilsString {
 
   public static final String LINE = "\n";
   public static final String BLANK_STRING = " ";
-  public static final String SPLIT_LINELINE = "=======================";
+  public static final String SPLIT_LINE = "=======================";
   public static final String START = "Start";
   public static final String START_FUll =
-      SPLIT_LINELINE + BLANK_STRING + START + BLANK_STRING + SPLIT_LINELINE + LINE;
+      SPLIT_LINE + BLANK_STRING + START + BLANK_STRING + SPLIT_LINE + LINE;
   public static final String END = "End";
   public static final String END_FULLE =
       LINE
-          + SPLIT_LINELINE
+          + SPLIT_LINE
           + BLANK_STRING
           + BLANK_STRING
           + END
           + BLANK_STRING
           + BLANK_STRING
-          + SPLIT_LINELINE;
+          + SPLIT_LINE;
 
+  /**
+   * convert "Object[]" to "String"
+   *
+   * <ul>
+   * <li>将字符串拆分成(对象/字符串)数组, 然后将数组重新拼接成字符串</li>
+   * <li>目的: 方便,且能避免错误. 根据各个要素(字符串, 变量, 转移字符,...),就能得到字符串</li>
+   * <li>补充: Java字符串拼接太麻烦, 没有python, scala等语言的三引号</li>
+   * <li>场景:log输出时,构建需要的字符串, ...</li>
+   * </ul>
+   *
+   * @param strArray 字符串的各个要素
+   * @return 由数组拼接的字符串
+   */
   public static String objs2Str(Object[] strArray) {
 
     List<Object> logObj = Arrays.asList(strArray);

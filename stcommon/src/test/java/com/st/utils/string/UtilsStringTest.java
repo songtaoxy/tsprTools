@@ -2,8 +2,6 @@ package com.st.utils.string;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class UtilsStringTest {
 
   @Test
@@ -22,7 +20,7 @@ class UtilsStringTest {
               100,
               UtilsString.LINE,
               null,
-              UtilsString.SPLIT_LINELINE,
+              UtilsString.SPLIT_LINE,
               "new",
               UtilsString.END_FULLE
             });
