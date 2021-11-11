@@ -2,9 +2,7 @@ package com.st.api.practice.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import utils.UtilsLogs;
-
-import javax.sound.midi.Soundbank;
+import com.st.utils.log.UtilsLogs;
 
 /**
  * @author: st

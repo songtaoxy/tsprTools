@@ -1,8 +1,7 @@
-package utils;
+package com.st.utils.log;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -28,7 +27,7 @@ public class UtilsLogs {
    *                          String str = "select * from t_table"
    *                          login.info{"the external message is: "+ var}} <p>
    *
-   * details see: {@link  utils.UtilsLogs#formatObjAndLogging_old(Object, String)}<p>
+   * details see: {@link  UtilsLogs#formatObjAndLogging_old(Object, String)}<p>
    *
    * @param obj 日志要将该对象的内容打印出来
    * @param infoTips 对"obi"的补充说明
@@ -59,7 +58,7 @@ public class UtilsLogs {
 
 
   /**
-   * @deprecated since 2021.11.11 by ts, and replaced by {@link utils.UtilsLogs#formatObjAndLogging(Object, String)}
+   * @deprecated since 2021.11.11 by ts, and replaced by {@link UtilsLogs#formatObjAndLogging(Object, String)}
    * @param obj 日志要将该对象的内容打印出来
    * @param infoTips 对"obi"的补充说明
    */
@@ -122,13 +121,4 @@ public class UtilsLogs {
             JSON.toJSONString(obj, true));
   }
 
-  @Test
-  @DisplayName("hi")
-  void testFormatObjAndLogging() {
-    String o = "hi";
-    String x = "";
-     //x = null;
-     //x = "this is my ps";
-    formatObjAndLogging(o, x);
-  }
 }
