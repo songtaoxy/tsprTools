@@ -1,6 +1,5 @@
 package com.st.utils.string;
 
-import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -12,7 +11,4 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UtilsString {
 
-	public void m2(){}
-
-	public static void m1(){}
 }
