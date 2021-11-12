@@ -1,6 +1,7 @@
 package com.st.tools.springbootweb.controller;
 
 import com.st.tools.springbootweb.service.HelloService;
+import com.st.utils.log.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,12 @@ public class HelloWorld {
 
     Map<String, Object> hello = new HashMap<>();
     hello.put("hello", "helloworld");
+    hello.put("hello2", "helloworld");
 
-    log.info("hello world");
+    // log.info("hello world");
+    // LogUtils.formatObjAndLogging(hello,"result response");
+
+    System.out.println("controller:"+hello);
 
     Person<Object> objectPerson = new Person<>();
 
