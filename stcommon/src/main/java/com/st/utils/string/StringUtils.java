@@ -35,7 +35,7 @@ public class StringUtils {
           + SPLIT_LINE;
 
   /**
-   * convert "Object[]" to "String"
+   * convert "Object[]" to "String"; 同java15的文本快功能.
    *
    * <ul>
    * <li>将字符串拆分成(对象/字符串)数组, 然后将数组重新拼接成字符串</li>
