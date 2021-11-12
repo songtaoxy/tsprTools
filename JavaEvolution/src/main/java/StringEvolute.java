@@ -4,20 +4,19 @@
  * @version: 1.0
  * @description:
  */
-public class StringDemo {
+public class StringEvolute {
 
 
 	public static void main(String[] args) {
-		String str = """
-				hi, this is good
-				ideas
-				do 
-				you 
-				have
-				""";
-		System.out.println(str);
+	}
 
 
+	/**
+	 * String: 文本块
+	 *
+	 * @since java 15
+	 */
+	public static void strBlock(){
 		String jsonStr = """
 				{
 				"k1":"v1",
@@ -28,5 +27,6 @@ public class StringDemo {
 
 		System.out.println(jsonStr);
 	}
+
 
 }
