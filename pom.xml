@@ -25,6 +25,7 @@
         <module>stcommon</module>
         <module>springbootweb</module>
         <module>utest</module>
+        <module>JavaEvolution</module>
     </modules>
 
 
