@@ -1,6 +1,6 @@
 package com.st.utils.string;
 
-import com.st.utils.log.UtilsLogs;
+import com.st.utils.log.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @description:
  */
 @Slf4j
-public class UtilsString {
+public class StringUtils {
 
   public static final String LINE = "\n";
   public static final String BLANK_STRING = " ";
@@ -54,7 +54,8 @@ public class UtilsString {
     // resultStr = logObj.stream().map(Objects::toString).collect(Collectors.joining(","));
     // resultStr = logObj.stream().map(Objects::toString).collect(Collectors.joining("-"));
     // resultStr = logObj.stream().map(Objects::toString).collect(Collectors.joining("_"));
-    UtilsLogs.formatObjAndLogging(resultStr, "");
+
+    //LogUtils.formatObjAndLogging(resultStr, "");
 
     return resultStr;
   }

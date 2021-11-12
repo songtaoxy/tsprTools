@@ -48,7 +48,7 @@ public class AddNum {
    *<p>
    * @see com.st.api.practice.javadoc.AddNum#minus(int, int) <br>
    * @see <a href="http://www.andyqian.com">博客地址</a>
-   *     <p>{@link com.st.api.practice.javadoc.AddNum#minus(int, int)}
+   *     <p>{@link com.st.api.practice.javadoc.AddNum#minus(int, int)}, and search with {@link www.baidu.com}
    *     <p>
    * @param numA This is the first paramter to addNum method
    * @param numB This is the second parameter to addNum method

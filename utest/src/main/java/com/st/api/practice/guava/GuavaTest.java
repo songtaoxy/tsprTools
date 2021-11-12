@@ -1,9 +1,9 @@
 package com.st.api.practice.guava;
 
 import com.google.common.base.Preconditions;
+import com.st.utils.log.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import com.st.utils.log.UtilsLogs;
 
 /**
  * @author: st
@@ -22,6 +22,6 @@ public class GuavaTest {
     String name = Preconditions.checkNotNull(param);
     //String name = Preconditions.checkNotNull(param,"param can't be null");
 
-    UtilsLogs.formatObjAndLogging(name,"name is or not null");
+    LogUtils.formatObjAndLogging(name,"name is or not null");
   }
 }

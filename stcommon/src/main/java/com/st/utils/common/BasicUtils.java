@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
  * @description:
  */
 @Slf4j
-public class UtilsBasic {
+public class BasicUtils {
 
 
 	public static void formatObjAndLogging(Object obj, String infoTips) {

@@ -3,7 +3,7 @@ package com.st.api.practice.guava;
 import com.google.common.cache.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import com.st.utils.log.UtilsLogs;
+import com.st.utils.log.LogUtils;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -41,7 +41,7 @@ public class GuavaCache {
 		loadingCache.invalidate("猫"); // 手动失效
 
 		Animal animal = loadingCache.get("狼");
-		UtilsLogs.formatObjAndLogging(animal.toString(),"wolf in cache");
+		LogUtils.formatObjAndLogging(animal.toString(),"wolf in cache");
 		Thread.sleep(4 * 1000);
 		// 狼已经自动过去，获取为 null 值报错
 		System.out.println(loadingCache.get("狼"));

@@ -10,7 +10,21 @@ import java.io.IOException;
  */
 public class JavaDocDemo {
 
+  /**
+   * search with {@link #JavaDocDemo} <p>
+   * code demo <pre>{@code
+   *              a
+   *              b
+   *              c}
+   * search with {@link http://www.baidu.com}} <p>
+   * search with {@link <a href="http://www.baidu.com">http://www.baidu.></a>} <p>
+   * search with  <a href="http://www.baidu.com">http://www.baidu</a>
+   * @
+   * @param str
+   */
   public JavaDocDemo(String str) {
     System.out.println(str);
   }
+
+
 }

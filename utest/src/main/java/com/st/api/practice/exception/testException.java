@@ -1,8 +1,8 @@
 package com.st.api.practice.exception;
 
+import com.st.utils.log.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import com.st.utils.log.UtilsLogs;
 
 /**
  * @author: st
@@ -22,6 +22,6 @@ public class testException {
       e.printStackTrace();
     }
 
-    UtilsLogs.formatObjAndLogging("obj", "messagee");
+    LogUtils.formatObjAndLogging("obj", "messagee");
   }
 }

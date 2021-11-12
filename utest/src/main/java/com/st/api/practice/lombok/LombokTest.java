@@ -3,7 +3,7 @@ package com.st.api.practice.lombok;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.junit.jupiter.api.Test;
-import com.st.utils.log.UtilsLogs;
+import com.st.utils.log.LogUtils;
 
 /**
  * @author: st
@@ -16,13 +16,13 @@ public class LombokTest {
   @Test
   void lombokTest() {
     Studenta studenta = new Studenta();
-    UtilsLogs.formatObjAndLogging(studenta,"");
+    LogUtils.formatObjAndLogging(studenta,"");
 
 
     Studenta studenta1 = new Studenta("s", "p", 10);
     studenta1.setName("x").setAge(20);
-    //UtilsLogs.formatObjAndLogging(studenta1.toString(),"");
-    UtilsLogs.formatObjAndLogging(studenta1.toString(),null);
+    //LogUtils.formatObjAndLogging(studenta1.toString(),"");
+    LogUtils.formatObjAndLogging(studenta1.toString(),null);
 
   }
 

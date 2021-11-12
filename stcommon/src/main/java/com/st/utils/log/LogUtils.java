@@ -1,6 +1,7 @@
 package com.st.utils.log;
 
 import com.alibaba.fastjson.JSON;
+import com.st.utils.common.TimeUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -12,7 +13,7 @@ import java.util.Optional;
  * @description:
  */
 @Slf4j
-public class UtilsLogs {
+public class LogUtils {
 
   /**
    * @deprecated since 2021.11.11 by ts replaced by "local vars"
@@ -26,7 +27,7 @@ public class UtilsLogs {
    *                          String str = "select * from t_table"
    *                          login.info{"the external message is: "+ var}} <p>
    *
-   * details see: {@link  UtilsLogs#formatObjAndLogging_old(Object, String)}<p>
+   * details see: {@link  LogUtils#formatObjAndLogging_old(Object, String)}<p>
    *
    * @param obj 日志要将该对象的内容打印出来
    * @param infoTips 对"obi"的补充说明
@@ -39,6 +40,8 @@ public class UtilsLogs {
     /* 当补充信息为空字符串时, 给默认值 */
     String value_blank = "There external messages is blank.";
 
+
+
     infoTips =
         Optional.ofNullable(infoTips)
             .map(str -> str.length() == 0 ? value_blank : str)
@@ -47,6 +50,7 @@ public class UtilsLogs {
     log.info(
         "\n\n"
             + "================================== start =====================================\n"
+            + "- [Time    ]:" + TimeUtils.getLocalDateTime().toString() + "\n"
             + "- [Type    ]:" + obj.getClass().getName() + "\n"
             + "- [messsage]:" + infoTips                 + "\n"
             + "- [content ]:\n"
@@ -57,7 +61,7 @@ public class UtilsLogs {
 
 
   /**
-   * @deprecated since 2021.11.11 by ts, and replaced by {@link UtilsLogs#formatObjAndLogging(Object, String)}
+   * @deprecated since 2021.11.11 by ts, and replaced by {@link LogUtils#formatObjAndLogging(Object, String)}
    * @param obj 日志要将该对象的内容打印出来
    * @param infoTips 对"obi"的补充说明
    */
