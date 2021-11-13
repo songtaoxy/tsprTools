@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.util.List;
 
@@ -20,7 +18,6 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
  */
 // @ExtendWith(MockitoExtension.class)
 @ExtendWith(MockitoExtension.class)
-@PrepareForTest(MockitoGeneral.class)
 class MockitoGeneralTest {
 
   @Mock List<String> mockedList;
