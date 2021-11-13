@@ -1,4 +1,4 @@
-package com.st.practice;
+package com.st.practice.exception;
 
 /**
  * @author: st
@@ -50,7 +50,7 @@ public class ExceptionDemo {
 
   public static void em4() {
     try {
-      em3("hi", 20);
+      em3("hi", 0);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -62,7 +62,7 @@ public class ExceptionDemo {
   }
 
   public static void em6() {
-    em5("hi", 20);
+    em5("hi", 0);
   }
 
   public static void em7(String str, int index) throws Exception {
@@ -71,7 +71,7 @@ public class ExceptionDemo {
 
   public static void em8() {
     try {
-      em7("hi", 20);
+      em7("hi", 0);
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -21,7 +21,6 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 class MockitoGeneralTest {
 
   @Mock List<String> mockedList;
-  @Mock MockitoGeneral mockitoGeneral;
 
   @Test
   void m001() {
@@ -42,7 +41,7 @@ class MockitoGeneralTest {
 
     // 设置桩
     when(mockedList.get(0)).thenReturn("first");
-    when(mockedList.get(1)).thenThrow(new RuntimeException());
+    //when(mockedList.get(1)).thenThrow(new RuntimeException());
 
     // 打印 "first"
     System.out.println(mockedList.get(0));
