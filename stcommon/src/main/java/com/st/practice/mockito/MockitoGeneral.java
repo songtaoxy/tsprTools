@@ -6,5 +6,7 @@ package com.st.practice.mockito;
  * @version: 1.0
  * @description:
  */
-public class MockitoCase {
+public class MockitoGeneral {
+
+
 }
