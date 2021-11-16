@@ -3,7 +3,8 @@ package com.st.utils.string;
 /**
  * S: symbol
  *
- * <p>单个字符, 在引用时, 占据的空间小.
+ * <p>单个字符, 在引用时, 占据的空间小. <br>
+ * 如果类名, 已经变量名太长, 则拼接时不易读
  *
  * @author: st
  * @date: 2021/11/17 02:31
@@ -19,8 +20,8 @@ public class S {
   public static final String b = " ";
 
   /** s: split line */
-  public static final String s = "\n==================================\n";
+  public static final String s =  "\n=======================================================\n";
 
-  public static final String ss = "\n================= start =================\n";
-  public static final String se = "\n=================  end  =================\n";
+  public static final String ss = "\n======================== start ========================\n";
+  public static final String se = "\n========================  end  ========================\n";
 }
