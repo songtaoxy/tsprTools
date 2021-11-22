@@ -16,5 +16,13 @@ public class  LogbackDemo {
     log.debug("hi");
     log.warn("hi");
     log.error("hi");
+
+    while (true) {
+      log.info("...");
+    }
+  }
+
+  public void logbackDem(){
+    log.info("logbackDemo");
   }
 }
