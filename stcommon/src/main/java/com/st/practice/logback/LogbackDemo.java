@@ -9,10 +9,12 @@ import lombok.extern.slf4j.Slf4j;
  * @description:
  */
 @Slf4j
-public class LogbackDemo {
+public class  LogbackDemo {
 
   public static void main(String[] args) {
     log.info("hi");
     log.debug("hi");
+    log.warn("hi");
+    log.error("hi");
   }
 }

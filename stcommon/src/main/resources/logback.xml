@@ -6,19 +6,18 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
 
-    <!--使用property标签, 自定义属性; 后面可以直接引用-->
+    <!-- 使用property标签, 自定义属性; 后面可以直接引用-->
     <!-- 定义日志存放目录 -->
-    <!--    相对路径:相对当前项目-->
-    <!--    <property name="logPath" value="logs"/>-->
-    <!--    相对路径:相对当前项目-->
-    <!--    <property name="logPath" value="./logs"/>-->
-    <!--    相对路径:相对当前模块module; -->
-    <!--    可以插入任何系统属性, 因此能通过jdk的路径来变相设置当前模块路径 -->
+    <!-- 相对路径:相对当前项目-->
+    <!-- <property name="logPath" value="logs"/>-->
+    <!-- 相对路径:相对当前项目-->
+    <!-- <property name="logPath" value="./logs"/>-->
+    <!-- 相对路径:相对当前模块module; -->
+    <!-- 可以插入任何系统属性, 因此能通过jdk的路径来变相设置当前模块路径 -->
     <property name="logPath" value="${jdk.module.path}"/>
 
 
-    <!--    日志输出的格式-->
-    <!--    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t-%L] %-5level %logger{36} %L %M - %msg%xEx%n"/>-->
+    <!-- 日志输出的格式-->
     <property name="PATTERN"
               value="%d{yyyy-MM-dd HH:mm:ss.SSS}-%r  %highlight(%-5level) --- [%15.15thread] %cyan(%-38.38logger{36}) \\(%20method:%-4line\\) : %msg%ex{full}%n"/>
 
@@ -140,9 +139,9 @@
         </logger>
     -->
 
-    <!--指定最基础的日志输出级别-->
+    <!-- 指定最基础的日志输出级别-->
+    <!-- 日志将在控制台, error级别等输出-->
     <root level="info">
-        <!--appender将会添加到这个loger-->
         <appender-ref ref="consoleLog"/>
         <appender-ref ref="fileDEBUGLog"/>
         <appender-ref ref="fileErrorLog"/>
