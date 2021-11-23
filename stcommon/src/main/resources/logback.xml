@@ -163,7 +163,7 @@ debug: 当此属性设置为true时，将打印出logback内部日志信息，�
 
   <!-- 指定最基础的日志输出级别-->
   <!-- 日志将在控制台, error级别等输出-->
-  <root level="info">
+  <root level="debug">
     <appender-ref ref="consoleLog"/>
     <appender-ref ref="fileDEBUGLog"/>
     <appender-ref ref="fileErrorLog"/>
