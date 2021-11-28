@@ -27,14 +27,12 @@ public class OkhttpDemo {
         new Request.Builder()
             .url("http://metadata-extension.pre.app.yyuap.com/ext/query/exec")
             .method("POST", body)
-            //.addHeader("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)")
+            // .addHeader("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)")
             .addHeader("Content-Type", "application/json")
             .build();
     Response response = client.newCall(request).execute();
 
-
     LogUtils.formatObjAndLogging(
         JsonUitls.jsonStr2fastjsonObj(response.body().string()), "respoons");
-    //
   }
 }
