@@ -39,8 +39,8 @@ debug: 当此属性设置为true时，将打印出logback内部日志信息，�
   <!--  ======================= property  end  =======================-->
 
 
-<!--  每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用设置成其他名字，-->
-<!--  用于区分不同应用程序的记录。一旦设置，不能修改,可以通过%contextName来打印日志上下文名称。-->
+  <!--  每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用设置成其他名字，-->
+  <!--  用于区分不同应用程序的记录。一旦设置，不能修改,可以通过%contextName来打印日志上下文名称。-->
   <contextName>${APP_NAME}</contextName>
 
   <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
@@ -163,7 +163,15 @@ debug: 当此属性设置为true时，将打印出logback内部日志信息，�
 
   <!-- 指定最基础的日志输出级别-->
   <!-- 日志将在控制台, error级别等输出-->
-  <root level="debug">
+
+
+  <!--  减少logback本身输出-->
+  <!--  17:40:54,304 |-INFO in ch.qos.logback.classic.LoggerContext[stcommon] - Found resource [logback.xml] at [file:/Users/songtao/personaldriveMac/Projects/tsprTools/stcommon/target/classes/logback.xml]-->
+  <logger name="ch.qos.logback" level="error" additivity="true">
+    <appender-ref ref="consoleLog"/>
+  </logger>
+
+  <root level="info">
     <appender-ref ref="consoleLog"/>
     <appender-ref ref="fileDEBUGLog"/>
     <appender-ref ref="fileErrorLog"/>

@@ -27,6 +27,7 @@
         <testable.version>0.7.0</testable.version>
         <jacoco.version>0.8.7</jacoco.version>
         <surefire.version>3.0.0-M5</surefire.version>
+        <okhttp.version>4.9.1</okhttp.version>
     </properties>
 
 
@@ -184,6 +185,13 @@
             <version>${hutool.version}</version>
         </dependency>
 
+
+        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp.version}</version>
+        </dependency>
 
     </dependencies>
 
