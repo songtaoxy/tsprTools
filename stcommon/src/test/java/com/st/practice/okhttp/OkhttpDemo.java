@@ -2,7 +2,6 @@ package com.st.practice.okhttp;
 
 import com.st.utils.json.JsonUitls;
 import com.st.utils.log.LogUtils;
-import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 
