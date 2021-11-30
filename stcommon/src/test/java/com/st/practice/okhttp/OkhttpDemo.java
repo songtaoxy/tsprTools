@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.util.Properties;
 
 /**
  * @author: st
@@ -17,6 +18,10 @@ import java.io.IOException;
 public class OkhttpDemo {
 
   public static void main(String[] args) throws IOException {
+
+    Properties properties = System.getProperties();
+
+
     OkHttpClient client = new OkHttpClient().newBuilder().build();
     MediaType mediaType = MediaType.parse("application/json");
     RequestBody body =
@@ -35,4 +40,6 @@ public class OkhttpDemo {
     LogUtils.formatObjAndLogging(
         JsonUitls.jsonStr2fastjsonObj(response.body().string()), "respoons");
   }
+
+
 }
