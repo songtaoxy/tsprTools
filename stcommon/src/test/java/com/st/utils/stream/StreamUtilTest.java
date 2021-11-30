@@ -46,33 +46,32 @@ class StreamUtilTest {
   @Test
   void properties_map() {
     Properties properties = System.getProperties();
-    //HashMap<String, String> map = properties;
-    //properties.forEach(System.out::println);
+    // HashMap<String, String> map = properties;
+    // properties.forEach(System.out::println);
 
     String s = PropsToJsonUtil.convertToJson(properties);
 
     JSONObject jsonObject = JSONObject.parseObject(s);
 
-    Map<String,Object> map = (Map<String,Object>)jsonObject;
+    Map<String, Object> map = (Map<String, Object>) jsonObject;
 
+    LogUtils.formatObjAndLogging(map, "map");
 
-    LogUtils.formatObjAndLogging(map,"map");
-
-    Map<String, Object> map1 = map.entrySet().stream()
+    Map<String, Object> map1 =
+        map.entrySet().stream()
             .filter(e -> e.getKey().startsWith("java"))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-
-    Map<String, Object> map2 = map.entrySet().stream()
+    Map<String, Object> map2 =
+        map.entrySet().stream()
             .filter(e -> e.getKey().startsWith("java"))
-            .collect(Collectors.toMap(p -> p.getKey().substring("java".length()), Map.Entry::getValue));
+            .collect(
+                Collectors.toMap(p -> p.getKey().substring("java".length()), Map.Entry::getValue));
 
+    LogUtils.formatObjAndLogging(map1, "map1");
+    LogUtils.formatObjAndLogging(map2, "map2");
 
-
-    LogUtils.formatObjAndLogging(map1,"map1");
-    LogUtils.formatObjAndLogging(map2,"map2");
-
-   /* Map map4 = properties;
+    /* Map map4 = properties;
     HashMap<String, String> map5 = (HashMap<String, String>) map4;
     Map<String, Object> map6 = map5.entrySet().stream()
             .filter(e -> e.getKey().startsWith("java"))
@@ -80,37 +79,35 @@ class StreamUtilTest {
 
     LogUtils.formatObjAndLogging(map6,"map6");*/
 
-
     HashMap<String, String> map3 = Maps.newHashMap(Maps.fromProperties(properties));
     map3.put("java.xxxx", "..............................");
-    Map<String, Object> map4 = map3.entrySet().stream()
+    Map<String, Object> map4 =
+        map3.entrySet().stream()
             .filter(e -> e.getKey().startsWith("java"))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    LogUtils.formatObjAndLogging(map4,"map4");
+    LogUtils.formatObjAndLogging(map4, "map4");
 
-
-    Map<String, Object> map5 = map3.entrySet().stream()
+    Map<String, Object> map5 =
+        map3.entrySet().stream()
             .filter(e -> e.getKey().startsWith("java"))
-            .collect(Collectors.toMap(p->p.getKey().substring("java.".length()), Map.Entry::getValue));
-    LogUtils.formatObjAndLogging(map5,"map5");
-
+            .collect(
+                Collectors.toMap(p -> p.getKey().substring("java.".length()), Map.Entry::getValue));
+    LogUtils.formatObjAndLogging(map5, "map5");
   }
-
 
   public static Map<String, Object> parseMapForFilterByOptional(Map<String, Object> map) {
 
-    return Optional.ofNullable(map).map(
+    return Optional.ofNullable(map)
+        .map(
             (v) -> {
-              Map params = v.entrySet().stream()
+              Map params =
+                  v.entrySet().stream()
                       .filter((e) -> checkValue(e.getValue()))
-                      .collect(Collectors.toMap(
-                              (e) -> (String) e.getKey(),
-                              (e) -> e.getValue()
-                      ));
+                      .collect(Collectors.toMap((e) -> (String) e.getKey(), (e) -> e.getValue()));
 
               return params;
-            }
-    ).orElse(null);
+            })
+        .orElse(null);
   }
 
   private static boolean checkValue(Object object) {
@@ -124,10 +121,5 @@ class StreamUtilTest {
     }
 
     return true;
-
-
   }
-
-
-
 }
