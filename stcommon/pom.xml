@@ -28,6 +28,7 @@
         <jacoco.version>0.8.7</jacoco.version>
         <surefire.version>3.0.0-M5</surefire.version>
         <okhttp.version>4.9.1</okhttp.version>
+        <streamex.version>0.7.3</streamex.version>
     </properties>
 
 
@@ -192,6 +193,16 @@
             <artifactId>okhttp</artifactId>
             <version>${okhttp.version}</version>
         </dependency>
+
+
+        <!-- Java 8 Stream 增强库: streamex-->
+        <!-- https://mvnrepository.com/artifact/one.util/streamex -->
+        <dependency>
+            <groupId>one.util</groupId>
+            <artifactId>streamex</artifactId>
+            <version>${streamex.version}</version>
+        </dependency>
+
 
     </dependencies>
 
