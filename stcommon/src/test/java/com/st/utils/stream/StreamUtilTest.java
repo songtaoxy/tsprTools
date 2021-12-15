@@ -122,4 +122,25 @@ class StreamUtilTest {
 
     return true;
   }
+
+
+  @Test
+  void tt(){
+
+
+    HashMap<String, String> props = Maps.newHashMap(Maps.fromProperties(System.getProperties()));
+
+    Map<String, String> tenantMap = null;
+    String domainSchemaPreKey = "java.";
+    String tenantId = "hi";
+
+    LogUtils.formatObjAndLogging(props, "tenantId:" + tenantId + ", domain <===> schema");
+
+    tenantMap = props.entrySet().stream()
+            .filter(e -> e.getKey().startsWith(domainSchemaPreKey))
+            .collect(
+                    Collectors.toMap(p -> p.getKey().substring(domainSchemaPreKey.length()), Map.Entry::getValue));
+    //ParamsUtils.formatObjAndLogging(tenantMap, "tenantId:" + tenantId + ", domain <===> schema");
+    LogUtils.formatObjAndLogging(tenantMap, "tenantId:" + tenantId + ", domain <===> schema");
+  }
 }
