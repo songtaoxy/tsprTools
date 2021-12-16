@@ -123,10 +123,8 @@ class StreamUtilTest {
     return true;
   }
 
-
   @Test
-  void tt(){
-
+  void tt() {
 
     HashMap<String, String> props = Maps.newHashMap(Maps.fromProperties(System.getProperties()));
 
@@ -136,11 +134,37 @@ class StreamUtilTest {
 
     LogUtils.formatObjAndLogging(props, "tenantId:" + tenantId + ", domain <===> schema");
 
-    tenantMap = props.entrySet().stream()
+    tenantMap =
+        props.entrySet().stream()
             .filter(e -> e.getKey().startsWith(domainSchemaPreKey))
             .collect(
-                    Collectors.toMap(p -> p.getKey().substring(domainSchemaPreKey.length()), Map.Entry::getValue));
-    //ParamsUtils.formatObjAndLogging(tenantMap, "tenantId:" + tenantId + ", domain <===> schema");
+                Collectors.toMap(
+                    p -> p.getKey().substring(domainSchemaPreKey.length()), Map.Entry::getValue));
+    // ParamsUtils.formatObjAndLogging(tenantMap, "tenantId:" + tenantId + ", domain <===> schema");
     LogUtils.formatObjAndLogging(tenantMap, "tenantId:" + tenantId + ", domain <===> schema");
+  }
+
+  @Test
+  void m_map() {
+
+    Map<String, String> m1 = Maps.newHashMap();
+    Map<String, String> m2 = Maps.newHashMap();
+
+    m1.put("v1", "v1");
+    m2.put("v1", "v2");
+
+    //m1.putAll(m2);
+    m2.putAll(m1);
+
+    m_map2(m2);
+
+    LogUtils.formatObjAndLogging(m2, "hi");
+  }
+
+
+  void m_map2(Map<String, String> m){
+
+    m = new HashMap<String, String>();
+
   }
 }
