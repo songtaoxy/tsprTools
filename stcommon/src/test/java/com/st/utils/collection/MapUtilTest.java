@@ -10,26 +10,31 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MapUtilTest {
 
-	@Test
-	void mergeMaps() {
-		Map<String,String> map1 = new HashMap<String,String>();
-		map1.put("1", "1");
-		map1.put("2", "2");
-		map1.put("3", "3");
-		map1.put("4", "4");
-		map1.put(null, "null1");
+  @Test
+  void mergeMaps() {
+    Map<String, String> map1 = new HashMap<String, String>();
+    map1.put("1", "1");
+    map1.put("2", "2");
+    map1.put("3", "3");
+    map1.put("4", "4");
+    map1.put(null, "null1");
 
-		Map<String,String> map2 = new HashMap<String,String>();
-		map2.put("3", "33");
-		map2.put("4", "44");
-		map2.put("5", "5");
-		map2.put("6", "6");
-		map2.put(null, "null2");
+    Map<String, String> map2 = new HashMap<String, String>();
+    map2.put("3", "33");
+    map2.put("4", "44");
+    map2.put("5", "5");
+    map2.put("6", "6");
+    map2.put(null, "null2");
 
-		MapUtil.mergeMaps(map1,map2);
+    MapUtil.mergeMaps(map1, map2);
 
-		LogUtils.formatObjAndLogging(MapUtil.mergeMaps(map1,map2),"");
+    LogUtils.formatObjAndLogging(MapUtil.mergeMaps(map1, map2), "");
+  }
 
-
-	}
+  @Test
+  void putall() {
+    MapUtil mapUtil = new MapUtil();
+    mapUtil.putall();
+    System.out.println("hi");
+  }
 }

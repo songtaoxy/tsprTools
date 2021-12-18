@@ -150,21 +150,42 @@ class StreamUtilTest {
     Map<String, String> m1 = Maps.newHashMap();
     Map<String, String> m2 = Maps.newHashMap();
 
-    m1.put("v1", "v1");
-    m2.put("v1", "v2");
+    m1.put("v1_1", "v1_1");
+    m1.put("v1_2", "v1_2");
+    m1.put("v1_3", "v1_3");
+    //m2.put("v1", "v2");
+    m2.put("v1_1", "v2_1");
+    m2.put("v1_2", "v2_2");
+    m2.put("v1_3", "v2_3");
 
     //m1.putAll(m2);
-    m2.putAll(m1);
+    //m2.putAll(m1);
+    m1.putAll(m2);
 
-    m_map2(m2);
+    //m_map2(m2);
 
-    LogUtils.formatObjAndLogging(m2, "hi");
+    LogUtils.formatObjAndLogging(m1, "hi");
   }
 
 
-  void m_map2(Map<String, String> m){
 
-    m = new HashMap<String, String>();
 
+
+  @Test
+  void m_map3() {
+    Map<String, String> m3 = Maps.newHashMap();
+    m3.put("v1", "v2");
+    m_map2(m3);
+    m_map4(m3);
+    LogUtils.formatObjAndLogging(m3, "hi");
+  }
+
+  void m_map2(Map<String, String> m2){
+    m2 = new HashMap<String, String>();
+
+  }
+
+  void m_map4(Map<String, String> m4){
+    m4.put("v4","k4");
   }
 }
