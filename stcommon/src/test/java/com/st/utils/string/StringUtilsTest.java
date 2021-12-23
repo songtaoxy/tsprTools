@@ -15,4 +15,15 @@ class StringUtilsTest {
 
     System.out.println(xy);
   }
+
+  @Test
+  void isNumeric() {
+
+    String x = "12389";
+    String y = "123x9";
+
+    StringUtils.isNumeric(x);
+    StringUtils.isNumeric(y);
+  }
+
 }
