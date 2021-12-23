@@ -1,7 +1,10 @@
 package com.st.utils.log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.st.utils.common.TimeUtils;
+import com.st.utils.json.JsonUitls;
+import com.st.utils.string.S;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -15,19 +18,18 @@ import java.util.Optional;
 @Slf4j
 public class LogUtils {
 
-  /**
-   * @deprecated since 2021.11.11 by ts replaced by "local vars"
-   */
+  /** @deprecated since 2021.11.11 by ts replaced by "local vars" */
   String ps;
 
   /**
-   * 打印日志, 格式化, 方便查看<p>
+   * 打印日志, 格式化, 方便查看
    *
-   * 封装和补充日志打印:  {@code
-   *                          String str = "select * from t_table"
-   *                          login.info{"the external message is: "+ var}} <p>
+   * <p>封装和补充日志打印: {@code String str = "select * from t_table" login.info{"the external message is:
+   * "+ var}}
    *
-   * details see: {@link  LogUtils#formatObjAndLogging_old(Object, String)}<p>
+   * <p>details see: {@link LogUtils#formatObjAndLogging_old(Object, String)}
+   *
+   * <p>
    *
    * @param obj 日志要将该对象的内容打印出来
    * @param infoTips 对"obi"的补充说明
@@ -40,32 +42,58 @@ public class LogUtils {
     /* 当补充信息为空字符串时, 给默认值 */
     String value_blank = "There external messages is blank.";
 
-
-
     infoTips =
         Optional.ofNullable(infoTips)
             .map(str -> str.length() == 0 ? value_blank : str)
             .orElse(value_null);
 
+    if (obj instanceof String && ((String) obj).startsWith("{") && ((String) obj).endsWith("}")) {
+
+      JSONObject jsonObject = JsonUitls.jsonStr2fastjsonObj((String) obj);
+
+      log.info(
+          "\n\n"
+              + "================================== start =====================================\n"
+              + "- [Time    ]:"
+              + TimeUtils.getLocalDateTime().toString()
+              + "\n"
+              + "- [Type    ]:"
+              + obj.getClass().getName()
+              + "\n"
+              + "- [messsage]:"
+              + infoTips
+              + "\n"
+              + "- [content ]:\n"
+              + "{}\n"
+              + "===================================  end  ====================================\n\n",
+          JSON.toJSONString(jsonObject, true));
+    }
+
     log.info(
         "\n\n"
             + "================================== start =====================================\n"
-            + "- [Time    ]:" + TimeUtils.getLocalDateTime().toString() + "\n"
-            + "- [Type    ]:" + obj.getClass().getName() + "\n"
-            + "- [messsage]:" + infoTips                 + "\n"
+            + "- [Time    ]:"
+            + TimeUtils.getLocalDateTime().toString()
+            + "\n"
+            + "- [Type    ]:"
+            + obj.getClass().getName()
+            + "\n"
+            + "- [messsage]:"
+            + infoTips
+            + "\n"
             + "- [content ]:\n"
             + "{}\n"
             + "===================================  end  ====================================\n\n",
         JSON.toJSONString(obj, true));
   }
 
-
   /**
-   * @deprecated since 2021.11.11 by ts, and replaced by {@link LogUtils#formatObjAndLogging(Object, String)}
+   * @deprecated since 2021.11.11 by ts, and replaced by {@link LogUtils#formatObjAndLogging(Object,
+   *     String)}
    * @param obj 日志要将该对象的内容打印出来
    * @param infoTips 对"obi"的补充说明
    */
-  public static void formatObjAndLogging_old(Object obj, String infoTips){
+  public static void formatObjAndLogging_old(Object obj, String infoTips) {
     // 没有传入说明信息时, 该如何处理?
     // 传入为null
     // 传入为空: 这里null, 和空, 采用相同的处理方式. 即,给默认值.
@@ -105,23 +133,26 @@ public class LogUtils {
 
     // option 这种简单的方式, 并不能突显option的优雅; 相对于if else
     infoTips =
-            Optional.ofNullable(infoTips)
-                    .map(str -> str.length() == 0 ? value_blank : str) // 为空时, 该如何处理
-                    .orElse(value_null); // 为null时, 该如何处理
+        Optional.ofNullable(infoTips)
+            .map(str -> str.length() == 0 ? value_blank : str) // 为空时, 该如何处理
+            .orElse(value_null); // 为null时, 该如何处理
 
     /* infoTips = o.get();
     infoTips = o1*/ ;
     // infoTips = o2;
 
     log.info(
-            "\n\n"
-                    + "================================== start =====================================\n"
-                    + "- [Type    ]:" + obj.getClass().getName() + "\n"
-                    + "- [messsage]:" + infoTips                 + "\n"
-                    + "- [content ]:\n"
-                    + "{}\n"
-                    + "===================================  end  ====================================\n\n",
-            JSON.toJSONString(obj, true));
+        "\n\n"
+            + "================================== start =====================================\n"
+            + "- [Type    ]:"
+            + obj.getClass().getName()
+            + "\n"
+            + "- [messsage]:"
+            + infoTips
+            + "\n"
+            + "- [content ]:\n"
+            + "{}\n"
+            + "===================================  end  ====================================\n\n",
+        JSON.toJSONString(obj, true));
   }
-
 }
