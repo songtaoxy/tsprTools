@@ -7,7 +7,9 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.security.PublicKey;
 import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * 各类json的相同转换, 排序等.
@@ -72,7 +74,7 @@ public class JsonUtils {
   public static HashMap<String, Object> jsonType(String content) {
 
     HashMap<String, Object> result = Maps.newHashMap();
-    result.put("flag",false);
+    result.put("flag", false);
     result.put("type", "!Json");
 
     if (JsonUtils.isJson(content)) {
@@ -88,6 +90,61 @@ public class JsonUtils {
     return result;
   }
 
+  /**
+   * 将JSON格式的字符串转成 {@link com.alibaba.fastjson.JSONObject} or {@link com.alibaba.fastjson.JSONArray}
+   *
+   * <p>应用场景: 打印日志中.如果格式非法,不抛出异常. <br>
+   * 如果格式非法, 给出提示即可.<br>
+   * 日志到处可用, 不能因为一个日志,就将整个调用链抛出异常.
+   *
+   * <p>
+   *
+   * @param content
+   * @return
+   */
+  public static JSON str2json4Log(String content) {
+
+    JSON json = null;
+
+    if (JsonUtils.isJson(content)) {
+      if (content.startsWith("{")) {
+        json = JsonUtils.jsonStr2fastjsonObj(content);
+      } else if (content.startsWith("[")) {
+        json = JsonUtils.jsonStr2fastjsonArray(content);
+      }
+    }
+
+    return Optional.ofNullable(json)
+        .orElse(
+            JsonUtils.jsonStr2fastjsonObj(
+                "{\"tips\":\"the input param is illegal json format, check please.\"}"));
+  }
+
+  /**
+   * 将JSON格式的字符串转成 {@link com.alibaba.fastjson.JSONObject} or {@link com.alibaba.fastjson.JSONArray}
+   *
+   * <p>应用场景: 业务中,格式非法, 则抛出异常.
+   *
+   * <p>
+   *
+   * @param content
+   * @return
+   */
+  public static JSON str2json4Com(String content) {
+
+    JSON json = null;
+
+    if (JsonUtils.isJson(content)) {
+      if (content.startsWith("{")) {
+        json = JsonUtils.jsonStr2fastjsonObj(content);
+      } else if (content.startsWith("[")) {
+        json = JsonUtils.jsonStr2fastjsonArray(content);
+      }
+    }
+
+    return Optional.ofNullable(json)
+        .orElseThrow(() -> new IllegalArgumentException("the input param is illegal json format."));
+  }
   /**
    * 判断字符串是否为json格式
    *
