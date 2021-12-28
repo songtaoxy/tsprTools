@@ -1,6 +1,6 @@
 package com.st.practice.okhttp;
 
-import com.st.utils.json.JsonUitls;
+import com.st.utils.json.JsonUtils;
 import com.st.utils.log.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -38,7 +38,7 @@ public class OkhttpDemo {
     Response response = client.newCall(request).execute();
 
     LogUtils.formatObjAndLogging(
-        JsonUitls.jsonStr2fastjsonObj(response.body().string()), "respoons");
+        JsonUtils.jsonStr2fastjsonObj(response.body().string()), "respoons");
   }
 
 

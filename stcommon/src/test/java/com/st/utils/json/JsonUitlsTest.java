@@ -12,7 +12,7 @@ class JsonUitlsTest {
   void jsonStr2JsonObj() {
     String jsonStr = "{\"name\":\"Tom\",\n" + "\"age\":20}";
 
-    JSONObject jsonObject = JsonUitls.jsonStr2fastjsonObj(jsonStr);
+    JSONObject jsonObject = JsonUtils.jsonStr2fastjsonObj(jsonStr);
 
     String jsonStrPretty = JSONObject.toJSONString(jsonObject, true);
     log.info(jsonStrPretty);

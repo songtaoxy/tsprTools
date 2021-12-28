@@ -3,8 +3,7 @@ package com.st.utils.log;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.st.utils.common.TimeUtils;
-import com.st.utils.json.JsonUitls;
-import com.st.utils.string.S;
+import com.st.utils.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -49,7 +48,7 @@ public class LogUtils {
 
     if (obj instanceof String && ((String) obj).startsWith("{") && ((String) obj).endsWith("}")) {
 
-      JSONObject jsonObject = JsonUitls.jsonStr2fastjsonObj((String) obj);
+      JSONObject jsonObject = JsonUtils.jsonStr2fastjsonObj((String) obj);
 
       log.info(
           "\n\n"

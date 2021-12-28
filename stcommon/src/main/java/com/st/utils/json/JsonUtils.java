@@ -16,7 +16,7 @@ import com.alibaba.fastjson.JSONObject;
  * @version: 1.0
  * @description:
  */
-public class JsonUitls {
+public class JsonUtils {
 
   /**
    * 打印json格式字符串时, 进行美化, 方便查看. <p></p>
