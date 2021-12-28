@@ -38,7 +38,6 @@ public class LogUtils {
 
     /* 当补充信息没有传, 即为null时, 给默认值 */
     String value_null = "There external messages is null.";
-
     /* 当补充信息为空字符串时, 给默认值 */
     String value_blank = "There external messages is blank.";
 
@@ -48,7 +47,7 @@ public class LogUtils {
             .orElse(value_null);
 
     if (obj instanceof String && JsonUtils.isJson((String) obj)) {
-      //JSON json = JsonUtils.str2json4Log((String) obj);
+      // JSON json = JsonUtils.str2json4Log((String) obj);
       JSON json = JsonUtils.str2json4Com((String) obj);
       obj = json;
     }
