@@ -1,5 +1,6 @@
 package com.st.utils.json;
 
+import com.st.utils.log.LogUtils;
 import org.junit.jupiter.api.Test;
 
 class JsonUtilsTest {
@@ -42,15 +43,15 @@ class JsonUtilsTest {
             + "]\n"
             + "}\n";
 
-    /*LogUtils.foal(s,"");
-    LogUtils.foal(s2,"");
-    LogUtils.foal(s3,"");
-    LogUtils.foal(s4,"");
-    LogUtils.foal(s5,"");
-    LogUtils.foal(s6,"");*/
+    LogUtils.foal(s, "");
+    LogUtils.foal(s2, "");
+    LogUtils.foal(s3, "");
+    LogUtils.foal(s4, "");
+    LogUtils.foal(s5, "");
+    LogUtils.foal(s6, "");
 
-    System.out.println(JsonUtils.str2json4Log(s2));
-    System.out.println(JsonUtils.str2json4Log(s3));
+    /* System.out.println(JsonUtils.str2json4Log(s2));
+    System.out.println(JsonUtils.str2json4Log(s3));*/
 
   }
 

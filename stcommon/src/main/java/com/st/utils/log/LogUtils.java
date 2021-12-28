@@ -20,12 +20,21 @@ public class LogUtils {
   String ps;
 
   /**
-   * 打印日志, 格式化, 方便查看
+   * 打印日志, 格式化, 方便查看<p></p>
    *
-   * <p>fol: formatObjAndLogging
+   * fol: formatObjAndLogging<p></p>
    *
-   * <p>封装和补充日志打印: {@code String str = "select * from t_table" login.info{"the external message is:
-   * "+ var}}
+   * 封装和补充日志打印:<br>
+   * {@code String str = "select * from t_table" login.info{"the external message is:
+   * "+ var}}<p></p>
+   *
+   * 充分利用java8 optional的特性:
+   * <pre>
+   * // 当补充信息没有传, 即为null时, 给默认值
+   * String value_null = "There external messages is null.";
+   * // 当补充信息为空字符串时, 给默认值
+   * String value_blank = "There external messages is blank.";
+   * </pre>
    *
    * <p>details see: {@link LogUtils#formatObjAndLogging_old(Object, String)}
    *
@@ -36,9 +45,7 @@ public class LogUtils {
    */
   public static void foal(Object obj, String infoTips) {
 
-    /* 当补充信息没有传, 即为null时, 给默认值 */
     String value_null = "There external messages is null.";
-    /* 当补充信息为空字符串时, 给默认值 */
     String value_blank = "There external messages is blank.";
 
     infoTips =
@@ -47,9 +54,7 @@ public class LogUtils {
             .orElse(value_null);
 
     if (obj instanceof String && JsonUtils.isJson((String) obj)) {
-      // JSON json = JsonUtils.str2json4Log((String) obj);
-      JSON json = JsonUtils.str2json4Com((String) obj);
-      obj = json;
+      obj = JsonUtils.str2json4Com((String) obj);
     }
     doLog(obj, infoTips);
   }
