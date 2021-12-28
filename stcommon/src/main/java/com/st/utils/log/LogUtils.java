@@ -21,9 +21,11 @@ public class LogUtils {
   String ps;
 
   /**
-   * 打印日志, 格式化, 方便查看
+   * 打印日志, 格式化, 方便查看<p></p>
+   * 
+   * fol: formatObjAndLogging<p></p>
    *
-   * <p>封装和补充日志打印: {@code String str = "select * from t_table" login.info{"the external message is:
+   * 封装和补充日志打印: {@code String str = "select * from t_table" login.info{"the external message is:
    * "+ var}}
    *
    * <p>details see: {@link LogUtils#formatObjAndLogging_old(Object, String)}
@@ -33,7 +35,7 @@ public class LogUtils {
    * @param obj 日志要将该对象的内容打印出来
    * @param infoTips 对"obi"的补充说明
    */
-  public static void formatObjAndLogging(Object obj, String infoTips) {
+  public static void foal(Object obj, String infoTips) {
 
     /* 当补充信息没有传, 即为null时, 给默认值 */
     String value_null = "There external messages is null.";
@@ -46,7 +48,7 @@ public class LogUtils {
             .map(str -> str.length() == 0 ? value_blank : str)
             .orElse(value_null);
 
-    if (obj instanceof String && ((String) obj).startsWith("{") && ((String) obj).endsWith("}")) {
+    if (obj instanceof String && JsonUtils.isJson((String) obj)) {
 
       JSONObject jsonObject = JsonUtils.jsonStr2fastjsonObj((String) obj);
 
@@ -66,28 +68,29 @@ public class LogUtils {
               + "{}\n"
               + "===================================  end  ====================================\n\n",
           JSON.toJSONString(jsonObject, true));
-    }
+    } else {
 
-    log.info(
-        "\n\n"
-            + "================================== start =====================================\n"
-            + "- [Time    ]:"
-            + TimeUtils.getLocalDateTime().toString()
-            + "\n"
-            + "- [Type    ]:"
-            + obj.getClass().getName()
-            + "\n"
-            + "- [messsage]:"
-            + infoTips
-            + "\n"
-            + "- [content ]:\n"
-            + "{}\n"
-            + "===================================  end  ====================================\n\n",
-        JSON.toJSONString(obj, true));
+      log.info(
+          "\n\n"
+              + "================================== start =====================================\n"
+              + "- [Time    ]:"
+              + TimeUtils.getLocalDateTime().toString()
+              + "\n"
+              + "- [Type    ]:"
+              + obj.getClass().getName()
+              + "\n"
+              + "- [messsage]:"
+              + infoTips
+              + "\n"
+              + "- [content ]:\n"
+              + "{}\n"
+              + "===================================  end  ====================================\n\n",
+          JSON.toJSONString(obj, true));
+    }
   }
 
   /**
-   * @deprecated since 2021.11.11 by ts, and replaced by {@link LogUtils#formatObjAndLogging(Object,
+   * @deprecated since 2021.11.11 by ts, and replaced by {@link LogUtils#foal(Object,
    *     String)}
    * @param obj 日志要将该对象的内容打印出来
    * @param infoTips 对"obi"的补充说明

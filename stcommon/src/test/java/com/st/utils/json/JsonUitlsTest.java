@@ -17,8 +17,8 @@ class JsonUitlsTest {
     String jsonStrPretty = JSONObject.toJSONString(jsonObject, true);
     log.info(jsonStrPretty);
 
-    LogUtils.formatObjAndLogging(jsonStrPretty, "");
+    LogUtils.foal(jsonStrPretty, "");
 
-    LogUtils.formatObjAndLogging(jsonObject,"");
+    LogUtils.foal(jsonObject,"");
   }
 }

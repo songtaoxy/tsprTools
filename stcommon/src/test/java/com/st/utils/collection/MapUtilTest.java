@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MapUtilTest {
 
   @Test
@@ -28,7 +26,7 @@ class MapUtilTest {
 
     MapUtil.mergeMaps(map1, map2);
 
-    LogUtils.formatObjAndLogging(MapUtil.mergeMaps(map1, map2), "");
+    LogUtils.foal(MapUtil.mergeMaps(map1, map2), "");
   }
 
   @Test

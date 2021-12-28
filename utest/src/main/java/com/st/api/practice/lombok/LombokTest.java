@@ -16,13 +16,13 @@ public class LombokTest {
   @Test
   void lombokTest() {
     Studenta studenta = new Studenta();
-    LogUtils.formatObjAndLogging(studenta,"");
+    LogUtils.foal(studenta,"");
 
 
     Studenta studenta1 = new Studenta("s", "p", 10);
     studenta1.setName("x").setAge(20);
     //LogUtils.formatObjAndLogging(studenta1.toString(),"");
-    LogUtils.formatObjAndLogging(studenta1.toString(),null);
+    LogUtils.foal(studenta1.toString(),null);
 
   }
 

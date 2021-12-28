@@ -4,8 +4,6 @@ import com.st.utils.log.LogUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-import java.util.stream.Collectors;
 
 /**
  * @author: st
@@ -23,7 +21,7 @@ public class ProUtil {
 
     map.entrySet().stream().forEach(System.out::println);
 
-    LogUtils.formatObjAndLogging(map,"");
+    LogUtils.foal(map,"");
 
     return map;
   }

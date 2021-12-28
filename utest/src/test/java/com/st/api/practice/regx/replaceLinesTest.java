@@ -2,7 +2,6 @@ package com.st.api.practice.regx;
 
 import com.google.common.collect.ImmutableMap;
 import com.st.utils.log.LogUtils;
-import com.st.utils.string.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -25,7 +24,7 @@ class HandleSpecialCharactersTest {
 
     ImmutableMap<String, String> status = ImmutableMap.of("status", "200","k2","v2");
 
-    LogUtils.formatObjAndLogging(status, "");
+    LogUtils.foal(status, "");
 
     Map map = new HashMap<>();
     map.put("a", "v");

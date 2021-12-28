@@ -2,12 +2,9 @@ package com.st.utils.stream;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
-import com.google.errorprone.annotations.Var;
 import com.st.utils.bean.Employee;
 import com.st.utils.log.LogUtils;
-import lombok.var;
 import one.util.streamex.EntryStream;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,9 +77,9 @@ public class StreamUtil {
                     Map.Entry::getValue
                     ));
 
-    LogUtils.formatObjAndLogging(m1,"map1");
-    LogUtils.formatObjAndLogging(m2,"map2");
-    LogUtils.formatObjAndLogging(m5,"map5");
-    LogUtils.formatObjAndLogging(result,"result");
+    LogUtils.foal(m1,"map1");
+    LogUtils.foal(m2,"map2");
+    LogUtils.foal(m5,"map5");
+    LogUtils.foal(result,"result");
   }
 }

@@ -13,7 +13,7 @@ class TimeUtilsTest {
     LocalDateTime localDateTime = TimeUtils.getLocalDateTime();
     //System.out.println(localDateTime);
 
-    LogUtils.formatObjAndLogging(localDateTime,"当前时区时间");
+    LogUtils.foal(localDateTime,"当前时区时间");
   }
 
 
@@ -22,7 +22,7 @@ class TimeUtilsTest {
 
     Long costTimeMills = TimeUtils.costTimeMillsOld();
 
-    LogUtils.formatObjAndLogging(costTimeMills,"耗时(毫秒)");
+    LogUtils.foal(costTimeMills,"耗时(毫秒)");
 
   }
 
@@ -32,7 +32,7 @@ class TimeUtilsTest {
     Thread.sleep(10);
     Long  end = System.currentTimeMillis();
     Long costTimeMills = TimeUtils.costTimeMills(start, end);
-    LogUtils.formatObjAndLogging(costTimeMills+" mills","当前耗时(毫秒)");
+    LogUtils.foal(costTimeMills+" mills","当前耗时(毫秒)");
 
   }
 }

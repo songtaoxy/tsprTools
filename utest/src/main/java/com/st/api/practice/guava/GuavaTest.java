@@ -22,6 +22,6 @@ public class GuavaTest {
     String name = Preconditions.checkNotNull(param);
     //String name = Preconditions.checkNotNull(param,"param can't be null");
 
-    LogUtils.formatObjAndLogging(name,"name is or not null");
+    LogUtils.foal(name,"name is or not null");
   }
 }

@@ -49,7 +49,7 @@ public class MapUtil {
         "{\"uorder\":\"uorders\",\"IMP-EMS\":\"imp_ems\",\"scmmp\":\"scmmp\",\"ucf-amc-ambd\":\"amc_ambd\",\"ctm-cmp\":\"ctmcmp\",\"marketingbill\":\"uorders\",\"PLM-PLM-PSDM\":\"imp_plm\",\"znbzbx\":\"shared_service\",\"membercenter\":\"yilian\",\"MDDHR\":\"hrcloud\",\"HR\":\"hrcloud\",\"sact\":\"sact\",\"QMS-DFM\":\"qms_dfm\",\"system2\":\"systemSchema2\",\"system1\":\"systemSchema1\",\"system3\":\"systemSchema3\",\"sy0001\":\"isv_builder\",\"requirementsplanning\":\"requirements_planning\",\"sharedservicecenter\":\"shared_service\",\"ucf-staff-center\":\"iuap_cloud_basedoc\",\"transtype\":\"iuap_cloud_basedoc\",\"mall\":\"upmalls\",\"hrcloud-talent\":\"hrcloud\",\"ucf-org-center\":\"iuap_cloud_basedoc\",\"umall\":\"upmalls\",\"productcenter\":\"ugoods\",\"productionorder\":\"production_order\",\"MDDHRPUB\":\"hrcloud\",\"imp-pes\":\"imp_pes_prod\",\"znbz\":\"shared_service\",\"yssupplier\":\"ugoods\",\"upu\":\"upurchase\",\"ucf-amc-aom\":\"amc_aom\",\"IMP-BASE\":\"imp_plm\",\"ucfbasedoc\":\"iuap_cloud_basedoc\",\"finbd\":\"fiproduct\",\"QMS-QIT\":\"qms_qit\",\"dst\":\"omsdata\",\"uhy\":\"yilian\",\"PLM-PLM-PBS\":\"imp_plm\",\"ucf-amc-rmm\":\"amc_mro\",\"engineeringdata\":\"engineering_data\",\"retail\":\"uretaildata\",\"uinttrade\":\"uinttrade\",\"IMP-PES\":\"imp_pes_prod\",\"yonyoufi\":\"fiproduct\",\"yycrm\":\"crm\",\"IMP-PLM-PSDM\":\"imp_plm\",\"hrcloud-wa\":\"hrcloud\",\"developplatform\":\"code_20200630\",\"yxybase\":\"pricecenter\",\"ucf-amc-aum\":\"amc_aum\",\"udinghuo\":\"uorders\",\"IMP-SCS\":\"imp_plm\",\"ustock\":\"ustock\",\"hrcloud-attend\":\"hrcloud\",\"IMP-HSE\":\"imp_hse\",\"IMP-PLM-WIDGET\":\"imp_plm\",\"ucf-amc-aim\":\"amc_aim\",\"hrcloud-talent-basedoc\":\"iuap_cloud_basedoc\",\"IMP-DFM-EMS\":\"imp_ems\",\"IMP-GDS\":\"imp_plm\"}";
 
     m1 = (HashMap<String, String>) JSONObject.parseObject(s1, Map.class);
-    LogUtils.formatObjAndLogging(m1,"");
+    LogUtils.foal(m1,"");
 
     String s2 =
         "{\n"
@@ -567,7 +567,7 @@ public class MapUtil {
             + "}\n";
 
     m2 = (HashMap<String, String>) JSONObject.parseObject(s2, Map.class);
-    LogUtils.formatObjAndLogging(m2,"");
+    LogUtils.foal(m2,"");
 
     Map<String, String> m3;
 
@@ -580,6 +580,6 @@ public class MapUtil {
 
     m1.putAll(m3);
 
-    LogUtils.formatObjAndLogging(m1,"...........................");
+    LogUtils.foal(m1,"...........................");
   }
 }
