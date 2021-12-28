@@ -176,4 +176,25 @@ public class JsonUtils {
     }
     return true;
   }
+
+  public static void main(String[] args)  {
+    String s2 = "[{\"name\":\"Michael\",\"age\":24,\"birthday\":\"2018-09-09\"}]";
+    String s3 = "[{\"name\":\"Michael\",\"age\":24,\"birthday\":\"2018-09-09\"}];";
+
+    try {
+      System.out.println(JsonUtils.str2json4Com(s2));
+      System.out.println(JsonUtils.str2json4Com(s3));
+    } catch (Exception e) {
+
+      /*
+      e.printStackTrace();
+      throw e;
+      */
+      System.out.println("无视异常");
+    }
+
+   /* System.out.println(JsonUtils.str2json4Com(s2));
+    System.out.println(JsonUtils.str2json4Com(s3));*/
+    System.out.println("h");
+  }
 }
