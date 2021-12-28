@@ -2,6 +2,7 @@ package com.st.utils.log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.st.utils.common.TimeUtils;
 import com.st.utils.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +22,11 @@ public class LogUtils {
   String ps;
 
   /**
-   * 打印日志, 格式化, 方便查看<p></p>
-   * 
-   * fol: formatObjAndLogging<p></p>
+   * 打印日志, 格式化, 方便查看
    *
-   * 封装和补充日志打印: {@code String str = "select * from t_table" login.info{"the external message is:
+   * <p>fol: formatObjAndLogging
+   *
+   * <p>封装和补充日志打印: {@code String str = "select * from t_table" login.info{"the external message is:
    * "+ var}}
    *
    * <p>details see: {@link LogUtils#formatObjAndLogging_old(Object, String)}
@@ -50,48 +51,41 @@ public class LogUtils {
 
     if (obj instanceof String && JsonUtils.isJson((String) obj)) {
 
-      JSONObject jsonObject = JsonUtils.jsonStr2fastjsonObj((String) obj);
+      String type = (String) JsonUtils.jsonType((String) obj).get("type");
+      JSON json = null;
 
-      log.info(
-          "\n\n"
-              + "================================== start =====================================\n"
-              + "- [Time    ]:"
-              + TimeUtils.getLocalDateTime().toString()
-              + "\n"
-              + "- [Type    ]:"
-              + obj.getClass().getName()
-              + "\n"
-              + "- [messsage]:"
-              + infoTips
-              + "\n"
-              + "- [content ]:\n"
-              + "{}\n"
-              + "===================================  end  ====================================\n\n",
-          JSON.toJSONString(jsonObject, true));
-    } else {
+      if ("String_JsonObject".equalsIgnoreCase(type)) {
+        json = JsonUtils.jsonStr2fastjsonObj((String) obj);
+      } else if ("String_JsonArray".equalsIgnoreCase(type)) {
+        json = JsonUtils.jsonStr2fastjsonArray((String) obj);
+      }
 
-      log.info(
-          "\n\n"
-              + "================================== start =====================================\n"
-              + "- [Time    ]:"
-              + TimeUtils.getLocalDateTime().toString()
-              + "\n"
-              + "- [Type    ]:"
-              + obj.getClass().getName()
-              + "\n"
-              + "- [messsage]:"
-              + infoTips
-              + "\n"
-              + "- [content ]:\n"
-              + "{}\n"
-              + "===================================  end  ====================================\n\n",
-          JSON.toJSONString(obj, true));
+      obj = json;
     }
+      doLog(obj, infoTips);
+  }
+
+  private static void doLog(Object obj, String infoTips) {
+    log.info(
+        "\n\n"
+            + "================================== start =====================================\n"
+            + "- [Time    ]:"
+            + TimeUtils.getLocalDateTime().toString()
+            + "\n"
+            + "- [Type    ]:"
+            + obj.getClass().getName()
+            + "\n"
+            + "- [messsage]:"
+            + infoTips
+            + "\n"
+            + "- [content ]:\n"
+            + "{}\n"
+            + "===================================  end  ====================================\n\n",
+        JSON.toJSONString(obj, true));
   }
 
   /**
-   * @deprecated since 2021.11.11 by ts, and replaced by {@link LogUtils#foal(Object,
-   *     String)}
+   * @deprecated since 2021.11.11 by ts, and replaced by {@link LogUtils#foal(Object, String)}
    * @param obj 日志要将该对象的内容打印出来
    * @param infoTips 对"obi"的补充说明
    */
