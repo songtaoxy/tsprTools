@@ -1,8 +1,6 @@
 package com.st.utils.log;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
 import com.st.utils.common.TimeUtils;
 import com.st.utils.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -50,19 +48,22 @@ public class LogUtils {
             .orElse(value_null);
 
     if (obj instanceof String && JsonUtils.isJson((String) obj)) {
-
-      String type = (String) JsonUtils.jsonType((String) obj).get("type");
-      JSON json = null;
-
-      if ("String_JsonObject".equalsIgnoreCase(type)) {
-        json = JsonUtils.jsonStr2fastjsonObj((String) obj);
-      } else if ("String_JsonArray".equalsIgnoreCase(type)) {
-        json = JsonUtils.jsonStr2fastjsonArray((String) obj);
-      }
-
+      JSON json = str2JSON((String) obj);
       obj = json;
     }
-      doLog(obj, infoTips);
+    doLog(obj, infoTips);
+  }
+
+  private static JSON str2JSON(String obj) {
+    String type = (String) JsonUtils.jsonType(obj).get("type");
+    JSON json = null;
+
+    if ("String_JsonObject".equalsIgnoreCase(type)) {
+      json = JsonUtils.jsonStr2fastjsonObj(obj);
+    } else if ("String_JsonArray".equalsIgnoreCase(type)) {
+      json = JsonUtils.jsonStr2fastjsonArray(obj);
+    }
+    return json;
   }
 
   private static void doLog(Object obj, String infoTips) {
