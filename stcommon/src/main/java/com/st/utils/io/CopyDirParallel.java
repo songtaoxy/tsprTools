@@ -18,12 +18,31 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
  */
 
 /**
- *
  * 复制目录(多线程). java-copy-dir-in-parallel<p></p>
  *
- * We have seen {@link CopyDirSingle} how to copy directories recursively. To take advantage of multiple cores we can create independent child directories in different threads. Following example shows how to do that<p></p>
+ * <a href="https://www.logicbig.com/how-to/java-io/copy-dir-in-parallel.html">See: Java IO -
+ * Copy * Directories In Parallel</a><p>
  *
- * <a href="https://www.logicbig.com/how-to/java-io/copy-dir-in-parallel.html">See: Java IO - Copy Directories In Parallel</a>
+ * We have seen {@link CopyDirSingle} how to copy directories recursively. To take advantage of
+ * multiple cores we can create independent child directories in different threads. Following
+ * example shows how to do that<p>
+ *
+ *
+ * <pre>
+ *     Output:
+ *     {@code
+ *     Directory creation time taken: 1.668 seconds
+ *     Files copy time taken: 26.43 seconds
+ *     Setting directories date attributes time taken: 967.7 milliseconds
+ *     }
+ *     The size of above directory is 839MB.
+ *     When I don't use parallel(), the output is:
+ *     {@code
+ *     Directory creation time taken: 3.077 seconds
+ *     Files copy time taken: 49.71 seconds
+ *     Setting directories date attributes time taken: 1.606 seconds
+ *     }
+ * </pre>
  */
 public class CopyDirParallel {
 

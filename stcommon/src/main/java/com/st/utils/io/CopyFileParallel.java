@@ -72,9 +72,16 @@ public class CopyFileParallel {
  * last thread ends, the file path of the copied file will be displayed! And prompted that the copy
  * is complete!<p></p>
  *
+ * 要根据文件的大小, 设定线程数以及下面的缓冲区,否则线程过多, 线程切换耗时, 反而慢:
+ * <pre>
+ * 线程数: {@code private static final int LOAD_NUM = 10}
+ * 缓冲区: {@code byte[] b = new byte[102400]; // 100M 缓存区}
+ * </pre>
+ *
  * <a href="https://blog.krybot.com/a?ID=00550-60ee3250-5714-42d2-b113-177c7076caa4">主要参考</a>
  */
 class FileDownloadUtils {
+	// 要根据文件的大小, 设定线程数以及下面的缓冲区,
 	private static final int LOAD_NUM = 10;//Number of threads downloading at the same time
 	private static ThreadPoolExecutor executor;//Thread pool
 	private static final int sums[];//Record the download progress of each thread

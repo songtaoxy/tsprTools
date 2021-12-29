@@ -16,6 +16,8 @@ import java.util.EnumSet;
 /**
  * 复制目录(递归),单线程.<p></p>
  *
+ * 复制目录(多线程), see {@link CopyDirParallel }<p></p>
+ *
  * The visitor pattern introduced in Java 1.7 is based on {@link java.nio.file.FileVisitor} interface. Instead of implementing this interface, this example extends {@link java.nio.file.SimpleFileVisitor} which has default behavior to visit all files.
  */
 public class CopyDirSingle extends SimpleFileVisitor<Path>{
