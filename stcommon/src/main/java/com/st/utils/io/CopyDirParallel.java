@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
+
+import static java.util.concurrent.TimeUnit.*;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 /**
  * @author: st
  * @date: 2021/12/29 03:11
@@ -12,14 +18,21 @@ import java.util.Arrays;
  */
 
 /**
- * java-copy-dir-in-parallel<p></p>
  *
- * We have seen here how to copy directories recursively. To take advantage of multiple cores we can create independent child directories in different threads. Following example shows how to do that
+ * 复制目录(多线程). java-copy-dir-in-parallel<p></p>
  *
- * <a href="https://www.logicbig.com/how-to/java-io/copy-dir-in-parallel.html">Java IO - Copy Directories In Parallel</a>
+ * We have seen {@link CopyDirSingle} how to copy directories recursively. To take advantage of multiple cores we can create independent child directories in different threads. Following example shows how to do that<p></p>
+ *
+ * <a href="https://www.logicbig.com/how-to/java-io/copy-dir-in-parallel.html">See: Java IO - Copy Directories In Parallel</a>
  */
-public class ParallelDirCopy {
+public class CopyDirParallel {
 
+	/**
+	 * Creating main class for a test.
+	 *
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
 		copyDirInParallel("/Users/songtao/personaldriveMac/baklist", "/Users/songtao/downloads/");
 	}
@@ -87,7 +100,7 @@ public class ParallelDirCopy {
 	private static void createDirectories(Path source, Path destination) throws IOException {
 		Files.walk(source,
 						FileVisitOption.FOLLOW_LINKS).parallel()
-				.filter(Files::isDirectory).filter(ParallelDirCopy::haveNoChildFolder).distinct()
+				.filter(Files::isDirectory).filter(CopyDirParallel::haveNoChildFolder).distinct()
 				.forEach(srcDir -> {
 					try {
 						Path relativePath = source.relativize(srcDir);
@@ -138,3 +151,55 @@ public class ParallelDirCopy {
 		Files.setAttribute(destFile, "lastAccessTime", bfa.lastAccessTime());
 	}
 }
+
+
+class CmdProgress {
+	private static byte anim = 0;
+
+	public static void animate() {
+		switch (anim) {
+			case 1:
+				System.out.print("\r \\");
+				break;
+			case 2:
+				System.out.print("\r |");
+				break;
+			case 3:
+				System.out.print("\r /");
+				break;
+			default:
+				anim = 0;
+				System.out.print("\r -");
+		}
+		anim++;
+	}
+
+	public static void clearLine() {
+		System.out.print("\r    \r");
+	}
+}
+
+class TimerUtil {
+	public static void runTask(String msg, Runnable task){
+		long startTime = getTimeElapsed(0);
+		task.run();
+		System.out.printf("%s time taken: %s%n", msg, timeToString(getTimeElapsed(startTime)));
+	}
+
+	public static String timeToString(long nanos) {
+
+		Optional<TimeUnit> first = Stream.of(DAYS, HOURS, MINUTES, SECONDS, MILLISECONDS,
+						MICROSECONDS).filter(u -> u.convert(nanos, NANOSECONDS) > 0)
+				.findFirst();
+		TimeUnit unit = first.isPresent() ? first.get() : NANOSECONDS;
+
+		double value = (double) nanos / NANOSECONDS.convert(1, unit);
+		return String.format("%.4g %s", value, unit.name().toLowerCase());
+	}
+
+	private static long getTimeElapsed(long startTime) {
+		return System.nanoTime() - startTime;
+	}
+
+}
+

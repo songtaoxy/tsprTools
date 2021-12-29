@@ -14,11 +14,11 @@ import java.util.EnumSet;
  */
 
 /**
- * 单线程, 递归复制目录.<p></p>
+ * 复制目录(递归),单线程.<p></p>
  *
  * The visitor pattern introduced in Java 1.7 is based on {@link java.nio.file.FileVisitor} interface. Instead of implementing this interface, this example extends {@link java.nio.file.SimpleFileVisitor} which has default behavior to visit all files.
  */
-public class MyCopyDirVisitor extends SimpleFileVisitor<Path>{
+public class CopyDirSingle extends SimpleFileVisitor<Path>{
   private Path fromPath;
   private Path toPath;
   private StandardCopyOption copyOption;
@@ -33,13 +33,13 @@ public class MyCopyDirVisitor extends SimpleFileVisitor<Path>{
     CopyUtil.copyDirectoryContent(new File("/Users/songtao/personaldriveMac/baklist/"), new File("/Users/songtao/downloads/"));
   }
 
-  public MyCopyDirVisitor(Path fromPath, Path toPath, StandardCopyOption copyOption) {
+  public CopyDirSingle(Path fromPath, Path toPath, StandardCopyOption copyOption) {
     this.fromPath = fromPath;
     this.toPath = toPath;
     this.copyOption = copyOption;
   }
 
-  public MyCopyDirVisitor(Path fromPath, Path toPath) {
+  public CopyDirSingle(Path fromPath, Path toPath) {
     this(fromPath, toPath, StandardCopyOption.REPLACE_EXISTING);
   }
 
@@ -98,7 +98,7 @@ class CopyUtil {
             .getName());
 
     Files.walkFileTree(from, EnumSet.of(FileVisitOption.FOLLOW_LINKS),
-            Integer.MAX_VALUE, new MyCopyDirVisitor(from, to));
+            Integer.MAX_VALUE, new CopyDirSingle(from, to));
   }
 
   public static void copyFile (File toCopy, File mainDestination)

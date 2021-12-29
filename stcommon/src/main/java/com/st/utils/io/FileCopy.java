@@ -10,6 +10,11 @@ import java.util.concurrent.Executors;
  * @version: 1.0
  * @description:
  */
+
+
+/**
+ * 复制单个文件, 多线程. 逻辑错误,不可用.
+ */
 public class FileCopy implements Runnable{
 
 	@Override
