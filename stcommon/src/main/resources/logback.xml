@@ -167,7 +167,7 @@ debug: 当此属性设置为true时，将打印出logback内部日志信息，�
 
   <!--  减少logback本身输出-->
   <!--  17:40:54,304 |-INFO in ch.qos.logback.classic.LoggerContext[stcommon] - Found resource [logback.xml] at [file:/Users/songtao/personaldriveMac/Projects/tsprTools/stcommon/target/classes/logback.xml]-->
-  <logger name="ch.qos.logback" level="error" additivity="true">
+  <logger name="ch.qos.logback" level="error" >
     <appender-ref ref="consoleLog"/>
   </logger>
 

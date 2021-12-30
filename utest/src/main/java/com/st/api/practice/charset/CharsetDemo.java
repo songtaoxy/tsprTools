@@ -4,11 +4,7 @@ import com.st.utils.bytes.ByteUtil;
 import com.st.utils.string.S;
 import com.st.utils.string.StringUtils;
 
-import java.io.UTFDataFormatException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author: st
@@ -31,7 +27,7 @@ public class CharsetDemo {
       System.out.println(
           StringUtils.objs2Str(
               new Object[] {"byte ===> int(10)  ===> int(hex)\n",
-                i, S.b, "===>", S.b, ByteUtil.byte2Int(i),S.b, "===>", ByteUtil.byteToHex(i)
+                i, S.B, "===>", S.B, ByteUtil.byte2Int(i),S.B, "===>", ByteUtil.byteToHex(i)
               }));
     }
 

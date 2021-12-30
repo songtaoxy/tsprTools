@@ -7,10 +7,10 @@ class STest {
 
   @Test
   void bTest() {
-    System.out.println(S.l+"hi"+S.l);
-    System.out.println(S.b+"hi"+S.b);
-    System.out.println(S.s+"hi"+S.s);
-    System.out.println(S.ss+"hi"+S.se);
+    System.out.println(S.L +"hi"+S.L);
+    System.out.println(S.B +"hi"+S.B);
+    System.out.println(S.S +"hi"+S.S);
+    System.out.println(S.SS +"hi"+S.SE);
   }
 
 }

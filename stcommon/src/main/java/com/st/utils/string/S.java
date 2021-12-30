@@ -1,5 +1,10 @@
 package com.st.utils.string;
 
+import com.st.utils.log.LogUtils;
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+
 /**
  * S: symbol
  *
@@ -11,17 +16,26 @@ package com.st.utils.string;
  * @version: 1.0
  * @description:
  */
+
+@Slf4j
 public class S {
 
   /** l: Line */
-  public static final String l = "\n";
+  public static final String L = "\n";
 
   /** b: blank */
-  public static final String b = " ";
+  public static final String B = " ";
+
+  public static final String FS = File.separator;
 
   /** s: split line */
-  public static final String s =  "\n=======================================================\n";
+  public static final String S =  "\n=======================================================\n";
 
-  public static final String ss = "\n======================== start ========================\n";
-  public static final String se = "\n========================  end  ========================\n";
+  public static final String SS = "\n======================== start ========================\n";
+  public static final String SE = "\n========================  end  ========================\n";
+
+  public static void main(String[] args) {
+
+    LogUtils.foal(FS,"");
+  }
 }
