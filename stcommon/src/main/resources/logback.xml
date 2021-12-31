@@ -11,6 +11,18 @@ debug: 当此属性设置为true时，将打印出logback内部日志信息，�
   <!--    spring.output.ansi.enabled=detect-->
 
 
+
+
+  <!--移出logback自身日志的输出.方式1: 使用下面的配置 -->
+  <!--移出logback自身日志的输出.方式2: 有两个步骤
+  a,<configuration debug="false">
+  b,replace the <layout> element with an <encoder> element
+  即: 使用layout标签, debug="false"不起作用-->
+  <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+
+
+
+
   <!--  ======================= property start =======================-->
 
   <!--  设置变量： <property> 用来定义变量值的标签，<property> 有两个属性name和value；-->
