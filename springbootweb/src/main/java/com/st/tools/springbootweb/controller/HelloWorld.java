@@ -1,5 +1,6 @@
 package com.st.tools.springbootweb.controller;
 
+import com.st.tools.springbootweb.pojo.Person;
 import com.st.tools.springbootweb.service.HelloService;
 import com.st.utils.log.LogUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -41,26 +42,3 @@ public class HelloWorld {
   }
 }
 
-class Person<T> {
-
-  // 使用T类型定义变量
-  private T info;
-
-  // 使用T类型定义一般方法
-  public T getInfo() {
-
-    return info;
-  }
-
-  public void setInfo(T info) {
-
-    this.info = info;
-  } // 使用T类型定义构造器
-
-  public Person() {}
-
-  public Person(T info) {
-
-    this.info = info;
-  }
-}

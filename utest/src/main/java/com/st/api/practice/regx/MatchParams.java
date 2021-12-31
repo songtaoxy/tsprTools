@@ -17,7 +17,6 @@ public class MatchParams {
         Map<String,Object> single = new HashMap<>();
         single.put("paramName","me");
         single.put("mean","wonders");
-
 //        List<String> one = Lists.newArrayList("paramName","mean");
 //        List<String> one = new ArrayList("paramName","mean");
         List<String> one = new ArrayList();
