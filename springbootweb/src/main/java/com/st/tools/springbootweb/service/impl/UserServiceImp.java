@@ -2,6 +2,7 @@ package com.st.tools.springbootweb.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.st.tools.springbootweb.mapper.UserMapper;
 import com.st.tools.springbootweb.pojo.User;
 import com.st.tools.springbootweb.service.UserService;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class UserServiceImp implements UserService {
+public class UserServiceImp extends ServiceImpl<UserMapper,User> implements UserService {
 
   @Autowired private UserMapper userMapper;
 
