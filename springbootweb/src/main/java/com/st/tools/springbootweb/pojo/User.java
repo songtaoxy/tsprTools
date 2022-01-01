@@ -1,5 +1,6 @@
 package com.st.tools.springbootweb.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 /**
@@ -14,7 +15,15 @@ public class User {
   private String name;
   private String email;
   private Integer age;
+
+  private String userFriends;
+
+  @TableField(exist = false)
   private String fa;
+
+  // 静态属性不会映射到表中.
+  @TableField(exist = false)
   private static String fb;
+  @TableField(exist = false)
   private static final String fc = null;
 }

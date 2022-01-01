@@ -4,7 +4,7 @@ spring:
     username: root
     password: songtaoxy
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mybatisPlus
+    url: jdbc:mysql://localhost:3306/springboot
     type: com.alibaba.druid.pool.DruidDataSource
     #   数据源其他配置
     initialSize: 5
