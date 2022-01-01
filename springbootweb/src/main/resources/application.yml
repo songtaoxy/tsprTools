@@ -34,6 +34,8 @@ mybatis:
   configuration:
     mapUnderscoreToCamelCase: true
 
+
+
 #    schema:
 #      - classpath:sql/department.sql
 #      - classpath:sql/employee.sql
