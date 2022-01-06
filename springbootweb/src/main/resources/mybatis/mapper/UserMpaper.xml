@@ -12,4 +12,9 @@
     INSERT INTO employee(lastName,email,gender,d_id) VALUES (#{lastName},#{email},#{gender},#{dId})
   </insert>-->
 
+
+<select id="listAllUsers" resultType="com.st.tools.springbootweb.pojo.User">
+ select *
+ from user;
+ </select>
 </mapper>

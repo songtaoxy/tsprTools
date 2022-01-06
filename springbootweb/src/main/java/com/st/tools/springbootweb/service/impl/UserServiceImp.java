@@ -9,6 +9,7 @@ import com.st.tools.springbootweb.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.index.qual.SameLen;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.xml.ws.ServiceMode;
@@ -41,5 +42,13 @@ public class UserServiceImp extends ServiceImpl<UserMapper,User> implements User
     log.info("pageSize:{}", userPage.getPages());
 
     return userPage.getRecords();
+  }
+
+  @Override
+  @Cacheable(cacheNames = {"user"})
+  public User getUserById(Integer id) {
+    User user = userMapper.selectById(id);
+    return user;
+
   }
 }

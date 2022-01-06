@@ -69,5 +69,12 @@ public class UserController {
     System.out.println(userConfig.getName());
     return userService.findPage(current, pageSize);
   }
+
+  @GetMapping("/{id}")
+  public User getUserById(@PathVariable("id") Integer id) {
+
+   User user =  userService.getUserById(id);
+    return user;
+  }
 }
 
