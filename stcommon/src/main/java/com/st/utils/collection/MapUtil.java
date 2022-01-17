@@ -223,7 +223,7 @@ public class MapUtil {
             + "\"domain.iuap-data-datafusion\":\"https://yonbip.diwork.com/iuap-data-datafusion\",\n"
             + "\"domain.iuap-aip-package\":\"https://yonbip.diwork.com/iuap-aip-package\",\n"
             + "\"domain.iuap-metadata-designer\":\"https://yonbip.diwork.com/iuap-metadata-designer\",\n"
-            + "\"user.language\":\"en\",\n"
+            + "\"user.language\":\"enu\",\n"
             + "\"domain.yonbip-mkt-crmwebnode\":\"https://yonbip.diwork.com/yonbip-mkt-crmwebnode\",\n"
             + "\"domain.yonbip-cpu-suppliermgr\":\"https://yonbip.diwork.com/yonbip-cpu-suppliermgr\",\n"
             + "\"yht_enterprise_base_url\":\"https://euc.yonyoucloud.com/enterprise/rest\",\n"
