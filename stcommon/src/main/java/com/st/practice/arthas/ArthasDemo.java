@@ -8,10 +8,9 @@ import com.st.practice.com.Person;
  * @version: 1.0
  * @description:
  */
-public class ArthasDemo {
+public class ArthasDemo extends Person {
 
   static Person tom = new Person("Tom", 20);
-
 
   public static void main(String[] args) {
 
@@ -22,5 +21,11 @@ public class ArthasDemo {
     while (true) {
       System.out.println("...");
     }
+  }
+
+  public void m() {
+    Person person = new Person();
+
+
   }
 }

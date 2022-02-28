@@ -28,6 +28,23 @@ public class Person {
 
   public String m3(String param) {
     System.out.println("Person:param");
-    return param+"add====";
+    return param + "add====";
+  }
+
+  public void m_pub() {
+    System.out.println("");
+    Person person = new Person();
+  }
+
+  protected void m_pro() {
+    System.out.println("");
+  }
+
+  void m_default() {
+    System.out.println("");
+  }
+
+  private void m_pri() {
+    System.out.println("");
   }
 }

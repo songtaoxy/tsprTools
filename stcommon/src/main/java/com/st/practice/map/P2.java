@@ -7,4 +7,13 @@ package com.st.practice.map;
  * @description:
  */
 public class P2 {
+
+  private String name;
+	public String name2;
+
+
+	private void p2m1(){}
+	public void p2m2(){
+		this.p2m1();
+	}
 }
