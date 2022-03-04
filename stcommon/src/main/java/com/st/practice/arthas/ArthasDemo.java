@@ -20,11 +20,14 @@ public class ArthasDemo extends Person {
 
     while (true) {
       System.out.println("...");
+
+      m();
     }
   }
 
-  public void m() {
+  public static void m() {
     Person person = new Person();
+    person.m_pub();
 
 
   }

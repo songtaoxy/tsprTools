@@ -6,10 +6,5 @@ package com.st.practice.com;
  * @version: 1.0
  * @description:
  */
-public class RefTest {
 
-  void m() {
-	  Person person = new Person();
-  }
 
-}
