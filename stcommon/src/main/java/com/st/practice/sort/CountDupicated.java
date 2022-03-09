@@ -43,7 +43,7 @@ public class CountDupicated {
       int num = arr[i];
       int j = (num - min) / 8;
       int k = (num - min) % 8;
-      if (((bucket[j] >> k) & 1) > 0) { // 重复了
+      if (((bucket[j] >> k) & 1 ) > 0) { // 重复了
         System.out.println("Number of repeats：" + num);
         break;
       } else {
