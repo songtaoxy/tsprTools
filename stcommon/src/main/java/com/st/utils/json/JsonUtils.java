@@ -177,6 +177,15 @@ public class JsonUtils {
     return true;
   }
 
+  public static String jsonObj2String(){
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("k1", "v1");
+    jsonObject.put("k2", "v2");
+    System.out.println(jsonObject.toJSONString());
+    return jsonObject.toJSONString();
+  }
+
+
   public static void main(String[] args)  {
     String s2 = "[{\"name\":\"Michael\",\"age\":24,\"birthday\":\"2018-09-09\"}]";
     String s3 = "[{\"name\":\"Michael\",\"age\":24,\"birthday\":\"2018-09-09\"}];";
@@ -196,5 +205,7 @@ public class JsonUtils {
    /* System.out.println(JsonUtils.str2json4Com(s2));
     System.out.println(JsonUtils.str2json4Com(s3));*/
     System.out.println("h");
+
+    jsonObj2String();
   }
 }

@@ -16,16 +16,19 @@ public class MyBusinessException extends Exception {
 
 class ExceptionWrapper {
 
-  public static void main(String[] args) throws MyBusinessException {
+  public static void main(String[] args) throws Exception {
+
+    //System.out.println(Integer.SIZE);
     wrapException("100x"); //
   }
 
-  public static void wrapException(String input) throws MyBusinessException {
+  public static void wrapException(String input) throws Exception {
     try {
       // do something
       int i = Integer.parseInt(input);
     } catch (NumberFormatException e) {
-      throw new MyBusinessException("A message that describes the error.", e);
+      //throw new MyBusinessException("A message that describes the error.", e);
+      throw new Exception("A message that describes the error.", e);
     }
   }
 }

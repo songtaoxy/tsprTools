@@ -22,8 +22,6 @@ public class ThreadSortDemo implements Runnable {
   /** @see Thread#run() */
   @Override
   public void run() {
-    //ThreadSortDemo threadSortDemo = new ThreadSortDemo(string);
-    //threadSortDemo.printAlph();
     printAlph();
   }
 
