@@ -45,4 +45,5 @@ public class CostUtils {
     // return tips + " cost [" + cost + "] millis.";
     return "[" + cost + "] millis cost for [" + tips + "].";
   }
+
 }
