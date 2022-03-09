@@ -22,8 +22,7 @@ public class CharsetDemo {
 
     for (byte i : bytes) {
 
-      System.out.println((byte)655);
-      System.out.println(ByteUtil.byte2Int((byte) -133));
+
       System.out.println(
           StringUtils.objs2Str(
               new Object[] {"byte ===> int(10)  ===> int(hex)\n",
@@ -31,6 +30,8 @@ public class CharsetDemo {
               }));
     }
 
+    System.out.println((byte)655);
+    System.out.println(ByteUtil.byte2Int((byte) -133));
 
 
 
