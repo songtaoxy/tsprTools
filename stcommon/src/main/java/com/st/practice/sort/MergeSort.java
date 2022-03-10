@@ -1,6 +1,7 @@
 package com.st.practice.sort;
 
 import cn.hutool.core.util.RandomUtil;
+import com.st.utils.cost.CostUtils;
 
 import java.util.Arrays;
 
@@ -15,7 +16,7 @@ import java.util.Arrays;
 public class MergeSort {
 
   /**
-   * 左右两边已经是有序的了, 即左右两边有序, 进行排序.
+   * 关键: 左右两边已经是有序的了, 即左右两边有序, 进行排序.
    *
    * @param a
    * @param low
@@ -30,19 +31,21 @@ public class MergeSort {
 
     // 左右两边分别从开始位置取出数据, 进行比较.
     // 把较小的数先移到新数组中. 左右两边, 剩下的, 都是较大的; 排序后, 直接拼接到数组上即可.
+    // 注意: i,j的循环递增, 是以 a[x++]的形式呈现. == x++. 见下面的打印日志,及结果
     while (i <= mid && j <= high) {
       if (a[i] < a[j]) {
         temp[k++] = a[i++];
       } else {
         temp[k++] = a[j++];
       }
+      System.out.println("i->" + i + " | j->" + j);
     }
-    // 把较小的数先移到新数组中. 左右两边, 剩下的, 都是较大的; 排序后, 直接拼接到数组上即可.
+    // 关键: 把较小的数先移到新数组中. 左右两边, 剩下的, 都是较大的; 排序后, 直接拼接到数组上即可.
     // 把左边剩余的数移入数组
     while (i <= mid) {
       temp[k++] = a[i++];
     }
-    // 把较小的数先移到新数组中. 左右两边, 剩下的, 都是较大的; 排序后, 直接拼接到数组上即可.
+    // 关键: 把较小的数先移到新数组中. 左右两边, 剩下的, 都是较大的; 排序后, 直接拼接到数组上即可.
     // 把右边边剩余的数移入数组
     while (j <= high) {
       temp[k++] = a[j++];
@@ -55,15 +58,17 @@ public class MergeSort {
   }
 
   public static void mergeSort(int[] a, int low, int high) {
+
     int mid = (low + high) / 2;
+
     if (low < high) {
       // 左边
       mergeSort(a, low, mid);
       // 右边
       mergeSort(a, mid + 1, high);
 
-      // 左右归并. 到这个方法, 说明左右已经是有序的了.
-      // 递归终止条件: 只有两个元素, 左右各一个.完成排序, 返回,返回,...
+      // 关键: 左右归并. 到这个方法, 说明左右已经是有序的了.
+      // 关键: 递归终止条件: 只有两个元素, 左右各一个.完成排序, 返回,返回,...
       merge(a, low, mid, high);
       System.out.println(Arrays.toString(a));
     }
@@ -72,7 +77,11 @@ public class MergeSort {
   public static void main(String[] args) {
     // int ints[] = {51, 46, 20, 18, 65, 97, 82, 30, 77, 50};
     int[] ints = RandomUtil.randomInts(10);
+
+    long start = CostUtils.start();
     mergeSort(ints, 0, ints.length - 1);
-    System.out.println("排序结果：" + Arrays.toString(ints));
+    System.out.println(CostUtils.costs(start, "Merge Sort "+ints.length+" numbers"));
+
+    System.out.println("result:" + Arrays.toString(ints));
   }
 }
