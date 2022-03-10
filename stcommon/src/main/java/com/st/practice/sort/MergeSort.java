@@ -80,7 +80,7 @@ public class MergeSort {
 
     long start = CostUtils.start();
     mergeSort(ints, 0, ints.length - 1);
-    System.out.println(CostUtils.costs(start, "Merge Sort "+ints.length+" numbers"));
+    System.out.println(CostUtils.costs(start, "Merge Sort " + ints.length + " numbers"));
 
     System.out.println("result:" + Arrays.toString(ints));
   }
