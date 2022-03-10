@@ -1,5 +1,7 @@
 package com.st.practice.sort;
 
+import cn.hutool.core.util.RandomUtil;
+
 import java.util.Arrays;
 
 /**
@@ -55,8 +57,9 @@ public class MergeSort {
   }
 
   public static void main(String[] args) {
-    int a[] = {51, 46, 20, 18, 65, 97, 82, 30, 77, 50};
-    mergeSort(a, 0, a.length - 1);
-    System.out.println("排序结果：" + Arrays.toString(a));
+    //int ints[] = {51, 46, 20, 18, 65, 97, 82, 30, 77, 50};
+    int[] ints = RandomUtil.randomInts(10);
+    mergeSort(ints, 0, ints.length - 1);
+    System.out.println("排序结果：" + Arrays.toString(ints));
   }
 }
