@@ -7,7 +7,7 @@ import java.util.Random;
 
 /**
  * <pre>
- * 目的: 随机生成10个长度在[1-10]以内的随机字符串
+ * 目的: 随机生成10个长度在[1-10]以内的随机字符串, 用于快速测试.
  *
  * 要求:
  * 1.创建完List<String>之后，往其中添加十条随机字符串
@@ -17,7 +17,7 @@ import java.util.Random;
  *
  * sort:
  * 从左向右原则，且0-9
- * 数字优先原则，且A-Z
+ * 数字优先原则，且A-Zk
  * 字母大写优先原则，且a-z
  *
  * Ref: <a href="https://www.jianshu.com/p/61db371f1635">related doc</a>

@@ -4,6 +4,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.st.utils.string.Strings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,11 +15,12 @@ import java.util.List;
  */
 public class StreamDemo {
   public static void main(String[] args) {
+
 	  int[] ints = RandomUtil.randomInts(10);
 	  //Arrays.stream(ints).forEach(System.out::println);
 
 
 	  List<String> strings = Strings.randomStrings();
 	  strings.stream().forEach(System.out::println);
-  }//
+  }
   }
