@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 /**
- *
- *
  * <pre>
+ * 目的: 随机生成10个长度在[1-10]以内的随机字符串
+ *
  * 要求:
  * 1.创建完List<String>之后，往其中添加十条随机字符串
  * 2.每条字符串的长度为10以内的随机整数
@@ -28,12 +28,12 @@ import java.util.Random;
  * @version: 1.0
  * @description:
  */
-public class Stings {
+public class Strings {
   public static void main(String[] args) {
 
     List<String> strList;
-    //strList = randomStrings();
-    strList = randStrsWithLen(10, 10);
+    strList = randomStrings();
+    //strList = randStrsWithLen(10, 10);
 
     System.out.println("------随机生成的10条字符串-------");
     for (String string : strList) {
@@ -64,7 +64,7 @@ public class Stings {
       StringBuffer stringBuffer = new StringBuffer();
       // 确定字符串长度
       int stringLength = (int) (Math.random() * 10);
-      for (int j = 0; j < stringLength; j++) {
+      for (int j = 1; j <= stringLength; j++) {
         // 先随机生成初始定义的字符串 str 的某个索引，以获取相应的字符
         int index = random.nextInt(str.length());
         char c = str.charAt(index);

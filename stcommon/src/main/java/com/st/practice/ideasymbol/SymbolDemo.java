@@ -15,16 +15,8 @@ import java.util.Random;
  */
 public class SymbolDemo {
 
-  static class Inner {
 
     public static void main(String[] args) {
-      int[] ints = RandomUtil.randomInts(10);
-      //Arrays.stream(ints).forEach(System.out::println);
 
-
-      String s = RandomUtil.randomString(10);
-      List<String> strings = RandomUtil.randomEleList(new ArrayList<String>(), 10);
-      strings.stream().forEach(System.out::println);
-    }
   }
 }
