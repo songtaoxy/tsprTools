@@ -16,10 +16,10 @@ public class JavaDocDemo {
    *              a
    *              b
    *              c}
+   *              </pre>
    * search with {@link http://www.baidu.com}} <p>
    * search with {@link <a href="http://www.baidu.com">http://www.baidu.></a>} <p>
    * search with  <a href="http://www.baidu.com">http://www.baidu</a>
-   * @
    * @param str
    */
   public JavaDocDemo(String str) {
