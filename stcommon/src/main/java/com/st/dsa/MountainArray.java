@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 public class MountainArray {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     int[] ints = new int[] {1, 5, 6, 7, 8, 9, 10, 5, 4, 3, 3, 2};
 
     System.out.println(peakIndexInMountainArray(ints));//6
@@ -34,9 +34,9 @@ public class MountainArray {
     return ans;
   }
 
-  public static int withMax(int[] array) {
+  public static int withMax(int[] array) throws Exception {
 
-    int asInt = Arrays.stream(array).max().getAsInt();
+    int asInt = Arrays.stream(array).max().orElseThrow(()->new Exception("Data is invalid."));
     int index = Ints.indexOf(array, asInt);
     return index;
   }
