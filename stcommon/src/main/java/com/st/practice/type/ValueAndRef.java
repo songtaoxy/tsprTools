@@ -15,6 +15,8 @@ public class ValueAndRef {
     int b = 1;
     Integer c = new Integer(1);
     Integer d = new Integer(1);
+    Integer f = 1;
+    Integer e = 1;
 
     System.out.println(a == b); // true
     System.out.println(a == 1); // true
@@ -22,6 +24,8 @@ public class ValueAndRef {
     System.out.println(c == d); // fale
     System.out.println(c == 1); // true
     System.out.println(c == a); // true
+    System.out.println(c == f); // false
+    System.out.println(e == f); // true
 
     System.out.println("a" == "a"); // true
     String s1 = "a";
