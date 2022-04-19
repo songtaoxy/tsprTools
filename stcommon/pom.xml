@@ -29,6 +29,8 @@
         <surefire.version>3.0.0-M5</surefire.version>
         <okhttp.version>4.9.1</okhttp.version>
         <streamex.version>0.7.3</streamex.version>
+        <asm.version>3.1</asm.version>
+        <cglib.version>2.2</cglib.version>
     </properties>
 
 
@@ -203,7 +205,18 @@
             <version>${streamex.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>${asm.version}</version>
+        </dependency>
 
+        <!-- https://mvnrepository.com/artifact/cglib/cglib -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>${cglib.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
