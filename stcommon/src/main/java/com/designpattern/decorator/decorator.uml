@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.designpattern.decorator</OriginalElement>
+  <nodes>
+    <node x="753.0" y="305.0">com.designpattern.decorator.Soy</node>
+    <node x="88.00000000000006" y="305.0">com.designpattern.decorator.LongBlack</node>
+    <node x="-60.99999999999994" y="190.5">com.designpattern.decorator.Coffee</node>
+    <node x="651.0" y="305.0">com.designpattern.decorator.Milk</node>
+    <node x="240.00000000000006" y="305.0">com.designpattern.decorator.DeCaf</node>
+    <node x="501.0" y="305.0">com.designpattern.decorator.Chocolate</node>
+    <node x="359.00000000000006" y="305.0">com.designpattern.decorator.Espresso</node>
+    <node x="366.3257575757575" y="383.0">com.designpattern.decorator.CoffeeBar</node>
+    <node x="-67.99999999999994" y="305.0">com.designpattern.decorator.ShortBlack</node>
+    <node x="638.0757575757575" y="191.0">com.designpattern.decorator.Decorator</node>
+    <node x="598.25" y="-14.0">com.designpattern.decorator.Drink</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.designpattern.decorator.ShortBlack" target="com.designpattern.decorator.Drink" relationship="DEPENDENCY">
+      <point x="-68.0" y="-0.0" />
+      <point x="-100.49999999999994" y="319.0" />
+      <point x="-100.49999999999994" y="9.5" />
+      <point x="-62.0" y="-60.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.CoffeeBar" target="com.designpattern.decorator.Milk" relationship="CREATE">
+      <point x="85.5" y="-0.0" />
+      <point x="692.0" y="421.5" />
+      <point x="-0.0" y="14.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.ShortBlack" target="com.designpattern.decorator.Coffee" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="com.designpattern.decorator.CoffeeBar" target="com.designpattern.decorator.DeCaf" relationship="CREATE">
+      <point x="-85.5" y="-15.0" />
+      <point x="289.50000000000006" y="406.5" />
+      <point x="-0.0" y="14.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.Espresso" target="com.designpattern.decorator.Drink" relationship="DEPENDENCY">
+      <point x="15.0" y="-14.0" />
+      <point x="435.00000000000006" y="99.5" />
+      <point x="-62.0" y="30.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.Decorator" target="com.designpattern.decorator.Drink" relationship="TO_ONE">
+      <point x="-43.32575757575751" y="-38.0" />
+      <point x="-0.0" y="83.5" />
+    </edge>
+    <edge source="com.designpattern.decorator.Chocolate" target="com.designpattern.decorator.Decorator" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="566.0" y="285.0" />
+      <point x="659.9090909090909" y="285.0" />
+      <point x="-43.666666666666664" y="38.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.Coffee" target="com.designpattern.decorator.Drink" relationship="GENERALIZATION">
+      <point x="-15.0" y="-26.5" />
+      <point x="-14.999999999999943" y="69.5" />
+      <point x="-62.0" y="0.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.Soy" target="com.designpattern.decorator.Decorator" relationship="GENERALIZATION">
+      <point x="1.4210854715202004E-14" y="-14.0" />
+      <point x="808.0" y="285.0" />
+      <point x="747.2424242424241" y="285.0" />
+      <point x="43.66666666666666" y="38.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.Espresso" target="com.designpattern.decorator.Coffee" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="420.00000000000006" y="232.0" />
+      <point x="61.0" y="15.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.CoffeeBar" target="com.designpattern.decorator.Chocolate" relationship="CREATE">
+      <point x="78.0" y="-38.5" />
+      <point x="-36.17424242424249" y="14.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.LongBlack" target="com.designpattern.decorator.Drink" relationship="DEPENDENCY">
+      <point x="-0.0" y="-14.0" />
+      <point x="154.00000000000006" y="24.5" />
+      <point x="-62.0" y="-45.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.DeCaf" target="com.designpattern.decorator.Coffee" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="289.50000000000006" y="217.0" />
+      <point x="61.0" y="0.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.CoffeeBar" target="com.designpattern.decorator.Drink" relationship="DEPENDENCY">
+      <point x="-85.5" y="30.0" />
+      <point x="-115.49999999999994" y="451.5" />
+      <point x="-115.49999999999994" y="-5.5" />
+      <point x="-62.0" y="-75.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.Milk" target="com.designpattern.decorator.Drink" relationship="DEPENDENCY">
+      <point x="15.0" y="14.0" />
+      <point x="707.0" y="477.5" />
+      <point x="880.5" y="477.5" />
+      <point x="880.5" y="54.5" />
+      <point x="62.0" y="-15.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.Soy" target="com.designpattern.decorator.Drink" relationship="DEPENDENCY">
+      <point x="-0.0" y="-26.0" />
+      <point x="808.0" y="69.5" />
+      <point x="62.0" y="-0.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.LongBlack" target="com.designpattern.decorator.Coffee" relationship="GENERALIZATION">
+      <point x="-30.0" y="-14.0" />
+      <point x="124.00000000000006" y="202.0" />
+      <point x="61.0" y="-15.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.DeCaf" target="com.designpattern.decorator.Drink" relationship="DEPENDENCY">
+      <point x="15.0" y="-14.0" />
+      <point x="304.50000000000006" y="39.5" />
+      <point x="-62.0" y="-30.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.Chocolate" target="com.designpattern.decorator.Drink" relationship="DEPENDENCY">
+      <point x="54.57575757575751" y="-14.0" />
+      <point x="-39.67424242424249" y="83.5" />
+    </edge>
+    <edge source="com.designpattern.decorator.CoffeeBar" target="com.designpattern.decorator.LongBlack" relationship="CREATE">
+      <point x="-85.5" y="15.0" />
+      <point x="154.00000000000006" y="436.5" />
+      <point x="-0.0" y="14.0" />
+    </edge>
+    <edge source="com.designpattern.decorator.Decorator" target="com.designpattern.decorator.Drink" relationship="GENERALIZATION">
+      <point x="32.749999999999986" y="-38.0" />
+      <point x="736.3257575757575" y="154.0" />
+      <point x="700.9166666666666" y="154.0" />
+      <point x="40.66666666666666" y="71.5" />
+    </edge>
+    <edge source="com.designpattern.decorator.Milk" target="com.designpattern.decorator.Decorator" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="692.0" y="285.0" />
+      <point x="703.5757575757575" y="285.0" />
+      <point x="0.0" y="38.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.1615712018322502" showDependencies="true" x="421.6650828545403" y="277.2247620997407" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
