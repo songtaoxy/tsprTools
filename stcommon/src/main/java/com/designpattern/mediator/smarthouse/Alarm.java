@@ -4,7 +4,7 @@ package com.designpattern.mediator.smarthouse;
 public class Alarm extends Colleague {
 
 	//构造器
-	public Alarm(Mediator mediator, String name) {
+	public Alarm(Mediator mediator, String name) throws NoSuchMethodException {
 		super(mediator, name);
 		// TODO Auto-generated constructor stub
 		//在创建Alarm 同事对象时，将自己放入到ConcreteMediator 对象中[集合]

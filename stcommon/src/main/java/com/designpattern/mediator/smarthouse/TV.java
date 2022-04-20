@@ -2,7 +2,7 @@ package com.designpattern.mediator.smarthouse;
 
 public class TV extends Colleague {
 
-	public TV(Mediator mediator, String name) {
+	public TV(Mediator mediator, String name) throws NoSuchMethodException {
 		super(mediator, name);
 		// TODO Auto-generated constructor stub
 		mediator.Register(name, this);

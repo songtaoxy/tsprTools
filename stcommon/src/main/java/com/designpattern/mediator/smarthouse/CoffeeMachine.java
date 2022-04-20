@@ -1,11 +1,17 @@
 package com.designpattern.mediator.smarthouse;
 
+import com.st.utils.string.StringUtils;
+
 public class CoffeeMachine extends Colleague {
 
-	public CoffeeMachine(Mediator mediator, String name) {
+	public CoffeeMachine(Mediator mediator, String name) throws NoSuchMethodException {
 		super(mediator, name);
 		// TODO Auto-generated constructor stub
 		mediator.Register(name, this);
+
+		System.out.println(this+"========");
+		System.out.println(super.hashCode()+"*******");
+		System.out.println(this.getClass().getMethod("GetMediator",null));
 	}
 
 	@Override
