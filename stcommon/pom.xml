@@ -22,6 +22,7 @@
         <slf4j.jcl.version>1.7.32</slf4j.jcl.version>
         <slf4j.version>1.7.32</slf4j.version>
         <fastjson.version>1.2.76</fastjson.version>
+        <fastjson2.version>2.0.1</fastjson2.version>
         <mockito.version>4.0.0</mockito.version>
         <powermock.version>2.0.2</powermock.version>
         <testable.version>0.7.0</testable.version>
@@ -159,6 +160,11 @@
             <version>${fastjson.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
