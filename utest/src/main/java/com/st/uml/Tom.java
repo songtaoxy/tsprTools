@@ -50,4 +50,9 @@ public class Tom extends Parent implements Person {
   public Money makemoney() {
     return new Money();
   }
+
+  @Override
+  public void setName(String name) {
+
+  }
 }
