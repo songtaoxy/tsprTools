@@ -9,7 +9,7 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
 @EnableCaching
-//@MapperScan("com.st.tools.springbootweb.mapper")
+@MapperScan("com.st.tools.springbootweb.mapper")
 public class SpringbootwebApplication {
 
 
