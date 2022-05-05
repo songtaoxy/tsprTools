@@ -17,5 +17,8 @@ public class SpringbootwebApplication {
 
     SpringApplication.run(SpringbootwebApplication.class, args);
     System.out.println("hi");
+
+    //System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
+
   }
 }
