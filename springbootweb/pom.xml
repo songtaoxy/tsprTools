@@ -1,130 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <!-- <parent>
-       <groupId>com.st.tools</groupId>
-       <artifactId>tspr</artifactId>
-       <version>tv20210521</version>
-   </parent>-->
+    <!-- <parent>
+         <groupId>com.st.tools</groupId>
+         <artifactId>tspr</artifactId>
+         <version>tv20210521</version>
+     </parent>-->
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.5.0</version>
-    <relativePath/>
-  </parent>
-
-
-  <groupId>com.st.tools</groupId>
-  <artifactId>springbootweb</artifactId>
-  <version>tv20210521</version>
-  <name>springbootweb</name>
-  <description>web-springBoot</description>
-
-  <!--    <packaging>pom</packaging>-->
-
-
-  <properties>
-    <java.version>1.8</java.version>
-    <mainClass>com.st.tools.springbootweb.SpringbootwebApplication</mainClass>
-    <druid>1.1.17</druid>
-    <mybatis.plus>3.5.0</mybatis.plus>
-  </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-      <exclusions>
-        <exclusion>
-          <!--                    在父模块中, 使用log4j2-->
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-logging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-
-    <!--        热部署-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <scope>runtime</scope>
-      <optional>true</optional>
-    </dependency>
-
-
-           <!-- 排除springboot的junit低版本, 使用高版本;见父工程中的的junit bom
-          另外, 该依赖, 一般放在web项目中-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.junit.vintage</groupId>
-                        <artifactId>junit-vintage-engine</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-
-
-    <!--    ===================== 访问数据库 start  =====================-->
-    <!-- 数据访问使用的数据源. 该配置一定要配置在Mybatis, MybatisPlus, JDBC之前, 否则会使用默认的数据源:hikari -->
-    <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>druid-spring-boot-starter</artifactId>
-      <version>${druid}</version>
-    </dependency>
-
-
-    <!-- 数据访问: 使用第三方技术, 即MybatisPlus(内置了Mybatis)-->
-    <dependency>
-      <groupId>com.baomidou</groupId>
-      <artifactId>mybatis-plus-boot-starter</artifactId>
-      <version>${mybatis.plus}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-    </dependency>
-    <!--    ===================== 访问数据库 end =====================-->
-
-
-
-    <dependency>
-      <groupId>com.st.tools</groupId>
-      <artifactId>stcommon</artifactId>
-      <version>TV20210629</version>
-    </dependency>
-  </dependencies>
-
-
-  <build>
-    <plugins>
-
-      <plugin>
-        <!--
-                        该插件不要放到顶级父模块中,因为会被各个子模块继承
-                        maven执行package之后, 如果该模块的jar不可执行, 则不应该放该插件
-                        maven执行package之后, 如果该模块的jar(需要/可)执行, 则应该放该插件
-        -->
+    <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <fork>true</fork>
-          <addResources>true</addResources>
-          <mainClass>${mainClass}</mainClass>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.0</version>
+        <relativePath/>
+    </parent>
+
+
+    <groupId>com.st.tools</groupId>
+    <artifactId>springbootweb</artifactId>
+    <version>tv20210521</version>
+    <name>springbootweb</name>
+    <description>web-springBoot</description>
+    <caffeine.version>2.9.3</caffeine.version>
+    <!--    <packaging>pom</packaging>-->
+
+
+    <properties>
+        <java.version>1.8</java.version>
+        <mainClass>com.st.tools.springbootweb.SpringbootwebApplication</mainClass>
+        <druid>1.1.17</druid>
+        <mybatis.plus>3.5.0</mybatis.plus>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <!--                    在父模块中, 使用log4j2-->
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!--        热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+
+        <!-- 排除springboot的junit低版本, 使用高版本;见父工程中的的junit bom
+       另外, 该依赖, 一般放在web项目中-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!--    ===================== 访问数据库 start  =====================-->
+        <!-- 数据访问使用的数据源. 该配置一定要配置在Mybatis, MybatisPlus, JDBC之前, 否则会使用默认的数据源:hikari -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid}</version>
+        </dependency>
+
+
+        <!-- 数据访问: 使用第三方技术, 即MybatisPlus(内置了Mybatis)-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.plus}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!--    ===================== 访问数据库 end =====================-->
+
+
+        <!--    ********************** caffeine  ********************** -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <!--            spring boot 有默认定定义-->
+            <!--            <version>${caffeine.version}</version>-->
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.st.tools</groupId>
+            <artifactId>stcommon</artifactId>
+            <version>TV20210629</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <!--
+                                该插件不要放到顶级父模块中,因为会被各个子模块继承
+                                maven执行package之后, 如果该模块的jar不可执行, 则不应该放该插件
+                                maven执行package之后, 如果该模块的jar(需要/可)执行, 则应该放该插件
+                -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                    <addResources>true</addResources>
+                    <mainClass>${mainClass}</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

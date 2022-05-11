@@ -2,6 +2,7 @@ package com.st.tools.springbootweb.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.boot.availability.AvailabilityState;
 import org.springframework.boot.availability.ReadinessState;
 import org.springframework.context.ApplicationListener;
 
@@ -16,9 +17,16 @@ public class ListenerDemo implements ApplicationListener<AvailabilityChangeEvent
 
 	@Override
 	public void onApplicationEvent(AvailabilityChangeEvent event) {
-    System.out.println ("监听到事件：" + event);
+    System.out.println ("监听器: 监听到事件：" + event);
 		if (ReadinessState.ACCEPTING_TRAFFIC == event.getState()){
-			System.out.println("应用启动完成，可以请求了……");
+			System.out.println("监听器: 应用启动完成，可以请求了……");
 		}
+
+		AvailabilityState state = event.getState();
+		System.out.println("监听器: 监听到的:"+state.toString());
+
+
+
+
 	}
 }
