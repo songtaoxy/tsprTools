@@ -30,13 +30,15 @@ public class OuterClass {
 			String sex1 = new OuterClass().out_nostatic_sex;
 
 			new OuterClass().out_nostatic_display();
+
 		}
+
 
 
 		/**
 		 * 静态内部类-静态方法: 访问外部
 		 */
-		public void static_innerclass_static_display() {
+		public static void static_innerclass_static_display() {
             /* 访问外部: 静态成员 */
             System.out.println("OutClass name :" + out_static_name);
             out_static_display();
@@ -74,6 +76,14 @@ public class OuterClass {
             /** 静态调的 **/
             System.out.println("OuterClass name：" + out_static_name);
 			out_static_display();
+
+
+			/** 非静态内部类, 返回外部类有两种方式: **/
+			/** 静态内部类,不管是非静态方法还是静态方法,  返回外部类只能用方式2: **/
+			/* 其一 */
+			OuterClass outerClass = OuterClass.this;
+			/* 其二 */
+			OuterClass outerClass1 = new OuterClass();
 		}
 	}
 
@@ -201,4 +211,8 @@ class OutClass2 {
         OuterClass.Nostatic_InnerClass nostatic_innerClass = new OuterClass().new Nostatic_InnerClass();
 
     }
+
+	private class Pe {
+	}
+
 }
