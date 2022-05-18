@@ -16,4 +16,8 @@ public class FlyParent {
 	public void eat() {
 		System.out.println("parent eating ....");
 	}
+
+	public final void  final_method() {
+		System.out.println("final method");
+	}
 }
