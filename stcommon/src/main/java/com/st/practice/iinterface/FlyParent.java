@@ -8,8 +8,13 @@ package com.st.practice.iinterface;
  */
 public class FlyParent {
 
+
+	Integer integer = 100;
+	int anInt = 10;
+
 	public void fly() {
 		System.out.println("parent fly ....");
+
 	}
 
 
