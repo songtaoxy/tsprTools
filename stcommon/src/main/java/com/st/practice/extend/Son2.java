@@ -6,8 +6,23 @@ package com.st.practice.extend;
  * @version: 1.0
  * @description:
  */
-public class Son2 extends Parent{
+public class Son2 extends Parent {
+
+	private String name;
+
 	public Son2(String name) {
 		super(name);
+		this.name = name + "_this";
+	}
+
+
+	public String getParentName() {
+		return super.getName();
+
+	}
+
+	public String getThisName() {
+		return this.name;
+
 	}
 }

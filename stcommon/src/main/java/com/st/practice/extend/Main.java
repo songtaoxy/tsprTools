@@ -17,6 +17,8 @@ public class Main {
 		System.out.println(son2.getName());
 		son2.setName("son2-2");
 		System.out.println(son2.getName());
+		System.out.println(son2.getParentName());
+		System.out.println(son2.getThisName());
 
 	}
 }

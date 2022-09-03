@@ -3,11 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- <parent>
-         <groupId>com.st.tools</groupId>
-         <artifactId>tspr</artifactId>
-         <version>tv20210521</version>
-     </parent>-->
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -22,7 +17,6 @@
     <version>tv20210521</version>
     <name>springbootweb</name>
     <description>web-springBoot</description>
-    <caffeine.version>2.9.3</caffeine.version>
     <!--    <packaging>pom</packaging>-->
 
 
@@ -31,6 +25,7 @@
         <mainClass>com.st.tools.springbootweb.SpringbootwebApplication</mainClass>
         <druid>1.1.17</druid>
         <mybatis.plus>3.5.0</mybatis.plus>
+        <caffeine.version>2.9.3</caffeine.version>
     </properties>
 
     <dependencies>
@@ -106,8 +101,7 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <!--            spring boot 有默认定定义-->
-            <!--            <version>${caffeine.version}</version>-->
+            <version>${caffeine.version}</version>
         </dependency>
 
 

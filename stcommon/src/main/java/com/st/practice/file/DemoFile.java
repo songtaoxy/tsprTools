@@ -3,7 +3,6 @@ package com.st.practice.file;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.oracle.tools.packager.mac.MacAppBundler;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
