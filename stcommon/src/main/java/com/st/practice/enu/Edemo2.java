@@ -9,16 +9,15 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum Edemo {
+public enum Edemo2 {
 
-	RED("r", "red"), BLUE("b", "blue");
-	private final String name;
+	RED( "red"), BLUE( "blue");
+	//private final String name;
 	private final String des;
 
 	public static void main(String[] args) {
 
-		System.out.println(Edemo.RED.getName());
-		System.out.println(Edemo.RED.name());
+		System.out.println(Edemo2.RED.name());
 
 	}
 }
