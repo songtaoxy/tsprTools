@@ -30,6 +30,7 @@ public class HutoolDemo {
 		List<String> list = new ArrayList<String>();
 		list.add("1");
 		list.add("2");
+		list.add("2111111");
 
 		JSONObject o = new JSONObject();
 		o.put("k",list);
@@ -39,6 +40,10 @@ public class HutoolDemo {
 
 		List<String> types2 = o.getObject("k",new TypeReference<List<String>>(){});
 		System.out.println(JSON.toJSONString(types2));
+
+		System.out.println(list.toString());
+
+
 
 	}
 }
