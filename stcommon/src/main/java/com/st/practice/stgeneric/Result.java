@@ -5,7 +5,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import lombok.Data;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.codehaus.plexus.component.manager.ClassicSingletonComponentManager;
 
 import java.lang.reflect.Type;
 
@@ -30,7 +32,7 @@ public class Result<T> {
 
 	public static void main(String[] args) {
 
-		//String content = ResourceUtil.readUtf8Str("object.json");
+	/*	//String content = ResourceUtil.readUtf8Str("object.json");
 		String content = "{\n" +
 				"   \"code\": 10000,\n" +
 				"   \"success\": true,\n" +
@@ -49,9 +51,46 @@ public class Result<T> {
 		Type type = new TypeToken<Result<TokenInfo>>(){}.getType();
 		Result<TokenInfo> result = new Gson().fromJson(content, type);
 
-		log.info(result.toString());
+		log.info(result.toString());*/
+
+		testG(TokenInfo.class);
+		testG2(new TokenInfo());
+		testG3(TokenInfo.class, new TokenInfo());
 	}
 
+
+	@SneakyThrows
+	public static <T> void testG(Class<T> clz) {
+
+		T t = clz.newInstance();
+
+		System.out.println("======================");
+		System.out.println("testG");
+		System.out.println(t.getClass().getName());
+		System.out.println("======================\n\t");
+	}
+
+
+	public static <T> void testG2(T t) {
+
+		String name = t.getClass().getName();
+		System.out.println("======================");
+		System.out.println("testG2");
+		System.out.println(name);
+		System.out.println("======================\n\t");
+	}
+
+	public static <T> void testG3(Class<T> clz, T t) {
+
+		String name1 = clz.getName();
+
+		String name = t.getClass().getName();
+		System.out.println("======================");
+		System.out.println("testG3");
+		System.out.println(name1);
+		System.out.println(name);
+		System.out.println("======================\n\t");
+	}
 }
 
 
@@ -64,3 +103,4 @@ class TokenInfo {
 	/** 类型 */
 	private String type;
 }
+
