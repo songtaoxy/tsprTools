@@ -39,3 +39,19 @@ mybatis:
 #    schema:
 #      - classpath:sql/department.sql
 #      - classpath:sql/employee.sql
+
+  redis:
+    nodes: localhost:6379
+    password: MlXC0OUnYKbuzdVJ
+    database: 0
+    timeout: 80000
+    clusterFlag: true
+    pool:
+      # 最大等待毫秒
+      max-wait-millis: 30000
+      # 总连接的最大数量
+      max-total: 100
+      # 空闲连接的最大数量
+      max-idle: 100
+      # 最少保持的连接数
+      min-idle: 20
