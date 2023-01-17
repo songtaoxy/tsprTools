@@ -25,7 +25,7 @@
         <fastjson2.version>2.0.1</fastjson2.version>
         <mockito.version>4.0.0</mockito.version>
         <powermock.version>2.0.2</powermock.version>
-        <testable.version>0.7.0</testable.version>
+        <testable.version>0.7.9</testable.version>
         <jacoco.version>0.8.7</jacoco.version>
         <surefire.version>3.0.0-M5</surefire.version>
         <okhttp.version>4.9.1</okhttp.version>
