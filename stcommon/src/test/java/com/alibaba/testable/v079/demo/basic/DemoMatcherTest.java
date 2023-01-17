@@ -1,8 +1,8 @@
 package com.alibaba.testable.v079.demo.basic;
 
-import com.alibaba.testable.v079.demo.basic.model.mock.BlackBox;
 import com.alibaba.testable.core.annotation.MockInvoke;
 import com.alibaba.testable.core.error.VerifyFailedError;
+import com.alibaba.testable.v079.demo.basic.model.mock.BlackBox;
 import org.junit.jupiter.api.Test;
 
 import static com.alibaba.testable.core.matcher.InvocationMatcher.*;

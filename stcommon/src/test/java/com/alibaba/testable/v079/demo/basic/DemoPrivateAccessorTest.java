@@ -1,5 +1,6 @@
 package com.alibaba.testable.v079.demo.basic;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ class DemoPrivateAccessorTest {
     @Test
     void should_access_private_field() {
         set(demoPrivateAccess, "count", 3);
-        assertEquals(Integer.valueOf(3), get(demoPrivateAccess, "count"));
+        Assertions.assertEquals(Integer.valueOf(3), get(demoPrivateAccess, "count"));
     }
 
     @Test
@@ -45,7 +46,7 @@ class DemoPrivateAccessorTest {
     @Test
     void should_update_final_field() {
         set(demoPrivateAccess, "pi", 3.14);
-        assertEquals(Double.valueOf(3.14), get(demoPrivateAccess, "pi"));
+        Assertions.assertEquals(Double.valueOf(3.14), get(demoPrivateAccess, "pi"));
     }
 
     @Test

@@ -1,9 +1,10 @@
 package com.alibaba.testable.v079.demo.basic;
 
-import com.alibaba.testable.v079.demo.basic.model.omni.Child;
-import com.alibaba.testable.v079.demo.basic.model.omni.Parent;
+
 import com.alibaba.testable.core.tool.OmniAccessor;
 import com.alibaba.testable.core.tool.OmniConstructor;
+import com.alibaba.testable.v079.demo.basic.model.omni.Child;
+import com.alibaba.testable.v079.demo.basic.model.omni.Parent;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
