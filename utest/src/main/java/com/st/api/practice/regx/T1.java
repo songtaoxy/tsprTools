@@ -22,13 +22,18 @@ public class T1 {
 				"sensor_name: \"0\"\n" +
 				"calibration_file_path: \"cam_ground_extrinsic_calib_result_${0[2]}_${0[3]}_${0[channel]}.yaml\"";
 
-		String s = pullconfigParser(src, null);
+		String s = new T1().pullconfigParser(src, null);
 		System.out.println(s);
+	}
+
+	public String callPull(String strSrc, String poleId) {
+
+		return this.pullconfigParser(strSrc, poleId);
 	}
 
 
 
-	public static String pullconfigParser(String strSrc, String poleId) {
+	public String pullconfigParser(String strSrc, String poleId) {
 
 		String strReplaced = strSrc;
 		Preconditions.checkArgument(ObjectUtil.isNotEmpty(strSrc), "配置下发:配置项内容不能为 " + strSrc);
@@ -108,5 +113,14 @@ public class T1 {
 		}
 		return true;
 	}
+	public boolean isNumeric2(String str) {
+		Pattern pattern = Pattern.compile("[0-9]*");
+		Matcher isNum = pattern.matcher(str);
+		if (!isNum.matches()) {
+			return false;
+		}
+		return true;
+	}
+
 
 }

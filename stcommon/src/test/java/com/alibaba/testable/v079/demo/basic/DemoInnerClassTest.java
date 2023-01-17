@@ -21,6 +21,8 @@ class DemoInnerClassTest {
     @Test
     void should_mock_invoke_inside_inner_class() throws Exception {
         DemoInnerClass demo = new DemoInnerClass();
+        String s = demo.callInnerDemo();
+        System.out.println(s);
         assertEquals("MockedCall", demo.callInnerDemo());
         assertEquals("MockedCall", demo.callAnonymousInner());
         assertEquals("MockedCall", demo.callLambdaInner());

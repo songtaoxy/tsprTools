@@ -16,7 +16,7 @@ class Demo2Test {
 
     @MockInvoke(targetClass = Demo2.class, targetMethod = "sub")
     public String sub(String str, int s, int e) {
-      return "hi";
+      return "call_hi";
     }
   }
 

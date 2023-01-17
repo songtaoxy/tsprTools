@@ -114,6 +114,15 @@
             <artifactId>stcommon</artifactId>
             <version>TV20210629</version>
         </dependency>
+
+
+        <!-- 阿里巴巴 testablemock -->
+        <dependency>
+            <groupId>com.alibaba.testable</groupId>
+            <artifactId>testable-all</artifactId>
+            <version>0.7.9</version>
+            <!--            <scope>test</scope>-->
+        </dependency>
     </dependencies>
     <!--<dependencyManagement>
         <dependencies>

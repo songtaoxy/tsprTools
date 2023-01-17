@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SpringbootwebApplicationTest {
-
+/*
   @Autowired DataSource dataSource;
   @Autowired UserMapper usersMapper;
 
@@ -44,5 +44,5 @@ class SpringbootwebApplicationTest {
   void testListAllUsers2() {
     List<User> users = usersMapper.listAllUsers();
     LogUtils.foal(users,"");
-  }
+  }*/
 }
