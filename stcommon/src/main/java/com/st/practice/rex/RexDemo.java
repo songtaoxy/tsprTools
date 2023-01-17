@@ -5,7 +5,6 @@ import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Var;
-import com.oracle.tools.packager.Log;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Struct;
@@ -122,7 +121,7 @@ new Thread(new Xthread()).start();
 		if (topic.startsWith(topicPrefix)) {
 			flag = true;
 		} else {
-			Log.debug("mather fail");
+			log.debug("mather fail");
 		}
 		return flag;
 	}
