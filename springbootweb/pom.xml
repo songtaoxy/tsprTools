@@ -49,23 +49,6 @@
         </dependency>
 
 
-        <!-- 排除springboot的junit低版本, 使用高版本;见父工程中的的junit bom
-       另外, 该依赖, 一般放在web项目中-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.junit.jupiter</groupId>
-                    <artifactId>junit-jupiter</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
 
         <!--    ===================== 访问数据库 start  =====================-->
