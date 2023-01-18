@@ -3,6 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- parent -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -10,6 +11,7 @@
         <relativePath/>
     </parent>
 
+    <!-- info -->
     <groupId>com.st.tools</groupId>
     <artifactId>tspr</artifactId>
     <version>tv20210521</version>
@@ -20,7 +22,7 @@
     <!--聚合模块,  必须是pom-->
     <packaging>pom</packaging>
 
-    <!--    项目的聚合-->
+    <!-- 项目的聚合 -->
     <modules>
         <module>stcommon</module>
         <module>springbootweb</module>
@@ -28,32 +30,53 @@
     </modules>
 
 
+    <!-- 版本管理 -->
+    <!-- springboot已有: 覆盖 -->
+    <!-- springboot没有: 新增 -->
     <properties>
         <!--配置maven编译jdk的版本.效果同maven的setting.xml中的jdk设置-->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-
         <!-- 用于打包,功能类似于spring-boot-maven-plugin-->
         <start-class>com.st.tools.MyApplication</start-class>
         <!-- <mainClass>com.st.tools.springbootweb.SpringbootwebApplication</mainClass>-->
-
         <java.version>1.8</java.version>
         <guava.version>30.1.1-jre</guava.version>
+        <!--配置maven编译jdk的版本.效果同maven的setting.xml中的jdk设置-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <junit5.verson>5.8.1</junit5.verson>
+        <apache.commons.version>3.8.1</apache.commons.version>
+        <guava.version>31.0.1-jre</guava.version>
+        <hutool.version>5.7.16</hutool.version>
+        <lombok.version>1.18.22</lombok.version>
+        <gson.version>2.8.9</gson.version>
+        <log.logback.version>1.2.6</log.logback.version>
+        <slf4j.jcl.version>1.7.32</slf4j.jcl.version>
+        <slf4j.version>1.7.32</slf4j.version>
+        <fastjson.version>1.2.76</fastjson.version>
+        <fastjson2.version>2.0.1</fastjson2.version>
+        <mockito.version>4.0.0</mockito.version>
+        <powermock.version>2.0.2</powermock.version>
+        <testable.version>0.7.9</testable.version>
+        <jacoco.version>0.8.7</jacoco.version>
+        <surefire.version>3.0.0-M5</surefire.version>
+        <okhttp.version>4.9.1</okhttp.version>
+        <streamex.version>0.7.3</streamex.version>
+        <asm.version>3.1</asm.version>
+        <cglib.version>2.2</cglib.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
     </properties>
 
 
+    <!-- 声明依赖 -->
     <dependencyManagement>
-
         <dependencies>
-
-
         </dependencies>
-
     </dependencyManagement>
 
-
     <dependencies>
-
         <!--        排除springboot的junit低版本, 使用高版本;见父工程中的的junit bom
         另外, 该依赖, 一般放在web项目中-->
         <dependency>
