@@ -27,6 +27,7 @@
         <module>stcommon</module>
         <module>springbootweb</module>
         <module>utest</module>
+        <module>springBootCase</module>
     </modules>
 
 
