@@ -3,19 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--
-        <parent>
-            <groupId>com.st.tools</groupId>
-            <artifactId>tspr</artifactId>
-            <version>tv20210521</version>
-        </parent>
-    -->
-   <!-- <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.0</version>
-        <relativePath/>
-    </parent>-->
 
     <groupId>com.st.tools</groupId>
     <artifactId>utest</artifactId>
@@ -34,84 +21,6 @@
 
 
     <dependencies>
-        <!-- <dependency>
-             <groupId>com.st.tools</groupId>
-             <artifactId>springbootweb</artifactId>
-             <version>tv20210521</version>
-             <scope>test</scope>
-         </dependency>-->
-
-
-        <!-- JUnit5单元测试框架 -->
-        <!--
-                <dependency>
-                    <groupId>org.junit.platform</groupId>
-                    <artifactId>junit-platform-launcher</artifactId>
-                    &lt;!&ndash;            <version>1.6.0</version>&ndash;&gt;
-                    <scope>test</scope>
-                </dependency>
-        -->
-<!--
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            &lt;!&ndash;            <version>5.6.0</version>&ndash;&gt;
-            <scope>test</scope>
-        </dependency>
--->
-        <!--
-                <dependency>
-                    <groupId>org.testng</groupId>
-                    <artifactId>testng</artifactId>
-        &lt;!&ndash;            <version>RELEASE</version>&ndash;&gt;
-                    <scope>compile</scope>
-                </dependency>
-        -->
-        <!--
-                <dependency>
-                    <groupId>org.junit.jupiter</groupId>
-                    <artifactId>junit-jupiter-api</artifactId>
-        &lt;!&ndash;            <version>5.6.0</version>&ndash;&gt;
-                    <scope>compile</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                    &lt;!&ndash;        <version>5.6.0</version>&ndash;&gt;
-                    <scope>test</scope>
-                </dependency>
-
-        -->
-
-       <!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
-        &lt;!&ndash;        排除springboot的junit低版本, 使用高版本;见父工程中的的junit bom
-       另外, 该依赖, 一般放在web项目中&ndash;&gt;
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.junit.jupiter</groupId>
-                    <artifactId>junit-jupiter</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>-->
-
         <dependency>
             <groupId>com.st.tools</groupId>
             <artifactId>stcommon</artifactId>
@@ -119,26 +28,6 @@
         </dependency>
 
     </dependencies>
-    <!--<dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.testcontainers</groupId>
-                <artifactId>testcontainers-bom</artifactId>
-                <version>${testcontainers.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>assertion</scope>
-        </dependency>
-    </dependencies>-->
-
     <build>
         <plugins>
             <plugin>
