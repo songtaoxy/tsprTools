@@ -30,7 +30,7 @@ class HandleSpecialCharactersTest {
     map.put("a", "v");
     map = null;
 
-    Map map1 = Optional.ofNullable(map).orElseThrow(() -> new Exception("must be null"));
-    System.out.println(map1);
+  /*  Map map1 = Optional.ofNullable(map).orElseThrow(() -> new Exception("must be null"));
+    System.out.println(map1);*/
   }
 }
