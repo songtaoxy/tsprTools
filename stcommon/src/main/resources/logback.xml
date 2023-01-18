@@ -29,7 +29,8 @@ debug: 当此属性设置为true时，将打印出logback内部日志信息，�
   <!--  name: 变量的名称-->
   <!--  value: 的值时变量定义的值。-->
   <!--  通过<property>定义的值会被插入到logger上下文中。定义变量后，可以使“${}”来使用变量。-->
-  <property name="APP_NAME" value="stcommon"/>
+  <property name="module_name" value="stcommon"/>
+  <property name="output_dir" value="out"/>
   <!-- 定义日志存放目录 -->
   <!-- 相对路径:相对当前项目-->
   <!-- <property name="logPath" value="logs"/>-->
@@ -37,7 +38,7 @@ debug: 当此属性设置为true时，将打印出logback内部日志信息，�
   <!-- <property name="logPath" value="./logs"/>-->
   <!-- 相对路径:相对当前模块module; -->
   <!-- 可以插入任何系统属性, 因此能通过jdk的路径来变相设置当前模块路径 -->
-  <property name="logPath" value="${jdk.module.path}"/>
+  <property name="logPath" value="${output_dir}/${module_name}/${jdk.module.path}"/>
   <!-- 最大保存时间 15天-->
   <property name="maxHistory" value="15"/>
   <property name="maxFileSize" value="50MB"/>
@@ -53,7 +54,7 @@ debug: 当此属性设置为true时，将打印出logback内部日志信息，�
 
   <!--  每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用设置成其他名字，-->
   <!--  用于区分不同应用程序的记录。一旦设置，不能修改,可以通过%contextName来打印日志上下文名称。-->
-  <contextName>${APP_NAME}</contextName>
+  <contextName>${module_name}</contextName>
 
   <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
