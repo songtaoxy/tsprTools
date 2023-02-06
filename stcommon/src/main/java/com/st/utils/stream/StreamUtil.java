@@ -77,9 +77,9 @@ public class StreamUtil {
                     Map.Entry::getValue
                     ));
 
-    LogUtils.foal(m1,"map1");
+   /* LogUtils.foal(m1,"map1");
     LogUtils.foal(m2,"map2");
     LogUtils.foal(m5,"map5");
-    LogUtils.foal(result,"result");
+    LogUtils.foal(result,"result");*/
   }
 }

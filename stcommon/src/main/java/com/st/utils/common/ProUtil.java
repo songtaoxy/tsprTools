@@ -21,7 +21,7 @@ public class ProUtil {
 
     map.entrySet().stream().forEach(System.out::println);
 
-    LogUtils.foal(map,"");
+    //LogUtils.foal(map,"");
 
     return map;
   }

@@ -1,148 +1,277 @@
 package com.st.utils.log;
 
-import com.alibaba.fastjson.JSON;
-import com.st.utils.common.TimeUtils;
-import com.st.utils.json.JsonUtils;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter;
+import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.st.utils.json.gson.GsonUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
 /**
  * @author: st
- * @date: 2021/11/6 15:09
+ * @date: 2022/9/2 14:51
  * @version: 1.0
  * @description:
  */
 @Slf4j
 public class LogUtils {
+  /**
+   * 打印日志,并格式化
+   *
+   * @param des     描述信息
+   * @param jsonStr 日志具体信息; json格式的字符串
+   */
+  public static void printJsonStr(String des, String jsonStr) {
+    String des1 = Optional.ofNullable(des).orElse("Des");
 
-  /** @deprecated since 2021.11.11 by ts replaced by "local vars" */
-  String ps;
+    // ========================
+    // validate
+    // ========================
+    String format = StrUtil.format("input :: jsonObject[{}] can't be null", jsonStr);
+    Preconditions.checkArgument(ObjectUtil.isNotEmpty(jsonStr), format);
+
+
+    // ========================
+    // build target
+    // ========================
+    String doubleLine = "===============================";
+    String line = System.lineSeparator();
+    String brace = "{}";
+    String des2 = line + des1 + line + doubleLine + line + brace + line + doubleLine;
+
+
+    // ========================
+    // JsonObject jsonObject -> String str
+    // and pretty str
+    // ========================
+    GsonBuilder builder = GsonUtils.builder();
+    builder.setPrettyPrinting();
+    Gson gson = builder.create();
+
+    JsonObject parse = GsonUtils.parse(jsonStr, JsonObject.class);
+    String prettyJsonStr = gson.toJson(parse);
+
+    // ========================
+    // output
+    // ========================
+    log.info(des2, prettyJsonStr);
+  }
 
   /**
-   * 打印日志, 格式化, 方便查看<p></p>
+   * 打印日志,并格式化
    *
-   * fol: formatObjAndLogging<p></p>
-   *
-   * 封装和补充日志打印:<br>
-   * {@code String str = "select * from t_table" login.info{"the external message is:
-   * "+ var}}<p></p>
-   *
-   * 充分利用java8 optional的特性:
-   * <pre>
-   * // 当补充信息没有传, 即为null时, 给默认值
-   * String value_null = "There external messages is null.";
-   * // 当补充信息为空字符串时, 给默认值
-   * String value_blank = "There external messages is blank.";
-   * </pre>
-   *
-   * <p>details see: {@link LogUtils#formatObjAndLogging_old(Object, String)}
-   *
-   * <p>
-   *
-   * @param obj 日志要将该对象的内容打印出来
-   * @param infoTips 对"obi"的补充说明
+   * @param des        描述信息
+   * @param jsonObject 日志具体信息
    */
-  public static void foal(Object obj, String infoTips) {
+  public static void printGson(String des, JsonElement jsonObject) {
+    String des1 = Optional.ofNullable(des).orElse("Des");
+    //JSONObject jsonObject1 = Optional.ofNullable(jsonObject).orElse(new JSONObject());
 
-    String value_null = "There external messages is null.";
-    String value_blank = "There external messages is blank.";
+    // ========================
+    // validate
+    // ========================
+		/*
+		String format = StrUtil.format("input :: jsonObject[{}] can't be null", jsonObject);
+		Preconditions.checkArgument(ObjectUtil.isNotEmpty(jsonObject), format);
+		*/
 
-    infoTips =
-        Optional.ofNullable(infoTips)
-            .map(str -> str.length() == 0 ? value_blank : str)
-            .orElse(value_null);
+    String flag="0";
+    JsonObject jsonObject1 = null;
+    if (ObjectUtil.isEmpty(jsonObject)) {
+      flag = "1";
+      jsonObject1 = new JsonObject();
+      jsonObject1.addProperty("arguments","入参为:["+jsonObject+"]");
+      jsonObject1.addProperty("des","重新构建的对象, 仅为打印");
 
-    if (obj instanceof String && JsonUtils.isJson((String) obj)) {
-      obj = JsonUtils.str2json4Com((String) obj);
     }
-    doLog(obj, infoTips);
-  }
 
-  private static void doLog(Object obj, String infoTips) {
-    log.info(
-        "\n\n"
-            + "================================== start =====================================\n"
-            + "- [Time    ]:"
-            + TimeUtils.getLocalDateTime().toString()
-            + "\n"
-            + "- [Type    ]:"
-            + obj.getClass().getName()
-            + "\n"
-            + "- [messsage]:"
-            + infoTips
-            + "\n"
-            + "- [content ]:\n"
-            + "{}\n"
-            + "===================================  end  ====================================\n\n",
-        JSON.toJSONString(obj, true));
+
+
+
+    // ========================
+    // build target
+    // ========================
+    String doubleLine = "===============================";
+    String line = System.lineSeparator();
+    String brace = "{}";
+    String des2 = line + des1 + line + doubleLine + line + brace + line + doubleLine;
+
+
+    // ========================
+    // JsonObject jsonObject -> String str
+    // and pretty str
+    // ========================
+    GsonBuilder builder = GsonUtils.builder();
+    builder.setPrettyPrinting();
+    //builder.serializeNulls();
+    Gson gson = builder.create();
+
+
+    String prettyJsonStr;
+    if (ObjectUtil.equals("1", flag)) {
+      prettyJsonStr = gson.toJson(jsonObject1);
+    } else {
+      prettyJsonStr = gson.toJson(jsonObject);
+    }
+
+    // ========================
+    // output
+    // ========================
+    log.info(des2, prettyJsonStr);
   }
 
   /**
-   * @deprecated since 2021.11.11 by ts, and replaced by {@link LogUtils#foal(Object, String)}
-   * @param obj 日志要将该对象的内容打印出来
-   * @param infoTips 对"obi"的补充说明
+   * 打印日志,并格式化
+   *
+   * @param des        描述信息
+   * @param jsonObject 日志具体信息
    */
-  public static void formatObjAndLogging_old(Object obj, String infoTips) {
-    // 没有传入说明信息时, 该如何处理?
-    // 传入为null
-    // 传入为空: 这里null, 和空, 采用相同的处理方式. 即,给默认值.
-    // 传入正常值
-    String value_null = "There external messages is null.";
-    String value_blank = "There external messages is blank.";
+  /*public static void printJson(String des, JSONObject jsonObject) {
+    String des1 = Optional.ofNullable(des).orElse("Des");
+    JSONObject jsonObject1 = Optional.ofNullable(jsonObject).orElse(new JSONObject());
 
-    // 方式1: if else 直接粗暴
-    /* if (StringUtils.isEmpty(infoTips)) {
-      infoTips = "there is no prompt messages";
-    }*/
+    String doubleLine = "===============================";
+    String line = System.lineSeparator();
+    String brace = "{}";
+    String des2 = line + des1 + line + doubleLine + line + brace + line + doubleLine;
 
-    // option 这种简单的方式, 并不能突显option的优雅; 相对于if else
-    /* Optional<String> o =
-    Optional.ofNullable(infoTips)
-        .map(
-            (str) -> {
-              if (StringUtils.isEmpty(str)) {
-                str = "no";
-              }
-              return Optional.ofNullable(str);
-            })
-        .orElse(Optional.of("no"))*/ ;
+    log.info(des2, JSONObject.toJSONString(jsonObject1, JSONWriter.Feature.PrettyFormat));
+  }*/
 
-    // option 这种简单的方式, 并不能突显option的优雅; 相对于if else
-    /* String o1 =
-    Optional.ofNullable(infoTips)
-        .map(
-            (str) -> {
-              if (StringUtils.isEmpty(str)) {
-                str = "no";
-              }
-              // return Optional.ofNullable(str);
-              return str;
-            })
-        .orElse("no")*/ ;
 
-    // option 这种简单的方式, 并不能突显option的优雅; 相对于if else
-    infoTips =
-        Optional.ofNullable(infoTips)
-            .map(str -> str.length() == 0 ? value_blank : str) // 为空时, 该如何处理
-            .orElse(value_null); // 为null时, 该如何处理
+  /**
+   * 打印字符串
+   * <li>如果是json格式, 则打印成json格式</li>
+   * <li>如果是非json格式, 则正常打印</li>
+   *
+   * @param des
+   * @param logContent
+   */
+  /*public static void printString(String des, String logContent) {
+    String des1 = Optional.ofNullable(des).orElse("Des");
+    String jsonObject1 = Optional.ofNullable(logContent).orElse(String.valueOf(new JSONObject()));
 
-    /* infoTips = o.get();
-    infoTips = o1*/ ;
-    // infoTips = o2;
+    // 说明是json形式的字符串; 否则就是普通字符串
+    if (strIsorNotJSON2(des, jsonObject1)) {
+      JSONObject jsonObject = JSONObject.parseObject(jsonObject1);
+      printJson(des1, jsonObject);
+    } else {
 
-    log.info(
-        "\n\n"
-            + "================================== start =====================================\n"
-            + "- [Type    ]:"
-            + obj.getClass().getName()
-            + "\n"
-            + "- [messsage]:"
-            + infoTips
-            + "\n"
-            + "- [content ]:\n"
-            + "{}\n"
-            + "===================================  end  ====================================\n\n",
-        JSON.toJSONString(obj, true));
+      String doubleLine = "===============================";
+      String line = System.lineSeparator();
+      String brace = "{}";
+      String des2 = line + des1 + line + doubleLine + line + brace + line + doubleLine;
+
+      log.info(des2, jsonObject1);
+    }
+  }*/
+
+
+  /**
+   * 打印非json字符串
+   *
+   * @param des
+   * @param logContent
+   */
+  public static void printNJStr(String des, String logContent) {
+    String des1 = Optional.ofNullable(des).orElse("Des");
+    String jsonObject1 = Optional.ofNullable(logContent).orElse(String.valueOf(new JSONObject()));
+
+    String doubleLine = "===============================";
+    String line = System.lineSeparator();
+    String brace = "{}";
+    String des2 = line + des1 + line + doubleLine + line + brace + line + doubleLine;
+
+    log.info(des2, jsonObject1);
   }
+
+
+  public static boolean strIsorNotJSON2(String des, String str) {
+    boolean result = false;
+    try {
+      Object obj = JSON.parse(str);
+      result = true;
+    } catch (Exception e) {
+      log.error("日志:[{}]入参中, {}不是合法的json; err_message:{}; details:{}", des, str, e.getMessage(), e);
+      result = false;
+    }
+    return result;
+  }
+
+	/*
+	public static void main(String[] args) {
+			*/
+/*
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("a", "b");
+
+		printString(null,null);
+		printString("hi","ssss");
+		printString("hi",  jsonObject.toJSONString());
+		*/    /*
+
+
+   */
+/*
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("k1","v1");
+		jsonObject.addProperty("k2","v2");
+
+		printGson(null,jsonObject);
+
+		printJsonStr(null,jsonObject.toString());
+		*/	/*
+
+	}
+	*/
+
+  /**
+   *
+   * <li>打印结构化日志</li>
+   * <li>opt_type: 操作类型</li>
+   * <li>opt_result: 操作结果</li>
+   *
+   * <ul>details_content: 操作获取的某个结果, 具体内容
+   * <li>异常-不符合预期: null</li>
+   * <li>异常-不符合预期: 空</li>
+   * <li>正常-符合预期: 无需传入值.</li>
+   * </ul>
+   *
+   *
+   * @param opt_type
+   * @param opt_result
+   * @param details_content
+   */
+  public static void optionalLog(String opt_type, String opt_result, String details_content) {
+
+
+    String details;
+
+    if (ObjectUtil.isEmpty(details_content)) {
+      JsonObject jsonObject = GsonUtils.buildGJS();
+      jsonObject.addProperty("result", "null,blank,or optional");
+      details = jsonObject.toString();
+    } else {
+      details = details_content;
+    }
+
+    // ===================
+    // optional log
+    // ===================
+    JsonObject js = GsonUtils.buildGJS();
+    js.addProperty("opt_type", opt_type);
+    js.addProperty("opt_result", opt_result);
+    js.addProperty("details", details);
+    LogUtils.printGson(opt_type, js);
+  }
+
+
 }

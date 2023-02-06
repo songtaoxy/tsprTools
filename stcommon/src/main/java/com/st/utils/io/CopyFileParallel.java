@@ -46,7 +46,7 @@ public class CopyFileParallel {
 			public void onComplete(File file) {
 				System.out.println("Copy complete!");
 				System.out.println(file);
-				LogUtils.foal((System.currentTimeMillis() - startTime)+" milis","cost");
+				//LogUtils.foal((System.currentTimeMillis() - startTime)+" milis","cost");
 			}
 
 			public void onProgress(int progress) {
