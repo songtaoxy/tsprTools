@@ -37,10 +37,10 @@ class StreamUtilTest {
         map.entrySet().stream()
             .filter(entry -> entry.getKey().startsWith("k"))
             .collect(Collectors.toMap(Map.Entry::getKey, p -> p.getValue() + "---"));
-
+/*
     LogUtils.foal(map1, "map1");
     LogUtils.foal(map2, "map2");
-    LogUtils.foal(map3, "map3");
+    LogUtils.foal(map3, "map3");*/
   }
 
   @Test
@@ -55,7 +55,7 @@ class StreamUtilTest {
 
     Map<String, Object> map = (Map<String, Object>) jsonObject;
 
-    LogUtils.foal(map, "map");
+    //LogUtils.foal(map, "map");
 
     Map<String, Object> map1 =
         map.entrySet().stream()
@@ -68,8 +68,8 @@ class StreamUtilTest {
             .collect(
                 Collectors.toMap(p -> p.getKey().substring("java".length()), Map.Entry::getValue));
 
-    LogUtils.foal(map1, "map1");
-    LogUtils.foal(map2, "map2");
+   /* LogUtils.foal(map1, "map1");
+    LogUtils.foal(map2, "map2");*/
 
     /* Map map4 = properties;
     HashMap<String, String> map5 = (HashMap<String, String>) map4;
@@ -85,14 +85,14 @@ class StreamUtilTest {
         map3.entrySet().stream()
             .filter(e -> e.getKey().startsWith("java"))
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    LogUtils.foal(map4, "map4");
+    //LogUtils.foal(map4, "map4");
 
     Map<String, Object> map5 =
         map3.entrySet().stream()
             .filter(e -> e.getKey().startsWith("java"))
             .collect(
                 Collectors.toMap(p -> p.getKey().substring("java.".length()), Map.Entry::getValue));
-    LogUtils.foal(map5, "map5");
+    //LogUtils.foal(map5, "map5")/**/;
   }
 
   public static Map<String, Object> parseMapForFilterByOptional(Map<String, Object> map) {
@@ -132,7 +132,7 @@ class StreamUtilTest {
     String domainSchemaPreKey = "java.";
     String tenantId = "hi";
 
-    LogUtils.foal(props, "tenantId:" + tenantId + ", domain <===> schema");
+    //LogUtils.foal(props, "tenantId:" + tenantId + ", domain <===> schema");
 
     tenantMap =
         props.entrySet().stream()
@@ -141,7 +141,7 @@ class StreamUtilTest {
                 Collectors.toMap(
                     p -> p.getKey().substring(domainSchemaPreKey.length()), Map.Entry::getValue));
     // ParamsUtils.formatObjAndLogging(tenantMap, "tenantId:" + tenantId + ", domain <===> schema");
-    LogUtils.foal(tenantMap, "tenantId:" + tenantId + ", domain <===> schema");
+    //LogUtils.foal(tenantMap, "tenantId:" + tenantId + ", domain <===> schema");
   }
 
   @Test
@@ -164,7 +164,7 @@ class StreamUtilTest {
 
     //m_map2(m2);
 
-    LogUtils.foal(m1, "hi");
+    //LogUtils.foal(m1, "hi");
   }
 
 
@@ -177,7 +177,7 @@ class StreamUtilTest {
     m3.put("v1", "v2");
     m_map2(m3);
     m_map4(m3);
-    LogUtils.foal(m3, "hi");
+    //LogUtils.foal(m3, "hi");
   }
 
   void m_map2(Map<String, String> m2){

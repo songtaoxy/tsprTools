@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @description:
  */
 @Slf4j
-@RestController
+//@RestController
 public class Demo01 {
 
 	@Autowired

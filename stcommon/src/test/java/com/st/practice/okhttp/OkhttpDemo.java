@@ -37,8 +37,8 @@ public class OkhttpDemo {
             .build();
     Response response = client.newCall(request).execute();
 
-    LogUtils.foal(
-        JsonUtils.jsonStr2fastjsonObj(response.body().string()), "respoons");
+   /* LogUtils.foal(
+        JsonUtils.jsonStr2fastjsonObj(response.body().string()), "respoons")*/;
   }
 
 

@@ -13,7 +13,6 @@
 
 
     <artifactId>springbootweb</artifactId>
-    <version>tv20210521</version>
     <name>springbootweb</name>
     <description>web-springBoot</description>
 
@@ -30,6 +29,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+
             <exclusions>
                 <exclusion>
                     <!--                    在父模块中, 使用log4j2-->
@@ -40,13 +40,6 @@
         </dependency>
 
 
-        <!--        热部署-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
 
 
 
@@ -108,6 +101,9 @@
             <artifactId>stcommon</artifactId>
             <version>TV20210629</version>
         </dependency>
+
+
+
     </dependencies>
 
 

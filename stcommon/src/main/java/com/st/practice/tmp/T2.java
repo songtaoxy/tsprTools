@@ -18,5 +18,14 @@ public class T2 {
 		boolean equals = ObjectUtil.equals(x, y);
 
 		System.out.println(equals);
+
+
+		int[] ints = new int[1];
+		ints[0]=0;
+		//ints[1]=1;
+		//ints[2]=2;
+		for (int i : ints) {
+			System.out.println(i);
+		}
 	}
 }

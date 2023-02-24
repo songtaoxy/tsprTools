@@ -41,7 +41,7 @@ public class GuavaCache {
 		loadingCache.invalidate("猫"); // 手动失效
 
 		Animal animal = loadingCache.get("狼");
-		LogUtils.foal(animal.toString(),"wolf in cache");
+		//LogUtils.foal(animal.toString(),"wolf in cache");
 		Thread.sleep(4 * 1000);
 		// 狼已经自动过去，获取为 null 值报错
 		System.out.println(loadingCache.get("狼"));

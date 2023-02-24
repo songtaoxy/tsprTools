@@ -24,7 +24,7 @@ class HandleSpecialCharactersTest {
 
     ImmutableMap<String, String> status = ImmutableMap.of("status", "200","k2","v2");
 
-    LogUtils.foal(status, "");
+    //LogUtils.foal(status, "");
 
     Map map = new HashMap<>();
     map.put("a", "v");

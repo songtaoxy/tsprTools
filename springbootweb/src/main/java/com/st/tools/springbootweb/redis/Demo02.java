@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @description:
  */
 @Slf4j
-@RestController
+//@RestController
 public class Demo02 {
 
 	@Autowired

@@ -26,7 +26,7 @@ class MapUtilTest {
 
     MapUtil.mergeMaps(map1, map2);
 
-    LogUtils.foal(MapUtil.mergeMaps(map1, map2), "");
+    //LogUtils.foal(MapUtil.mergeMaps(map1, map2), "");
   }
 
   @Test

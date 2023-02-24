@@ -22,6 +22,6 @@ public class testException {
       e.printStackTrace();
     }
 
-    LogUtils.foal("obj", "messagee");
+    //LogUtils.foal("obj", "messagee");
   }
 }

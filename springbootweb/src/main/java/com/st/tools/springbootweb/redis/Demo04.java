@@ -15,7 +15,7 @@ import java.util.UUID;
  * @description:
  */
 @Slf4j
-@RestController
+//@RestController
 public class Demo04 {
 
 	@Autowired

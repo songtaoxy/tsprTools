@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @description:
  */
 @Slf4j
-@RestController
+//@RestController
 public class Demo06 {
 
 	@Autowired

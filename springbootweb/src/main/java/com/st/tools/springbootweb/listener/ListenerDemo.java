@@ -6,6 +6,7 @@ import org.springframework.boot.availability.AvailabilityState;
 import org.springframework.boot.availability.ReadinessState;
 import org.springframework.context.ApplicationListener;
 
+
 /**
  * @author: st
  * @date: 2021/11/12 16:37
