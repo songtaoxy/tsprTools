@@ -1,5 +1,6 @@
 package com.st.utils.string;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.st.utils.log.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +37,7 @@ public class S {
 
   public static void main(String[] args) {
 
+    System.out.println("hi");
     //LogUtils.foal(FS,"");
   }
 }
