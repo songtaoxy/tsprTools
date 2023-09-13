@@ -25,5 +25,6 @@ echo "file_path_full: $file_path_full"
 
 # 文件所在的目录,该目录上两级, 即项目的目录
 # project_dir=$(dirname $(dirname $(pwd)))
+# shellcheck disable=SC2046
 project_dir=$(dirname $(dirname "$file_dir_full"))
 echo "project_dir: $project_dir"
