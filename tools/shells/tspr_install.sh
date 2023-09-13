@@ -12,6 +12,8 @@
 #project_dir: /Users/songtao/personaldriveMac/Projects/tsprTools
 # --------------------------------------------
 
+echo "=============================================="
+
 # 文件本身dir
 file_dir_abbr=$(dirname "$0")
 file_dir_full=$(readlink -f "$file_dir_abbr")
@@ -27,6 +29,12 @@ echo "file_path_full: $file_path_full"
 # shellcheck disable=SC2046
 project_dir=$(dirname $(dirname "$file_dir_full"))
 echo "project_dir: $project_dir"
+echo ""
+echo "----------- maven clean && install -----------"
+echo "=============================================="
+echo ""
+echo ""
+echo ""
 
 
 # ============================================
