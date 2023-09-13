@@ -49,8 +49,6 @@
         </dependency>
 
 
-
-
         <!--    ===================== 访问数据库 start  =====================-->
         <!-- 数据访问使用的数据源. 该配置一定要配置在Mybatis, MybatisPlus, JDBC之前, 否则会使用默认的数据源:hikari -->
         <dependency>
@@ -115,7 +113,6 @@
             <artifactId>stcommon</artifactId>
             <version>TV20210629</version>
         </dependency>
-
 
 
     </dependencies>
