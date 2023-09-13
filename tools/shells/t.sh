@@ -1,8 +1,18 @@
-#tm/bin/bash
+#!/bin/bash
 
 # ============================================
 # 文件本身路径或目录
 # ============================================
+
+# result
+# --------------------------------------------
+#$ ./t.sh
+#file_dir_abbr: .
+#file_dir_full: /Users/songtao/personaldriveMac/Projects/tsprTools/tools/shells
+#file_path_full: /Users/songtao/personaldriveMac/Projects/tsprTools/tools/shells/t.sh
+#project_dir: /Users/songtao/personaldriveMac/Projects/tsprTools
+# --------------------------------------------
+
 # 文件本身dir
 file_dir_abbr=$(dirname "$0")
 file_dir_full=$(readlink -f "$file_dir_abbr")
