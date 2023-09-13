@@ -24,14 +24,15 @@ echo "file_path_full: $file_path_full"
 
 # 文件所在的目录,该目录上两级, 即项目的目录
 # project_dir=$(dirname $(dirname $(pwd)))
-project_dir=$(dirname $(dirname $file_dir_full))
+# shellcheck disable=SC2046
+project_dir=$(dirname $(dirname "$file_dir_full"))
 echo "project_dir: $project_dir"
 
 
 # ============================================
 # 进入当前项目
 # ============================================
-cd $project_dir
+cd "$project_dir"
 
 
 # ============================================
