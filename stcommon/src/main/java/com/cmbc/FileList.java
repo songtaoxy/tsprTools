@@ -43,6 +43,8 @@ public class FileList {
 		List<FilesInput> filesInputs = FileInputTools.parseFileStrs(fileStrs);
 		for (FilesInput filesInput: filesInputs) {
 			System.out.println(filesInput.toString());
+
+			FileInputTools.o2j(filesInput);
 		}
 	}
 

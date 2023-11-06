@@ -16,6 +16,7 @@ import java.util.List;
 public class FileInputTools {
 	/**
 	 * 数据转换: byte[] -> String -> byte[]
+	 *
 	 * @param contentsStr
 	 * @return
 	 */
@@ -29,6 +30,7 @@ public class FileInputTools {
 
 	/**
 	 * 根据入参, 构建文件列表
+	 *
 	 * @param fileStrs
 	 * @return
 	 */
@@ -53,9 +55,34 @@ public class FileInputTools {
 	}
 
 
-	public static String buildJSonStr4(String inputs){
+	/**
+	 * <li>调用报账系统进行报账时,需传递的文件信息</li>
+	 * <ul>
+	 *     <li>文件名</li>
+	 *     <li>文件类型</li>
+	 *     <li>文件imageID</li>
+	 *     <li>文件验签状态</li>
+	 * </ul>
+	 *
+	 * @param inputs
+	 * @return
+	 */
+	public static String buildJSonStr4Reimburse(String inputs) {
 		System.out.println("call ");
 
+		JSONObject js = new JSONObject();
+		for (int i = 0; i < 1; i++) {
+			JSONObject jst = new JSONObject();
+			jst.put("name", "name");
+
+		}
+
 		return null;
+	}
+
+	public static JSONObject o2j(FilesInput filesInput) {
+		filesInput.setImageId("xxxxxxxxxxxxxxxxxxxxxx");
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(filesInput));
+		return jsonObject;
 	}
 }
