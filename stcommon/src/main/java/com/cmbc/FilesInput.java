@@ -9,11 +9,43 @@ import java.util.Arrays;
  * @version: 1.0
  * @description:
  */
+
+/**
+ * <li>接收oa传入文件列表</li>
+ * <li>该文件在业务过程中的状态信息</li>
+ */
 public class FilesInput {
+	/**
+	 * 文件名称
+	 */
 	private String name;
+	/**
+	 * 文件类型: pdf, ofd, zip, xml
+	 */
 	private String type;
+	/**
+	 * 文件内容: oa传入 byte[]->string
+	 */
 	private String contentsStr;
+	/**
+	 * 文件内容: oa传入 byte[]->string->byte[]
+	 */
 	private byte[] contentsBytes;
+	/**
+	 * 上传影像平台
+	 */
+	private String imageId;
+	/**
+	 * 验签状态
+	 */
+	private String validateSingnStatus;
+	/**
+	 * 发票类型
+	 */
+	private String billType;
+	private String ps;
+
+
 
 	public FilesInput() {
 	}
@@ -50,6 +82,47 @@ public class FilesInput {
 	}
 
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
+	}
+
+	public String getValidateSingnStatus() {
+		return validateSingnStatus;
+	}
+
+	public void setValidateSingnStatus(String validateSingnStatus) {
+		this.validateSingnStatus = validateSingnStatus;
+	}
+
+	public String getBillType() {
+		return billType;
+	}
+
+	public void setBillType(String billType) {
+		this.billType = billType;
+	}
+
+	public String getPs() {
+		return ps;
+	}
+
+	public void setPs(String ps) {
+		this.ps = ps;
+	}
+
+
 	@Override
 	public String toString() {
 		return "FilesInput{" +
@@ -57,6 +130,10 @@ public class FilesInput {
 				", type='" + type + '\'' +
 				", contentsStr='" + contentsStr + '\'' +
 				", contentsBytes=" + Arrays.toString(contentsBytes) +
+				", imageId='" + imageId + '\'' +
+				", validateSingnStatus='" + validateSingnStatus + '\'' +
+				", billType='" + billType + '\'' +
+				", ps='" + ps + '\'' +
 				'}';
 	}
 }
