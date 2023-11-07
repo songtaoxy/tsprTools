@@ -1,10 +1,8 @@
 package com.cmbc;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.mask.FloodFillAlgorithm;
+import com.cmbc.enums.FileTypeEnum;
+import com.cmbc.tools.GsonUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,12 +38,21 @@ public class FileList {
 				"  ]\n" +
 				"}";
 
-		List<FilesInput> filesInputs = FileInputTools.parseFileStrs(fileStrs);
-		for (FilesInput filesInput: filesInputs) {
-			System.out.println(filesInput.toString());
 
-			FileInputTools.o2j(filesInput);
+		List<FilesInput> filesInputs = FileInputTools.parseFileStrs(fileStrs);
+		System.out.println(filesInputs.toString());
+		for (FilesInput filesInput: filesInputs) {
+			//System.out.println(filesInput.toString());
+
+			//FileInputTools.o2j(filesInput);
+			System.out.println(	GsonUtils.o2j(filesInput));
+
+
 		}
+
+		System.out.println(FileTypeEnum.PDF.getCode());
+
+
 	}
 
 

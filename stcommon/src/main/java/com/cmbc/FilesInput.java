@@ -43,6 +43,13 @@ public class FilesInput {
 	 * 发票类型
 	 */
 	private String billType;
+	/**
+	 * <li>文件md5</li>
+	 * <li>pdf, ofd 必须</li>
+	 * <li>xml, zip 非必须</li>
+	 */
+	private String md5;
+
 	private String ps;
 
 
@@ -55,15 +62,17 @@ public class FilesInput {
 		this.contentsStr = contentsStr;
 	}
 
-	public String getContentsStr() {
-		return contentsStr;
-	}
-
-	public void setContentsStr(String contentsStr) {
+	public FilesInput(String name, String type, String contentsStr, byte[] contentsBytes, String imageId, String validateSingnStatus, String billType, String md5, String ps) {
+		this.name = name;
+		this.type = type;
 		this.contentsStr = contentsStr;
+		this.contentsBytes = contentsBytes;
+		this.imageId = imageId;
+		this.validateSingnStatus = validateSingnStatus;
+		this.billType = billType;
+		this.md5 = md5;
+		this.ps = ps;
 	}
-
-
 
 	public String getName() {
 		return name;
@@ -73,21 +82,28 @@ public class FilesInput {
 		this.name = name;
 	}
 
-	public byte[] getContentsBytes() {
-		return contentsBytes;
-	}
-
-	public void setContentsBytes(byte[] contentsBytes) {
-		this.contentsBytes = contentsBytes;
-	}
-
-
 	public String getType() {
 		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getContentsStr() {
+		return contentsStr;
+	}
+
+	public void setContentsStr(String contentsStr) {
+		this.contentsStr = contentsStr;
+	}
+
+	public byte[] getContentsBytes() {
+		return contentsBytes;
+	}
+
+	public void setContentsBytes(byte[] contentsBytes) {
+		this.contentsBytes = contentsBytes;
 	}
 
 	public String getImageId() {
@@ -114,6 +130,14 @@ public class FilesInput {
 		this.billType = billType;
 	}
 
+	public String getMd5() {
+		return md5;
+	}
+
+	public void setMd5(String md5) {
+		this.md5 = md5;
+	}
+
 	public String getPs() {
 		return ps;
 	}
@@ -128,11 +152,10 @@ public class FilesInput {
 		return "FilesInput{" +
 				"name='" + name + '\'' +
 				", type='" + type + '\'' +
-				", contentsStr='" + contentsStr + '\'' +
-				", contentsBytes=" + Arrays.toString(contentsBytes) +
 				", imageId='" + imageId + '\'' +
 				", validateSingnStatus='" + validateSingnStatus + '\'' +
 				", billType='" + billType + '\'' +
+				", md5='" + md5 + '\'' +
 				", ps='" + ps + '\'' +
 				'}';
 	}

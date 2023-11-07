@@ -1,7 +1,10 @@
 package com.cmbc;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+
+import com.cmbc.enums.FileTypeEnum;
+import com.cmbc.tools.GsonUtils;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -28,13 +31,13 @@ public class FileInputTools {
 		return bytes;
 	}
 
-	/**
+/*	*//**
 	 * 根据入参, 构建文件列表
 	 *
 	 * @param fileStrs
 	 * @return
-	 */
-	public static List<FilesInput> parseFileStrs(String fileStrs) {
+	 *//*
+	public static List<FilesInput> parseFileStrs2(String fileStrs) {
 
 		List<FilesInput> filesInputList = new ArrayList<FilesInput>();
 
@@ -52,6 +55,40 @@ public class FileInputTools {
 
 		}
 		return filesInputList;
+	}*/
+
+
+	/**
+	 * 根据入参, 构建文件列表
+	 *
+	 * @param fileStrs
+	 * @return
+	 */
+	public static List<FilesInput> parseFileStrs(String fileStrs) {
+
+		JsonObject js = GsonUtils.o2j(fileStrs);
+		JsonArray fileList = js.getAsJsonArray("fileList");
+		List<FilesInput> filesInputs = GsonUtils.jsaStr2List(fileList.toString(), FilesInput.class);
+		for (FilesInput filesInput : filesInputs) {
+			filesInput.setContentsBytes(FileInputTools.b2s(filesInput.getContentsStr()));
+		}
+		return filesInputs;
+	}
+
+
+	public static FilesInput queryTargetObj(List<FilesInput> filesInputList) {
+
+		FilesInput filesInput = null;
+		String pdf = FileTypeEnum.PDF.getName();
+		String ofd = FileTypeEnum.OFD.getName();
+
+		for (FilesInput f : filesInputList) {
+			String type = f.getType();
+			if (pdf.equalsIgnoreCase(type) || ofd.equalsIgnoreCase(type)) {
+				filesInput = f;
+			}
+		}
+		return filesInput;
 	}
 
 
@@ -70,19 +107,10 @@ public class FileInputTools {
 	public static String buildJSonStr4Reimburse(String inputs) {
 		System.out.println("call ");
 
-		JSONObject js = new JSONObject();
 		for (int i = 0; i < 1; i++) {
-			JSONObject jst = new JSONObject();
-			jst.put("name", "name");
 
 		}
-
 		return null;
 	}
 
-	public static JSONObject o2j(FilesInput filesInput) {
-		filesInput.setImageId("xxxxxxxxxxxxxxxxxxxxxx");
-		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(filesInput));
-		return jsonObject;
-	}
 }
