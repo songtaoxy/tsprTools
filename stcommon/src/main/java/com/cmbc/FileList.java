@@ -46,9 +46,12 @@ public class FileList {
 
 			//FileInputTools.o2j(filesInput);
 			System.out.println(	GsonUtils.o2j(filesInput));
-
-
 		}
+
+		FilesInput filesInput = FileInputTools.queryTargetObj(filesInputs);
+		System.out.println(filesInput.toString());
+		FilesInput filesInput1 = GsonUtils.o2o(filesInput, FilesInput.class);
+		System.out.println(filesInput1);
 
 		System.out.println(FileTypeEnum.PDF.getCode());
 

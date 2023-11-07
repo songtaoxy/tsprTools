@@ -7,7 +7,6 @@ import com.cmbc.log.LogUtils;
 import com.google.common.base.Preconditions;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.ParameterizedType;
@@ -787,7 +786,6 @@ public class GsonUtils {
 
 	}
 */
-
 }
 
 //@Data
