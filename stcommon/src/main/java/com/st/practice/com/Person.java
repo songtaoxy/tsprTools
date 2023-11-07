@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 /**
  * @author: st
  * @date: 2021/11/24 23:44
@@ -17,6 +19,7 @@ public class Person {
 
   private String name;
   private int age;
+  private Map map;
 
   public String m1() {
     System.out.println("Person:m1");

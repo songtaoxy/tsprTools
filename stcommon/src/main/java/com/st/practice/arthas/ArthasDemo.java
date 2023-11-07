@@ -2,6 +2,8 @@ package com.st.practice.arthas;
 
 import com.st.practice.com.Person;
 
+import java.util.HashMap;
+
 /**
  * @author: st
  * @date: 2021/11/24 23:43
@@ -10,7 +12,7 @@ import com.st.practice.com.Person;
  */
 public class ArthasDemo extends Person {
 
-  static Person tom = new Person("Tom", 20);
+  static Person tom = new Person("Tom", 20, new HashMap());
 
   public static void main(String[] args) {
 
