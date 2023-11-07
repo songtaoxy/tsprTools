@@ -1,5 +1,6 @@
 package com.st.practice.com;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Person {
   private String name;
   private int age;
   private Map map;
+  private JSONObject jsonObject;
 
   public String m1() {
     System.out.println("Person:m1");

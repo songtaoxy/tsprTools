@@ -1,5 +1,6 @@
 package com.st.practice.arthas;
 
+import com.alibaba.fastjson.JSONObject;
 import com.st.practice.com.Person;
 
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.HashMap;
  */
 public class ArthasDemo extends Person {
 
-  static Person tom = new Person("Tom", 20, new HashMap());
+  static Person tom = new Person("Tom", 20, new HashMap(), new JSONObject());
 
   public static void main(String[] args) {
 

@@ -19,7 +19,7 @@ public class FastJsonUtil {
         HashMap<Object, Object> hashMap = new HashMap<>();
         hashMap.put("e", "f");
         hashMap.put("f", "f");
-        Person person = new Person("hi", 18, hashMap);
+        Person person = new Person(hashMap.toString(), 18, hashMap, o2j(hashMap));
         ArrayList<Object> objects = new ArrayList<>();
         objects.add(person);
         objects.add(o2o(person,Person.class));
