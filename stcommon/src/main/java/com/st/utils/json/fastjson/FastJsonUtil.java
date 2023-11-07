@@ -30,6 +30,7 @@ public class FastJsonUtil {
         JSONArray objects1 = jStr2jsa(s);
         System.out.println(8);
         System.out.println(format(objects1));
+        System.out.println(format(objects1.toJSONString()));
 
 
         JSONObject jsonObject = o2j(person);
@@ -65,6 +66,10 @@ public class FastJsonUtil {
         System.out.println(6);
         System.out.println(format(objectObjectHashMap));
 
+
+        System.out.println(format("hi"));
+
+        System.out.println(format(jsonObject.toJSONString()));
 
     }
 
@@ -128,6 +133,28 @@ public class FastJsonUtil {
         return JSONArray.toJSONString(object);
     }
 
+
+    public static boolean strIsJSONObject(String str){
+        boolean b = true;
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(str);
+        } catch (Exception e) {
+            b = false;
+        }
+        return b;
+    }
+
+    public static boolean strIsJSONArray(String str){
+        boolean b = true;
+        try {
+            JSONArray jsonArray = JSONArray.parseArray(str);
+        } catch (Exception e) {
+            b = false;
+        }
+        return b;
+    }
+
+
     public static String format(Object object) {
         FastJsonUtil.object = object;
 
@@ -137,7 +164,17 @@ public class FastJsonUtil {
 
             jsonString = JSONObject.toJSONString(object, true);
         } else if (object instanceof String) {
-            jsonString = JSONObject.toJSONString(JSONObject.parseObject((String) object), true);
+
+            if (strIsJSONObject((String)object)) {
+                System.out.println("----string: jsonobject-----");
+                jsonString = JSONObject.toJSONString(JSONObject.parseObject((String) object), true);
+            } else if (strIsJSONArray((String) object)) {
+                System.out.println("----string: jsonarray-----");
+                jsonString = JSONArray.toJSONString(JSONArray.parseArray((String) object), true);
+
+            } else {
+                System.out.println(object + "既不是json, 也不是jsonarray");
+            }
 
         } else if (object instanceof JSONArray) {
 
