@@ -5,8 +5,10 @@ public enum FileTypeEnum {
 
 	PDF("1000","PDF","pdf",""),
 	OFD("2000","OFD","OFD",""),
-	XML("3000","XML","xml",""),
-	ZIP("4000","ZIP","zip","");
+	PDF_OFD("3000","PDF_OFD","","pdf or ofd"),
+	XML("4000","XML","xml",""),
+	ZIP("5000","ZIP","zip",""),
+	XML_ZIP("6000","XML_ZIP","","xml or zip");
 
 	private final String code;
 	private final String name;

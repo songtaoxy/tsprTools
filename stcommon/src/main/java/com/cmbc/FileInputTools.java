@@ -3,10 +3,14 @@ package com.cmbc;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
+import com.cmbc.enums.BillTypeEnum;
 import com.cmbc.enums.FileTypeEnum;
+import com.cmbc.tools.FastJsonUtils;
 import com.cmbc.tools.GsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.st.utils.json.fastjson.FastJsonUtil;
+import com.st.utils.log2.LogBody;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -63,7 +67,7 @@ public class FileInputTools {
 	/**
 	 * 根据入参, 构建文件列表
 	 *
-	 * @param fileStrs
+	 * //@param fileStrs
 	 * @return
 	 */
 /*	public static List<FilesInput> parseFileStrs(String fileStrs) {
@@ -93,26 +97,64 @@ public class FileInputTools {
 		return filesInput;
 	}
 
-
 	/**
-	 * <li>调用报账系统进行报账时,需传递的文件信息</li>
-	 * <ul>
-	 *     <li>文件名</li>
-	 *     <li>文件类型</li>
-	 *     <li>文件imageID</li>
-	 *     <li>文件验签状态</li>
-	 * </ul>
-	 *
-	 * @param inputs
+	 * <li>查找目标类型文件, 对应的vo</li>
+	 * <pre>
+	 *     {@link
+	 *     // FileInputTools#queryTargetObj(filesInputList, FileTypeEnum.PDF_OFD.getCode());
+	 *     }
+	 * </pre>
+	 * @param filesInputList
+	 * @param code
 	 * @return
 	 */
-	public static String buildJSonStr4Reimburse(String inputs) {
-		System.out.println("call ");
+	public static FilesInput queryTargetObj(List<FilesInput> filesInputList, String code) {
 
-		for (int i = 0; i < 1; i++) {
+		// optional log
+		String topic = "/智能验票/oa上传发票/税管查询文件类型及目标文件";
+		LogBody logBody = new LogBody();
+		logBody.setTopic(topic);
+		JSONObject js = FastJsonUtil.buildJS();
+		js.put("目标文件类型编码",code);
+
+		 // return
+		FilesInput filesInput = null;
+
+
+		String pdf = FileTypeEnum.PDF.getName();
+		String ofd = FileTypeEnum.OFD.getName();
+		String zip = FileTypeEnum.ZIP.getName();
+		String xml = FileTypeEnum.XML.getName();
+
+		String pdfOfdCode = FileTypeEnum.PDF_OFD.getCode();
+		String xmlZipCode = FileTypeEnum.XML_ZIP.getCode();
+
+		for (FilesInput f : filesInputList) {
+			String type = f.getType();
+
+			if (xmlZipCode.equalsIgnoreCase(code)) {
+				if (zip.equalsIgnoreCase(type) || xml.equalsIgnoreCase(type)) {
+					filesInput = f;
+					js.put("目标文件类型存在, 其类型是:",type);
+				}
+			} else if (pdfOfdCode.equalsIgnoreCase(code)) {
+				if (pdf.equalsIgnoreCase(type) || ofd.equalsIgnoreCase(type)) {
+					filesInput = f;
+					js.put("目标文件类型存在, 其类型是:",type);
+				}
+			} else {
+				filesInput = null;
+				js.put("目标文件类型不存在, 其类型是:","null");
+			}
 
 		}
-		return null;
+
+		// optional log
+		logBody.setInfos_js(js);
+		String format = FastJsonUtil.format(logBody);
+		System.out.println(format);
+
+		return filesInput;
 	}
 
 }
