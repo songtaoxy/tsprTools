@@ -49,14 +49,20 @@ public class FileUtils {
             //获取第一个Media元素
             Element mediaElement = rootElement.element("Media");
             System.out.println("第一个Media元素:"+mediaElement.asXML());
+
             String billCode = mediaElement.getText();
             String billNumber = mediaElement.getText();
+
             filesInput.setBillCode(billCode);
             filesInput.setBillNumber(billNumber);
+
         } else if (delecBillCode.equalsIgnoreCase(code)) { // 数电专/普
+
             Element mediaElement = rootElement.element("Media");
             System.out.println("第一个Media元素:"+mediaElement.asXML());
+
             String billNumber = mediaElement.getText();
+
             filesInput.setBillNumber(billNumber);
         }
 
