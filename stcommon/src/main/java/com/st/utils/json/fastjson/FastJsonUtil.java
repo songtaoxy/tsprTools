@@ -5,10 +5,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.st.practice.com.Person;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class FastJsonUtil {
 
@@ -73,6 +71,12 @@ public class FastJsonUtil {
 
     }
 
+    public static JSONObject buildJS() {
+        return new JSONObject();
+    }
+    public static JSONArray buildJSA() {
+        return new JSONArray();
+    }
 
     /**
      * <pre>
@@ -156,6 +160,7 @@ public class FastJsonUtil {
 
 
     public static String format(Object object) {
+
         FastJsonUtil.object = object;
 
         String jsonString = null;
@@ -174,6 +179,9 @@ public class FastJsonUtil {
 
             } else {
                 System.out.println(object + "既不是json, 也不是jsonarray");
+                JSONObject jsonObject = buildJS();
+                jsonObject.put("ps", (String) object);
+                jsonString = JSONObject.toJSONString(jsonObject, true);
             }
 
         } else if (object instanceof JSONArray) {
