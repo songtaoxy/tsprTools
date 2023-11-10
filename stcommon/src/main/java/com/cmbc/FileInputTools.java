@@ -144,7 +144,7 @@ public class FileInputTools {
 				}
 			} else {
 				filesInput = null;
-				js.put("目标文件类型不存在, 其类型是:","null");
+				js.put("目标文件类型不存在, 其类型是:",FileTypeEnum.getEnumByCode(code).getName());
 			}
 
 		}

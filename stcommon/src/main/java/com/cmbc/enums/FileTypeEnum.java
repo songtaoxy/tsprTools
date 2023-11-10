@@ -1,5 +1,7 @@
 package com.cmbc.enums;
 
+import java.util.Objects;
+
 public enum FileTypeEnum {
 
 
@@ -36,5 +38,23 @@ public enum FileTypeEnum {
 
 	public String getDes() {
 		return des;
+	}
+
+
+	public static FileTypeEnum getEnumByCode(String code){
+
+		if (code == null) {
+			return null;
+		}
+
+		FileTypeEnum[] enumConstants = FileTypeEnum.class.getEnumConstants();
+
+		for (FileTypeEnum enumItem : enumConstants) {
+			if (Objects.equals(code, enumItem.getCode())) {
+				return enumItem;
+			}
+		}
+		return null;
+
 	}
 }
