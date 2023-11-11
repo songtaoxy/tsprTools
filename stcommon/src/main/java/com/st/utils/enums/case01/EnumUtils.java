@@ -1,8 +1,6 @@
-package com.st.utils.enums;
+package com.st.utils.enums.case01;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -11,7 +9,7 @@ import java.util.stream.Collectors;
  * @version: 1.0
  * @description:
  */
-public class EnumUtil {
+public class EnumUtils {
 	/**
 	 * 获取所有枚举项
 	 *

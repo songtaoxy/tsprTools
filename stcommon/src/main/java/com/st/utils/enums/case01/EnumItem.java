@@ -1,4 +1,4 @@
-package com.st.utils.enums;
+package com.st.utils.enums.case01;
 
 import java.io.Serializable;
 
