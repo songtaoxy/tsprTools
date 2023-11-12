@@ -1,7 +1,7 @@
 package com.st.core;
 
 /**
- * <li>来自: jdk1.7, 新增Objects类; 单不向下兼容</li>
+ * <li>来自: jdk1.7, 新增Objects类; 但不向下兼容, 即jdk5, jdk6中没有该方法</li>
  * <li> 当前类,兼容jdk6,jdk5, .... </li>
  */
 public class Objects {
