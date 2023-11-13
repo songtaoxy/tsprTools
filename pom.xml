@@ -62,7 +62,8 @@
         <streamex.version>0.7.3</streamex.version>
         <asm.version>3.1</asm.version>
         <cglib.version>2.2</cglib.version>
-        <guava.version>31.1-jre</guava.version>
+        <guava.version>20.0</guava.version>
+<!--        <guava.version>31.1-jre</guava.version>-->
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <mysql.version>8.0.30</mysql.version>
     </properties>
@@ -112,6 +113,7 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+
 
 
 
@@ -337,6 +339,15 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+
+
     </dependencies>
 
 
