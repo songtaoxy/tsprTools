@@ -1,11 +1,9 @@
 package com.st.utils.log2;
 
 import com.alibaba.fastjson.JSONObject;
-import com.st.utils.json.fastjson.FastJsonUtil;
-import jdk.nashorn.internal.objects.annotations.Constructor;
+import com.st.modules.jdk6.alibaba.fastjson.v1_2_76.FastJsonUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;

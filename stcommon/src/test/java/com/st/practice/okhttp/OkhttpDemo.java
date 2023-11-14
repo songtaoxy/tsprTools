@@ -1,7 +1,5 @@
 package com.st.practice.okhttp;
 
-import com.st.utils.json.JsonUtils;
-import com.st.utils.log.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 
