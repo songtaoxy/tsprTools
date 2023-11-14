@@ -1,7 +1,6 @@
 package com.st.tools.springbootweb.pojo.vo;
 
 import com.st.utils.json.gson.GsonUtils;
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;

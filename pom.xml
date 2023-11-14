@@ -26,6 +26,9 @@
         <module>springbootweb</module>
         <module>utest</module>
         <module>springBootCase</module>
+        <module>stbptools005</module>
+        <module>stbptools006</module>
+        <module>stbptools008</module>
     </modules>
 
 

@@ -17,7 +17,7 @@ public class  LogbackDemo {
     log.warn("hi");
     log.error("hi");
 
-    log.info(System.getProperty("jdk.module.path"));
+    log.info(System.getProperty("jdk.modules.path"));
 
    /* while (true) {
       log.info("...");

@@ -140,7 +140,7 @@ public class LogEnumObj {
 				"title='" + title + '\'' +
 				", code='" + code + '\'' +
 				", project='" + project + '\'' +
-				", module='" + module + '\'' +
+				", modules='" + module + '\'' +
 				", action='" + action + '\'' +
 				", validation='" + validation + '\'' +
 				", invalidation='" + invalidation + '\'' +
