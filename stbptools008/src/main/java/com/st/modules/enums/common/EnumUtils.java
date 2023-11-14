@@ -1,4 +1,6 @@
-package com.st.modules.enums.case01;
+package com.st.modules.enums.common;
+
+import com.google.common.base.Preconditions;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,6 +12,32 @@ import java.util.stream.Collectors;
  * @description:
  */
 public class EnumUtils {
+
+	/**
+	 * 指定类是否为Enum类
+	 *
+	 * @param clazz 类
+	 * @return 是否为Enum类
+	 */
+	public static boolean isEnum(Class<?> clazz) {
+		//Assert.notNull(clazz);
+		Preconditions.checkNotNull(clazz, "can't be null");
+		return clazz.isEnum();
+	}
+
+	/**
+	 * 指定类是否为Enum类
+	 *
+	 * @param obj 类
+	 * @return 是否为Enum类
+	 */
+	public static boolean isEnum(Object obj) {
+		//Assert.notNull(obj);
+		Preconditions.checkNotNull(obj, "can't be null");
+		return obj.getClass().isEnum();
+	}
+
+
 	/**
 	 * 获取所有枚举项
 	 *
@@ -116,13 +144,15 @@ public class EnumUtils {
 			return null;
 		}
 		for (T enumItem : enumType.getEnumConstants()) {
-			if (Objects.equals(code, enumItem.getCode())) {
+			if (equals(code, enumItem.getCode())) {
 				return enumItem;
 			}
 		}
 		return null;
 
 	}
+
+
 
 	/**
 	 * 根据value获取对应的枚举项
@@ -137,12 +167,73 @@ public class EnumUtils {
 			return null;
 		}
 		for (T enumItem : enumType.getEnumConstants()) {
-			if (Objects.equals(value, enumItem.getValue())) {
+			if (equals(value, enumItem.getValue())) {
 				return enumItem;
 			}
 		}
 		return null;
 
+	}
+
+	/**
+	 * 根据Name获取对应的枚举项
+	 *
+	 * @param enumType
+	 * @param value
+	 * @param <T>
+	 * @return
+	 */
+	public static <T extends EnumItem<?>> T fromName(Class<T> enumType, String name) {
+		if (name == null) {
+			return null;
+		}
+		for (T enumItem : enumType.getEnumConstants()) {
+			if (equals(name, enumItem.getName())) {
+				return enumItem;
+			}
+		}
+		return null;
+
+	}
+
+	/**
+	 * 字符串转枚举，调用{@link Enum#valueOf(Class, String)}
+	 * <ul>
+	 *     根据枚举的名字, 获取枚举
+	 *     <li>比如, 下面的枚举, 传入的是 "MALE", 得到 MALE这个枚举类 </li>
+	 *     <li>和上面的方法{@link #fromName(Class, String)}的区别是:fromName方法传的是name字段的值</li>
+	 * </ul>
+	 * <pre>
+	 *     {@code
+	 *
+	 *     public enum SexEnum implements EnumItem<String> {
+	 *
+	 *     //实现EnumItem接口，并指定该枚举code的数据类型
+	 *     MALE("0", "男","","",""),
+	 *     FEMALE("1", "女","","","");
+	 *
+	 *
+	 *     private final String code;
+	 *     private final String name;
+	 *     private final String key;
+	 *     private final String value;
+	 *     private final String des;
+	 *
+	 *     }
+	 * </pre>
+	 *
+	 * @param <E>       枚举类型泛型
+	 * @param enumClass 枚举类
+	 * @param value     值
+	 * @return 枚举值
+	 * @since 4.1.13
+	 */
+	public static <E extends Enum<E>> E fromEnumName(Class<E> enumClass, String name) {
+		return Enum.valueOf(enumClass, name);
+	}
+
+	public static boolean  equals(Object a, Object b) {
+		return (a == b) || (a != null && a.equals(b));
 	}
 
 }
