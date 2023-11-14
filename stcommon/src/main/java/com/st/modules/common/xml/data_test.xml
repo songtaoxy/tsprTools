@@ -1,0 +1,5 @@
+<Response T='203' T1='6' TaskID='20130800001963' MediaNum='3' Result = '1' Desc='查询成功!' >
+    <Media Name='IMG_20130425_141838.jpg' Mediasource ='1' Type ='1' Code='/9j/4AAQSkZJRgABAQA0'>图片1</Media>
+    <Media Name='IMG_20130425_141838.jpg' Mediasource ='2' Type ='1' Code='/9j/4AAQSkZJRgABAQA0'>图片2</Media>
+    <Media Name='IMG_20130425_141838.jpg' Mediasource ='3' Type ='1' Code='/9j/4AAQSkZJRgABAQA0'>图片3</Media>
+</Response>

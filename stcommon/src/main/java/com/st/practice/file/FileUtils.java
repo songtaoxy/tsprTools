@@ -1,7 +1,7 @@
 package com.st.practice.file;
 
-import com.cmbc.FilesInput;
-import com.cmbc.enums.BillTypeEnum;
+import com.st.biz.cmbc.FilesInput;
+import com.st.biz.cmbc.enums.BillTypeEnum;
 import com.st.modules.jdk6.alibaba.fastjson.v1_2_76.FastJsonUtil;
 import com.st.utils.log2.LogBody;
 import org.dom4j.Document;
