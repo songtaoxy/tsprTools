@@ -2,6 +2,7 @@ package com.st.modules.log2;
 
 import com.alibaba.fastjson.JSONObject;
 import com.st.modules.alibaba.fastjson.v1_2_76.FastJsonUtil;
+import com.st.modules.alibaba.vos.Person;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -49,9 +50,13 @@ public class LogBody {
 		jsonObject.put("zip name", "x.zp");
 		jsonObject.put("zip path", "/data/yonyou/nchome/nclogs.log");
 
+		Person person = new Person();
+		person.setAge(10);
+
 		LogBody logBody = new LogBody();
 		logBody.setTopic(topic);
 		logBody.setInfos_js(jsonObject);
+		logBody.setInfos_obj(person);
 		//log.info(FastJsonUtil.format(logBody));
 		System.out.println(FastJsonUtil.format(logBody));
 

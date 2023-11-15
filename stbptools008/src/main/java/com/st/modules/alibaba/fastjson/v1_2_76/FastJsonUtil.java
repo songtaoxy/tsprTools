@@ -193,7 +193,7 @@ public class FastJsonUtil {
         } else {
             jsonString = JSONObject.toJSONString(object, true);
         }
-        return jsonString;
+        return System.lineSeparator()+jsonString;
 
     }
 }
