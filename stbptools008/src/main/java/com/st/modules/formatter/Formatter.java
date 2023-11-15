@@ -41,15 +41,16 @@ public class Formatter<L, M, O> {
     }
 
 
-
     public static Formatter init() {
 
         return new Formatter();
     }
+
     public static Formatter<Object, String, Object> init2() {
 
         return new Formatter<Object, String, Object>();
     }
+
     public static String getDate() {
 
         Date date = new Date();
@@ -82,6 +83,7 @@ public class Formatter<L, M, O> {
      * <li>先new对象</li>
      * <li>在将对象赋值</li>
      * <li>再将对象放到formatter中</li>
+     *
      * @param o
      * @return
      */
@@ -95,6 +97,7 @@ public class Formatter<L, M, O> {
     /**
      * <li>先根据反射, 返回对象, 此时对象的属性是空</li>
      * <li>对象赋值</li>
+     *
      * @param clazz
      * @return
      */
@@ -105,8 +108,16 @@ public class Formatter<L, M, O> {
         return getObj();
     }
 
-    public static <R> String format(R formatter) {
-        return FastJsonUtil.format(formatter);
+    public String format() {
+        String ls=System.lineSeparator();
+        String format = FastJsonUtil.format(this);
+        String topic1 = "Topic: "+this.getTopic();
+        String time1 =  "Time : " +this.getTime();
+        String sp = "======================";
+        String sp2 = "......................";
+        String msg = ls+ls+sp+ls+time1+ls+topic1+ls+sp2+format+ls+sp;
+        return msg;
+
     }
 
     public static void main(String[] args) {
@@ -126,23 +137,23 @@ public class Formatter<L, M, O> {
 
     }
 
-    public  static void test(){
+    public static void test() {
 
         Formatter formatter = Formatter.init();
 
         JSONObject jsonObject1 = formatter.buildJS();
-        jsonObject1.put("hi","hi");
+        jsonObject1.put("hi", "hi");
 
         JSONArray jsonArray1 = formatter.buildJSA();
         JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("j2","j2");
+        jsonObject2.put("j2", "j2");
         jsonArray1.add(jsonObject2);
 
         formatter.setTopic("test");
         formatter.setDes("this is a test");
 
         Map map1 = formatter.buildMap();
-        map1.put("map1","map-value");
+        map1.put("map1", "map-value");
 
         List list1 = formatter.buildList();
         list1.add(new Person());
@@ -158,8 +169,7 @@ public class Formatter<L, M, O> {
         Object o = formatter.buildObject(person);
 
 
-
-        String format = Formatter.format(formatter);
+        String format = formatter.format();
         System.out.println(format);
         log.info(format);
     }

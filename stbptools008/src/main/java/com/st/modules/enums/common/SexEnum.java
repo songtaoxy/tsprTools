@@ -1,5 +1,7 @@
 package com.st.modules.enums.common;
 
+import lombok.Getter;
+
 public enum SexEnum implements EnumItem<String> {
 
     //实现EnumItem接口，并指定该枚举code的数据类型
@@ -9,7 +11,9 @@ public enum SexEnum implements EnumItem<String> {
 
     private final String code;
     private final String name;
+    @Getter
     private final String key;
+    @Getter
     private final String value;
     private final String des;
 
@@ -32,15 +36,6 @@ public enum SexEnum implements EnumItem<String> {
         return name;
     }
 
-    @Override
-    public String getKey() {
-        return key;
-    }
-
-    @Override
-    public String getValue() {
-        return value;
-    }
 
     @Override
     public String getDes() {

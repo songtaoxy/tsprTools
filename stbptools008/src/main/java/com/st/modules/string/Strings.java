@@ -1,4 +1,4 @@
-package com.st.utils.string;
+package com.st.modules.string;
 
 import java.util.ArrayList;
 import java.util.Collections;

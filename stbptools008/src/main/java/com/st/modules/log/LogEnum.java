@@ -38,7 +38,16 @@ public enum LogEnum {
 	 */
 	fault_ticket("创建工单详情: 故障_工单_详情", "10002", "RAP", "fault.ticket", "写入工单描述信息", null, null, null, null, null);
 
-
+// 应用|服务/系统/模块/step/action
+	// step 1, 1.1 1.2 2 2.1.2.2.
+	// action:
+	/**
+	 * 入参, 返回
+	 * 请求, 返回
+	 * 校验
+	 * 详情
+	 * 备注
+	 */
 
 	/*--------------title---------------*/
 	private final String title;

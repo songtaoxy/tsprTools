@@ -4,13 +4,10 @@ import cn.hutool.core.util.RandomUtil;
 import com.st.utils.string.StringUtils;
 import com.st.utils.string.Strings;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.util.Optional.ofNullable;
 
 /**
  * @author: st
