@@ -110,9 +110,11 @@ public class Formatter<L, M, O> {
 
     public String format() {
         String ls=System.lineSeparator();
-        String format = FastJsonUtil.format(this);
         String topic1 = "Topic: "+this.getTopic();
         String time1 =  "Time : " +this.getTime();
+        this.setTopic(null);
+        this.setTime(null);
+        String format = FastJsonUtil.format(this);
         String sp = "======================";
         String sp2 = "......................";
         String msg = ls+ls+sp+ls+time1+ls+topic1+ls+sp2+format+ls+sp;
