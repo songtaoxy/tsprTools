@@ -1,6 +1,10 @@
 package com.st.modules.time;
 
+import org.assertj.core.internal.bytebuddy.asm.Advice;
+
 import javax.xml.stream.events.EndElement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -15,6 +19,26 @@ import java.util.Stack;
  */
 public class TimeUtils {
 
+    private static final ThreadLocal<SimpleDateFormat> formatter = new ThreadLocal<SimpleDateFormat>() {
+      @Override
+      public SimpleDateFormat initialValue() {
+        return new SimpleDateFormat("yyyy-MM-dd");
+      }
+    };
+
+
+  public static String format(Date date) {
+    return formatter.get().format(date);
+  }
+
+  public static Date parse(String date) {
+    try {
+      return formatter.get().parse(date);
+    } catch (ParseException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   /**
    * 获取当前系统时区的时间 <p>
    *
@@ -22,7 +46,7 @@ public class TimeUtils {
    *
    * @return 获取当前系统时区的时间: 2021-11-11T19:22:42.228
    */
-  public static LocalDateTime getLocalDateTime() {
+ /* public static LocalDateTime getLocalDateTime() {
 
     Instant instant = new Date().toInstant();
     ZoneId zoneId = ZoneId.systemDefault();
@@ -30,22 +54,23 @@ public class TimeUtils {
     //System.out.println(localDateTime);
 
     return localDateTime;
-  }
+  }*/
 
 
   /**
    * @deprecated since 2021.11.11 by st; replace with
    * @return
    */
-  public static Long costTimeMillsOld(){
-    Long start = System.currentTimeMillis();
+  public static long costTimeMillsOld(){
+    long start = System.currentTimeMillis();
 
     // 业务处理, 如执行sql等
-    System.out.println("");
+    System.out.println("...");
 
-    Long end = System.currentTimeMillis();
 
-    Long cost = end - start;
+    long end = System.currentTimeMillis();
+
+    long cost = end - start;
 
     System.out.println(cost);
 
@@ -53,9 +78,9 @@ public class TimeUtils {
   }
 
 
-  public static Long costTimeMills(Long start, Long end){
+  public static long costTimeMills(long start, long end){
 
-    Long cost = end - start;
+    long cost = end - start;
     //System.out.println(cost);
 
     return cost;
