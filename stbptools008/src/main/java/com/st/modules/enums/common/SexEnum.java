@@ -12,15 +12,15 @@ public enum SexEnum implements EnumItem<String> {
     private final String code;
     private final String name;
     @Getter
-    private final String key;
+    private final String extInfo;
     @Getter
     private final String value;
     private final String des;
 
-    SexEnum(String code, String name, String key, String value, String des) {
+    SexEnum(String code, String name, String extInfo, String value, String des) {
         this.code = code;
         this.name = name;
-        this.key = key;
+        this.extInfo = extInfo;
         this.value = value;
         this.des = des;
     }
@@ -47,7 +47,7 @@ public enum SexEnum implements EnumItem<String> {
         return "SexEnum{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
-                ", key='" + key + '\'' +
+                ", key='" + extInfo + '\'' +
                 ", value='" + value + '\'' +
                 ", des='" + des + '\'' +
                 '}';

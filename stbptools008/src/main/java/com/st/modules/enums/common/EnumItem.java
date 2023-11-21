@@ -7,7 +7,7 @@ public interface EnumItem<V> extends Serializable {
 	//泛型
 	V getCode();
 	String  getName();
-	String getKey();
 	String getValue();
+	String getExtInfo();
 	String getDes();
 }

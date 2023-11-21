@@ -117,7 +117,7 @@ public enum TopicEnum implements EnumItem<String> {
 
 
     @Override
-    public String getKey() {
+    public String getExtInfo() {
         return null;
     }
 
