@@ -8,8 +8,18 @@ public class ResMain {
         Person person = new Person();
         Response<Person> success = Response.success(person);
 
-        String s = Response.formatResponse(success);
+        String s = Response.format(success);
 
         System.out.println(s);
+        System.out.println(Response.check(success));
+
+
+        Response<Person> fail = Response.fail("fails",person);
+
+        String s2 = Response.format(fail);
+
+        System.out.println(s2);
+        System.out.println(Response.check(fail));
+
     }
 }

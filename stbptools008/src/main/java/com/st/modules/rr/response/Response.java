@@ -71,15 +71,25 @@ public class Response<T> {
         return new Response(code, massage, result);
     }
 
-    public static String formatResponse() {
-        return formatResponse(null);
-    }
 
-    public static <T> String formatResponse(Response<T> response){
+    public static <T> String format(Response<T> response){
        String resStr = null;
 
         resStr = FastJsonUtil.format(response);
 
         return resStr;
+    }
+
+    public static <T> boolean check(Response<T> response){
+        boolean validate = false;
+
+        String code200 = ResponseEnum.SUCCESS.getCode();
+        String codeRes = response.getCode();
+
+        if(code200.equalsIgnoreCase(codeRes)) {
+            validate = true;
+        }
+
+        return validate;
     }
 }
