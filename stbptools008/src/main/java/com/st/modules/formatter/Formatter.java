@@ -111,6 +111,7 @@ public class Formatter<L, M, O> {
 
     public String format() {
         String ls=System.lineSeparator();
+        String topic0 = this.getTopic();
         String topic1 = "Topic: "+this.getTopic();
         String time1 =  "Time : " +this.getTime();
         this.setTopic(null);
@@ -118,10 +119,39 @@ public class Formatter<L, M, O> {
         String format = FastJsonUtil.format(this);
         String sp = "======================";
         String sp2 = "......................";
-        String msg = ls+ls+sp+ls+time1+ls+topic1+ls+sp2+format+ls+sp;
-        return msg;
+        String msg = ls+ls+sp+ls+time1+ls+topic1+ls+sp2+ls+format+ls+sp;
+        if (null == topic0 || "".equalsIgnoreCase(topic0.trim())) {
+            msg = ls+ls+sp+ls+time1+ls+sp2+ls+format+ls+sp;
+        }
 
+        return msg;
     }
+
+    public static String format(String input) {
+
+        Formatter init = init();
+
+        String topic0 = init.getTopic();
+        String topic1 = "Topic: "+init.getTopic();
+        String time1 =  "Time : " +init.getTime();
+
+        init.setTopic(null);
+        init.setTime(null);
+
+        String format = FastJsonUtil.format(input);
+
+        String ls=System.lineSeparator();
+        String sp = "======================";
+        String sp2 = "......................";
+
+        String msg = ls+ls+sp+ls+time1+ls+topic1+ls+sp2+ls+format+ls+sp;
+        if (null == topic0 || "".equalsIgnoreCase(topic0.trim())) {
+            msg = ls+ls+sp+ls+time1+ls+sp2+ls+format+ls+sp;
+        }
+
+        return msg;
+    }
+
 
     public static void main(String[] args) {
         /*String topic = "/log/test/this is a test case";
@@ -136,7 +166,10 @@ public class Formatter<L, M, O> {
         //log.info(FastJsonUtil.format(logBody));
         System.out.println(FastJsonUtil.format(logBody));*/
 
-        test();
+        //test();
+        System.out.println(format("we are test"));
+
+
 
     }
 
@@ -152,7 +185,7 @@ public class Formatter<L, M, O> {
         jsonObject2.put("j2", "j2");
         jsonArray1.add(jsonObject2);
 
-        formatter.setTopic("test");
+        //formatter.setTopic("test");
         formatter.setDes("this is a test");
 
         Map map1 = formatter.buildMap();
