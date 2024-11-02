@@ -196,4 +196,32 @@ public class FastJsonUtil {
         return System.lineSeparator()+jsonString;
 
     }
+
+
+    public static String format(String object) {
+
+
+        String jsonString = null;
+
+         if (object instanceof String) {
+
+            if (strIsJSONObject((String)object)) {
+                System.out.println("----string: jsonobject-----");
+                jsonString = JSONObject.toJSONString(JSONObject.parseObject((String) object), true);
+            } else if (strIsJSONArray((String) object)) {
+                System.out.println("----string: jsonarray-----");
+                jsonString = JSONArray.toJSONString(JSONArray.parseArray((String) object), true);
+
+            } else {
+                System.out.println(object + "既不是json, 也不是jsonarray");
+                JSONObject jsonObject = buildJS();
+                jsonObject.put("ps", (String) object);
+                jsonString = JSONObject.toJSONString(jsonObject, true);
+            }
+        } else {
+            jsonString = JSONObject.toJSONString(object, true);
+        }
+        return System.lineSeparator()+jsonString;
+
+    }
 }
