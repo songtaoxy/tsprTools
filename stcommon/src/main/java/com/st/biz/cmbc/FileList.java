@@ -2,7 +2,7 @@ package com.st.biz.cmbc;
 
 import com.st.biz.cmbc.enums.FileTypeEnum;
 import com.st.biz.cmbc.tools.FastJsonUtils;
-import com.st.biz.cmbc.tools.GsonUtils;
+
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class FileList {
 			//System.out.println(filesInput.toString());
 
 			//FileInputTools.o2j(filesInput);
-			System.out.println(	GsonUtils.o2j(filesInput));
+//			System.out.println(	GsonUtils.o2j(filesInput));
 		}
 
 		FilesInput filesInput = FileInputTools.queryTargetObj(filesInputs);
