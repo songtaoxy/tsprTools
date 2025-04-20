@@ -25,7 +25,7 @@ public enum DemoV2Enum implements BaseEnum {
 
 
 /*
-    // 构造函数
+    // 构造函数; 使用lombok @allconstructor
     private  DemoEnum(String code, String name, String des, boolean active, String ext) {
         this.code = code;
         this.name = name;
