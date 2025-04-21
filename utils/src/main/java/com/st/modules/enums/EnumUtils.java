@@ -51,6 +51,7 @@ public class EnumUtils {
 
     /**
      * 通用：根据条件获取枚举对象
+     * 测试案例, ref {@code com.st.modules.enums.EnumUtilsTest#getEnumObjectV2()}
      */
     public static <T> Optional<T> getEnumObjectV2(Class<T> clazz, Predicate<T> predicate) {
         if (!clazz.isEnum()) return Optional.empty();
