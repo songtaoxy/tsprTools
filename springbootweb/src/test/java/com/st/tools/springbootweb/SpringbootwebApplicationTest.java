@@ -1,6 +1,6 @@
 package com.st.tools.springbootweb;
 
-import com.st.utils.log.LogUtils;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
