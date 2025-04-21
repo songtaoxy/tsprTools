@@ -236,7 +236,9 @@ public class JacksonUtils {
 
 }
 
-
+/**
+ * 链式创建. 相见单元测试
+ */
 class JsonBuilder {
     private final ObjectNode root;
 
@@ -283,6 +285,9 @@ class JsonBuilder {
     }
 }
 
+/**
+ * 链式创建. 相见单元测试
+ */
 class ArrayBuilder {
     private final ArrayNode array;
 
