@@ -1,6 +1,7 @@
 package com.st.modules.id.snowflake;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.util.UUID;
 
@@ -25,8 +26,10 @@ public class SnowFlakeUtil {
     private static long sequence = 0L;
     private static long lastTimestamp = -1L;
 
-    private static final String POD_NAME = System.getenv().getOrDefault("POD_NAME", fallbackHostName());
-    private static final String POD_NAMESPACE = System.getenv().getOrDefault("POD_NAMESPACE", "default");
+//    private static final String POD_NAME = System.getenv().getOrDefault("POD_NAME", fallbackHostName());
+//    private static final String POD_NAMESPACE = System.getenv().getOrDefault("POD_NAMESPACE", "default");
+    private static final String POD_NAME = defaultIfEmpty(System.getenv("POD_NAME"), fallbackHostName());
+    private static final String POD_NAMESPACE = defaultIfEmpty(System.getenv("POD_NAMESPACE"), "default");
 
     /**
      * 获取 long 类型雪花 ID
@@ -96,6 +99,9 @@ public class SnowFlakeUtil {
 
     private static long hashToLong(String input) {
         try {
+            if (input == null || input.isEmpty()) {
+                input = "unknown";
+            }
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] digest = md.digest(input.getBytes());
             long result = 0;
@@ -104,13 +110,14 @@ public class SnowFlakeUtil {
             }
             return Math.abs(result);
         } catch (Exception e) {
-            return Math.abs(input.hashCode());
+            return Math.abs(input != null ? input.hashCode() : 0);
         }
     }
 
     private static String fallbackHostName() {
         try {
-            return InetAddress.getLocalHost().getHostName();
+            String hostname = InetAddress.getLocalHost().getHostName();
+            return (hostname != null && !hostname.isEmpty()) ? hostname : "unknown-host";
         } catch (Exception e) {
             return "unknown-host";
         }
@@ -128,10 +135,16 @@ public class SnowFlakeUtil {
         return sb.reverse().toString();
     }
 
-    /*public static void main(String[] args) {
-        System.out.println("Long ID: " + nextId());
-        System.out.println("Base62 ID: " + nextIdBase62());
-        System.out.println("UUID ID: " + nextIdAsUuid());
-        System.out.println("Instance Info: " + getInstanceInfo());
-    }*/
+    private static String defaultIfEmpty(String value, String defaultValue) {
+        return (value == null || value.isEmpty()) ? defaultValue : value;
+    }
+
+    public static void main(String[] args) throws UnknownHostException {
+
+        System.out.println( InetAddress.getLocalHost().getHostName());
+        System.out.println("Long ID: " + SnowFlakeUtil.nextId());
+        System.out.println("Base62 ID: " + SnowFlakeUtil.nextIdBase62());
+        System.out.println("UUID ID: " + SnowFlakeUtil.nextIdAsUuid());
+        System.out.println("Instance Info: " + SnowFlakeUtil.getInstanceInfo());
+    }
 }
