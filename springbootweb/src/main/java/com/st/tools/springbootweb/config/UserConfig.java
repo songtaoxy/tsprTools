@@ -1,4 +1,4 @@
-package com.st.tools.springbootweb.pojo;
+package com.st.tools.springbootweb.config;
 
 import lombok.Data;
 

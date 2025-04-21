@@ -1,4 +1,4 @@
-package com.st.tools.springbootweb.pojo;
+package com.st.tools.springbootweb.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;

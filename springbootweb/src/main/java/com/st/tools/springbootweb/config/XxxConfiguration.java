@@ -1,7 +1,5 @@
 package com.st.tools.springbootweb.config;
 
-import com.st.tools.springbootweb.pojo.User;
-import com.st.tools.springbootweb.pojo.UserConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

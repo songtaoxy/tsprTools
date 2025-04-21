@@ -1,4 +1,4 @@
-package com.st.tools.springbootweb.pojo.User2;
+package com.st.tools.springbootweb.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

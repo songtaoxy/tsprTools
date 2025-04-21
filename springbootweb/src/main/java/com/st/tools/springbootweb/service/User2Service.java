@@ -1,11 +1,9 @@
-package com.st.tools.springbootweb.pojo.service;
+package com.st.tools.springbootweb.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.st.tools.springbootweb.pojo.User2.User2;
-import org.apache.ibatis.annotations.Param;
+import com.st.tools.springbootweb.model.entity.User2;
 
 import java.util.Map;
 

@@ -1,7 +1,7 @@
 package com.st.tools.springbootweb.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.st.tools.springbootweb.pojo.User;
+import com.st.tools.springbootweb.model.entity.User;
 
 import java.util.List;
 

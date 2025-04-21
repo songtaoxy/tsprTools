@@ -1,11 +1,11 @@
-package com.st.tools.springbootweb.pojo.service.impl;
+package com.st.tools.springbootweb.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.st.tools.springbootweb.pojo.User2.User2;
-import com.st.tools.springbootweb.pojo.mapper.User2Mapper;
-import com.st.tools.springbootweb.pojo.service.User2Service;
+import com.st.tools.springbootweb.model.entity.User2;
+import com.st.tools.springbootweb.dao.mapper.User2Mapper;
+import com.st.tools.springbootweb.service.User2Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

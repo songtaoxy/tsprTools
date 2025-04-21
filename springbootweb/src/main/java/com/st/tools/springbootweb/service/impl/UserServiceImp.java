@@ -3,16 +3,14 @@ package com.st.tools.springbootweb.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.st.tools.springbootweb.mapper.UserMapper;
-import com.st.tools.springbootweb.pojo.User;
+import com.st.tools.springbootweb.dao.mapper.UserMapper;
+import com.st.tools.springbootweb.model.entity.User;
 import com.st.tools.springbootweb.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.index.qual.SameLen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import javax.xml.ws.ServiceMode;
 import java.util.List;
 
 /**

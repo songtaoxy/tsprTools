@@ -1,13 +1,11 @@
 package com.st.tools.springbootweb.controller;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.st.tools.springbootweb.pojo.Person;
-import com.st.tools.springbootweb.pojo.User2.User2;
-import com.st.tools.springbootweb.pojo.mapper.User2Mapper;
-import com.st.tools.springbootweb.pojo.service.User2Service;
+import com.st.tools.springbootweb.pojo.others.Person;
+import com.st.tools.springbootweb.model.entity.User2;
+import com.st.tools.springbootweb.service.User2Service;
 import com.st.tools.springbootweb.service.HelloService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.time.Period;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

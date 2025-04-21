@@ -1,6 +1,5 @@
-package com.st.tools.springbootweb.pojo.vo;
+package com.st.tools.springbootweb.model.vo;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

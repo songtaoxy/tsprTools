@@ -1,4 +1,4 @@
-package com.st.tools.springbootweb.pojo.vo;
+package com.st.tools.springbootweb.model.vo;
 
 
 import com.st.modules.json.jackson.JacksonUtils;
