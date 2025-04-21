@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
@@ -76,11 +78,27 @@ public class JacksonUtils {
         }
     }
 
+    /**
+     * <li>支持类型
+     * <ul>- 字符串</ul>
+     * </li>
+     * @param obj
+     * @return
+     * @param <T>
+     */
     public static <T> String toPrettyJson(T obj) {
         try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Pretty serialization failed", e);
+        }
+    }
+
+    public static String toJsonPrettyString(JsonNode node) {
+        try {
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to format JSON", e);
         }
     }
 
@@ -160,6 +178,33 @@ public class JacksonUtils {
     }
 
     /**
+     *
+     * <li>泛型构建 ObjectNode / ArrayNode</li>
+     * <li>链式 JsonBuilder、ArrayBuilder</li>
+     * <li>嵌套结构 & POJO 自动转换</li>
+     * <li>完整单元测试用例</li>
+     * @return
+     */
+    public static ObjectNode createObjectNode() {
+        return mapper.createObjectNode();
+    }
+
+    public static <T> ObjectNode createObjectNode(T object) {
+        return mapper.convertValue(object, ObjectNode.class);
+    }
+
+    public static ArrayNode createArrayNode() {
+        return mapper.createArrayNode();
+    }
+
+    public static <T> ArrayNode createArrayNode(T object) {
+        return mapper.convertValue(object, ArrayNode.class);
+    }
+
+
+
+
+    /**
      * 通用 Bean 转换
      * @param source 原始对象
      * @param targetClass 目标类类型
@@ -181,4 +226,97 @@ public class JacksonUtils {
         return mapper.convertValue(source, typeRef);
     }
 
+}
+
+
+class JsonBuilder {
+    private final ObjectNode root;
+
+    private JsonBuilder() {
+        this.root = JacksonUtils.getMapper().createObjectNode();
+    }
+
+    public static JsonBuilder create() {
+        return new JsonBuilder();
+    }
+
+    public JsonBuilder put(String field, String value) {
+        root.put(field, value);
+        return this;
+    }
+
+    public JsonBuilder put(String field, int value) {
+        root.put(field, value);
+        return this;
+    }
+
+    public JsonBuilder put(String field, boolean value) {
+        root.put(field, value);
+        return this;
+    }
+
+    public JsonBuilder put(String field, double value) {
+        root.put(field, value);
+        return this;
+    }
+
+    public JsonBuilder put(String field, JsonNode node) {
+        root.set(field, node);
+        return this;
+    }
+
+    public JsonBuilder putPOJO(String field, Object value) {
+        root.set(field, JacksonUtils.getMapper().valueToTree(value));
+        return this;
+    }
+
+    public ObjectNode build() {
+        return root;
+    }
+}
+
+class ArrayBuilder {
+    private final ArrayNode array;
+
+    private ArrayBuilder() {
+        this.array = JacksonUtils.getMapper().createArrayNode();
+    }
+
+    public static ArrayBuilder create() {
+        return new ArrayBuilder();
+    }
+
+    public ArrayBuilder add(String value) {
+        array.add(value);
+        return this;
+    }
+
+    public ArrayBuilder add(int value) {
+        array.add(value);
+        return this;
+    }
+
+    public ArrayBuilder add(boolean value) {
+        array.add(value);
+        return this;
+    }
+
+    public ArrayBuilder add(double value) {
+        array.add(value);
+        return this;
+    }
+
+    public ArrayBuilder addPOJO(Object value) {
+        array.add(JacksonUtils.getMapper().valueToTree(value));
+        return this;
+    }
+
+    public ArrayBuilder add(JsonNode node) {
+        array.add(node);
+        return this;
+    }
+
+    public ArrayNode build() {
+        return array;
+    }
 }

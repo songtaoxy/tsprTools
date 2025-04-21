@@ -1,9 +1,11 @@
-package com.st.biz.cmbc;
+package com.st.modules.file;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONArray;
-import com.st.biz.cmbc.enums.FileTypeEnum;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.st.modules.json.jackson.JacksonUtils;
+import com.st.modules.log.LogBody;
 
 
 import java.nio.charset.Charset;
@@ -16,7 +18,7 @@ import java.util.List;
  * @version: 1.0
  * @description:
  */
-public class FileInputTools {
+public class FileInputUitls {
 	/**
 	 * 数据转换: byte[] -> String -> byte[]
 	 *
@@ -50,7 +52,7 @@ public class FileInputTools {
 			String contentsStr = (String) obj.get("contentsStr");
 
 			FilesInput filesInput = new FilesInput(name, type, contentsStr);
-			filesInput.setContentsBytes(FileInputTools.b2s(contentsStr));
+			filesInput.setContentsBytes(FileInputUitls.b2s(contentsStr));
 			filesInputList.add(filesInput);
 
 		}
@@ -108,7 +110,8 @@ public class FileInputTools {
 		String topic = "/智能验票/oa上传发票/税管查询文件类型及目标文件";
 		LogBody logBody = new LogBody();
 		logBody.setTopic(topic);
-		JSONObject js = FastJsonUtil.buildJS();
+//		JSONObject js = FastJsonUtil.buildJS();
+		ObjectNode js  = JacksonUtils.createObjectNode();
 		js.put("目标文件类型编码",code);
 
 		 // return
@@ -144,8 +147,10 @@ public class FileInputTools {
 		}
 
 		// optional log
-		logBody.setInfos_js(js);
-		String format = FastJsonUtil.format(logBody);
+//		logBody.setInfos_js(js);
+		logBody.setInfos_obj(js);
+//		String format = FastJsonUtil.format(logBody);
+		String format = JacksonUtils.toPrettyJson(logBody);
 		System.out.println(format);
 
 		return filesInput;

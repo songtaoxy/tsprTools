@@ -3,6 +3,8 @@ package com.st.modules.json.jackson;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonpatch.JsonPatch;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -130,6 +132,46 @@ public class JacksonUtilsTest {
         assertEquals("alice@example.com", dto.getEmail());
     }
 
+    @Test
+    public void testCreatObjectNode() {
+        // Test ObjectNode from POJO
+        Map map = new HashMap<String,String>();
+        map.put("name","Tome");
+        map.put("age","30");
+//        ObjectNode userNode = JacksonUtils.createObjectNode(Map.of("name", "Tom", "age", 30));
+        ObjectNode userNode = JacksonUtils.createObjectNode(map);
+        System.out.println("ObjectNode from map: \n" + JacksonUtils.toJsonPrettyString(userNode));
+
+        // Test ArrayNode from List
+        List  list = new ArrayList<String>();
+        list.add("apple");
+        list.add("banana");
+//        ArrayNode fruits = JacksonUtils.createArrayNode(List.of("apple", "banana"));
+        ArrayNode fruits = JacksonUtils.createArrayNode(list);
+
+        System.out.println("ArrayNode from list: \n" + JacksonUtils.toJsonPrettyString(fruits));
+
+        // Test JsonBuilder
+        Map map2 = new HashMap<String,String>();
+        map2.put("email","alice@example.com");
+        ObjectNode json = JsonBuilder.create()
+                .put("id", 101)
+                .put("name", "Alice")
+                .put("active", true)
+                .putPOJO("details", map2)
+//                .putPOJO("details", Map.of("email", "alice@example.com"))
+                .build();
+        System.out.println("JsonBuilder result: \n" + JacksonUtils.toJsonPrettyString(json));
+
+        // Test ArrayBuilder
+        ArrayNode arr = ArrayBuilder.create()
+                .add("A")
+                .add(100)
+                .addPOJO(map2)
+//                .addPOJO(Map.of("k", "v"))
+                .build();
+        System.out.println("ArrayBuilder result: \n" + JacksonUtils.toJsonPrettyString(arr));
+    }
 
 
 
