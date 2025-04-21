@@ -1,8 +1,7 @@
 package com.st.practice.stream;
 
 import cn.hutool.core.util.RandomUtil;
-import com.st.utils.string.StringUtils;
-import com.st.utils.string.Strings;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
  * @description:
  */
 public class StreamDemo {
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
 
 	  int[] ints = RandomUtil.randomInts(10);
 	  Arrays.stream(ints).forEach(System.out::println);
@@ -34,5 +33,5 @@ public class StreamDemo {
 	  System.out.println(collect.size());
 
 	  //strings.stream().forEach(System.out::println);
-  }
+  }*/
   }

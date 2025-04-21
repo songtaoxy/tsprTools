@@ -1,8 +1,10 @@
 package com.st.biz.cmbc.log;
 
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.JsonObject;
-import com.st.utils.json.gson.GsonUtils;
+//import com.st.utils.json.gson.GsonUtils;
+import com.st.modules.json.jackson.JacksonUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,7 +65,8 @@ public enum LogEnum {
 	@SneakyThrows
 	public static <T> LogEnumObj buildJson(T  logEnum) {
 
-		JsonObject js = GsonUtils.buildGJS();
+//		JsonObject js = GsonUtils.buildGJS();
+		ObjectNode js = JacksonUtils.createObjectNode();
 
 		for (Field field : logEnum.getClass().getDeclaredFields()) {
 			//把私有属性公有化
@@ -75,11 +78,11 @@ public enum LogEnum {
 			if (type.equals(String.class)) {
 				String name = field.getName();
 				String value = (String) field.get(logEnum);
-				js.addProperty(name, value);
+				js.put(name, value);
 
 			}
 		}
-		LogEnumObj logEnumObj = GsonUtils.o2o(js, LogEnumObj.class);
+		LogEnumObj logEnumObj = JacksonUtils.convert(js, LogEnumObj.class);
 
 		return logEnumObj;
 	}
@@ -141,13 +144,13 @@ public enum LogEnum {
 		LogEnumObj jsonObject = buildJson(LogEnum.L_gson_convert_listObjT2ListR);
 
 
-		JsonObject jsonObject1 = GsonUtils.o2o(jsonObject, JsonObject.class);
+		JsonObject jsonObject1 = JacksonUtils.convert(jsonObject, JsonObject.class);
 
 		LogUtils.printGson("test", jsonObject1);
 
 		//Object o = GsonUtils.convertBean(LogEnum.L_gson_convert_listObjT2ListR, JsonObject.class);
 
-		log.info(GsonUtils.toJson(LogEnum.L_gson_convert_listObjT2ListR));
+		log.info(JacksonUtils.toPrettyJson(LogEnum.L_gson_convert_listObjT2ListR));
 
 
 

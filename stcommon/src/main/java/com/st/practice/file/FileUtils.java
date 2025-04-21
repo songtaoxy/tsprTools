@@ -2,8 +2,9 @@ package com.st.practice.file;
 
 import com.st.biz.cmbc.FilesInput;
 import com.st.biz.cmbc.enums.BillTypeEnum;
-import com.st.modules.jdk6.alibaba.fastjson.v1_2_76.FastJsonUtil;
-import com.st.utils.log2.LogBody;
+
+import com.st.modules.json.jackson.JacksonUtils;
+import com.st.modules.log.LogBody;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -67,7 +68,7 @@ public class FileUtils {
 
         // optional log
         logBody.setInfos_obj(filesInput);
-        System.out.println(FastJsonUtil.format(logBody));
+        System.out.println(JacksonUtils.toPrettyJson(logBody));
 
 
         return filesInput;

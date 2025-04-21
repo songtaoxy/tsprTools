@@ -4,12 +4,14 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.st.utils.json.gson.GsonUtils;
+//import com.st.utils.json.gson.GsonUtils;
+import com.st.modules.json.jackson.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -51,12 +53,13 @@ public class LogUtils {
     // JsonObject jsonObject -> String str
     // and pretty str
     // ========================
-    GsonBuilder builder = GsonUtils.builder();
+/*    GsonBuilder builder = GsonUtils.builder();
+    JacksonUtils.createObjectNode();
     builder.setPrettyPrinting();
-    Gson gson = builder.create();
+    Gson gson = builder.create();*/
 
-    JsonObject parse = GsonUtils.parse(jsonStr, JsonObject.class);
-    String prettyJsonStr = gson.toJson(parse);
+    JsonObject parse = JacksonUtils.fromJson(jsonStr, JsonObject.class);
+    String prettyJsonStr = JacksonUtils.toPrettyJson(parse);
 
     // ========================
     // output
@@ -108,17 +111,17 @@ public class LogUtils {
     // JsonObject jsonObject -> String str
     // and pretty str
     // ========================
-    GsonBuilder builder = GsonUtils.builder();
+   /* GsonBuilder builder = GsonUtils.builder();
     builder.setPrettyPrinting();
     //builder.serializeNulls();
-    Gson gson = builder.create();
+    Gson gson = builder.create();*/
 
 
     String prettyJsonStr;
     if (ObjectUtil.equals("1", flag)) {
-      prettyJsonStr = gson.toJson(jsonObject1);
+      prettyJsonStr = JacksonUtils.toPrettyJson(jsonObject1);
     } else {
-      prettyJsonStr = gson.toJson(jsonObject);
+      prettyJsonStr = JacksonUtils.toPrettyJson(jsonObject);
     }
 
     // ========================
@@ -255,9 +258,10 @@ public class LogUtils {
     String details;
 
     if (ObjectUtil.isEmpty(details_content)) {
-      JsonObject jsonObject = GsonUtils.buildGJS();
-      jsonObject.addProperty("result", "null,blank,or optional");
-      details = jsonObject.toString();
+//      JsonObject jsonObject = GsonUtils.buildGJS();
+      ObjectNode jsonObject = JacksonUtils.createObjectNode();
+      jsonObject.put("result", "null,blank,or optional");
+      details = JacksonUtils.toPrettyJson(jsonObject);
     } else {
       details = details_content;
     }
@@ -265,11 +269,12 @@ public class LogUtils {
     // ===================
     // optional log
     // ===================
-    JsonObject js = GsonUtils.buildGJS();
-    js.addProperty("opt_type", opt_type);
-    js.addProperty("opt_result", opt_result);
-    js.addProperty("details", details);
-    LogUtils.printGson(opt_type, js);
+//    JsonObject js = GsonUtils.buildGJS();
+    ObjectNode js = JacksonUtils.createObjectNode();
+    js.put("opt_type", opt_type);
+    js.put("opt_result", opt_result);
+    js.put("details", details);
+    LogUtils.printGson(opt_type, JacksonUtils.convert(js,JsonObject.class));
   }
 
 

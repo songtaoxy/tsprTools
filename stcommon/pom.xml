@@ -30,6 +30,11 @@
             <version>2.11.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.st.tools</groupId>
+            <artifactId>utils</artifactId>
+            <version>tv20210521</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -2,8 +2,7 @@ package com.st.utils.stream;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
-import com.st.utils.bean.Employee;
-import com.st.utils.log.LogUtils;
+
 import one.util.streamex.EntryStream;
 
 import java.util.HashMap;
@@ -19,7 +18,7 @@ import java.util.stream.Stream;
  */
 public class StreamUtil {
 
-  private static Map<String, Employee> map1 = new HashMap<>();
+  /*private static Map<String, Employee> map1 = new HashMap<>();
   private static Map<String, Employee> map2 = new HashMap<>();
 
   public static void main(String[] args) {
@@ -40,7 +39,7 @@ public class StreamUtil {
 
   public static void mergeMap(){
 
-   /* Employee employee1 = new Employee(1L, "Henry");
+   *//* Employee employee1 = new Employee(1L, "Henry");
     map1.put(employee1.getName(), employee1);
     Employee employee2 = new Employee(22L, "Annie");
     map1.put(employee2.getName(), employee2);
@@ -50,7 +49,7 @@ public class StreamUtil {
     Employee employee4 = new Employee(2L, "George");
     map2.put(employee4.getName(), employee4);
     Employee employee5 = new Employee(3L, "Henry");
-    map2.put(employee5.getName(), employee5);*/
+    map2.put(employee5.getName(), employee5);*//*
 
     HashMap<String, Map<String, String>> m1 = new HashMap<>();
     HashMap<String, Map<String, String>> m2 = new HashMap<>();
@@ -77,9 +76,9 @@ public class StreamUtil {
                     Map.Entry::getValue
                     ));
 
-   /* LogUtils.foal(m1,"map1");
+   *//* LogUtils.foal(m1,"map1");
     LogUtils.foal(m2,"map2");
     LogUtils.foal(m5,"map5");
-    LogUtils.foal(result,"result");*/
-  }
+    LogUtils.foal(result,"result");*//*
+  }*/
 }

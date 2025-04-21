@@ -1,6 +1,7 @@
 package com.st.tools.springbootweb.pojo.vo;
 
-import com.st.utils.json.gson.GsonUtils;
+
+import com.st.modules.json.jackson.JacksonUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class VO2 {
 	public static void main(String[] args) {
 
 		VO1 n2 = new VO1().setName2("n2");
-		VO2 vo2 = GsonUtils.o2o(n2, VO2.class);
+		VO2 vo2 = JacksonUtils.convert(n2, VO2.class);
 		log.info(vo2.toString());
 
 
