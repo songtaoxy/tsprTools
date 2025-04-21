@@ -36,7 +36,7 @@ import java.text.SimpleDateFormat;
  * <li>基本要求: 使用泛型, 且通用</li>
  * <li>功能
  *     <ul>支持泛型对象的美化输出</ul>
- *     <ul>支持自定义字段序列化</ul>
+ *     <ul>支持自定义字段序列化: 字段相同或不相同.</ul>
  *     <ul>支持 `@JsonView`</ul>
  *     <ul>自动注册 Java 8 时间模块</ul>
  *     <ul>支持 Java 8 时间类型格式化</ul>
@@ -46,6 +46,9 @@ import java.text.SimpleDateFormat;
  *     <ul>支持本地化字段映射（可选）</ul>
  *     <ul>支持字段过滤（如 Jackson `@JsonView`）</ul>
  *     <ul>支持读写 JSON 文件</ul>
+ *     <ul>JSON 对象/数组构建; 泛型构建 ObjectNode / ArrayNode: 支持任意 Bean、Map、List; 支持泛型对象初始化</ul>
+ *     <ul>链式 JsonBuilder、ArrayBuilder: JsonBuilder 支持链式 put</ul>
+ *     <ul>嵌套结构 & POJO 自动转换: putPOJO() 支持嵌套任意结构</ul>
  * </li>
  */
 public class JacksonUtils {
@@ -94,13 +97,18 @@ public class JacksonUtils {
         }
     }
 
-    public static String toJsonPrettyString(JsonNode node) {
+    /**
+     * 可复用上面的方法: {@com.st.modules.json.jackson.JacksonUtils#toPrettyJson(java.lang.Object)}
+//     * @param node
+     * @return
+     */
+    /*public static String toJsonPrettyString(JsonNode node) {
         try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to format JSON", e);
         }
-    }
+    }*/
 
     public static <T> T fromJson(String json, Class<T> clazz) {
         try {

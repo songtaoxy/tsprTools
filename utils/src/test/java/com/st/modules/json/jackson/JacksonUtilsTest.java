@@ -140,7 +140,7 @@ public class JacksonUtilsTest {
         map.put("age","30");
 //        ObjectNode userNode = JacksonUtils.createObjectNode(Map.of("name", "Tom", "age", 30));
         ObjectNode userNode = JacksonUtils.createObjectNode(map);
-        System.out.println("ObjectNode from map: \n" + JacksonUtils.toJsonPrettyString(userNode));
+        System.out.println("ObjectNode from map: \n" + JacksonUtils.toPrettyJson(userNode));
 
         // Test ArrayNode from List
         List  list = new ArrayList<String>();
@@ -149,7 +149,7 @@ public class JacksonUtilsTest {
 //        ArrayNode fruits = JacksonUtils.createArrayNode(List.of("apple", "banana"));
         ArrayNode fruits = JacksonUtils.createArrayNode(list);
 
-        System.out.println("ArrayNode from list: \n" + JacksonUtils.toJsonPrettyString(fruits));
+        System.out.println("ArrayNode from list: \n" + JacksonUtils.toPrettyJson(fruits));
 
         // Test JsonBuilder
         Map map2 = new HashMap<String,String>();
@@ -161,7 +161,7 @@ public class JacksonUtilsTest {
                 .putPOJO("details", map2)
 //                .putPOJO("details", Map.of("email", "alice@example.com"))
                 .build();
-        System.out.println("JsonBuilder result: \n" + JacksonUtils.toJsonPrettyString(json));
+        System.out.println("JsonBuilder result: \n" + JacksonUtils.toPrettyJson(json));
 
         // Test ArrayBuilder
         ArrayNode arr = ArrayBuilder.create()
@@ -170,7 +170,7 @@ public class JacksonUtilsTest {
                 .addPOJO(map2)
 //                .addPOJO(Map.of("k", "v"))
                 .build();
-        System.out.println("ArrayBuilder result: \n" + JacksonUtils.toJsonPrettyString(arr));
+        System.out.println("ArrayBuilder result: \n" + JacksonUtils.toPrettyJson(arr));
     }
 
 
