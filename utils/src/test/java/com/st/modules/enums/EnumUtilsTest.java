@@ -1,5 +1,6 @@
 package com.st.modules.enums;
 
+import com.st.modules.json.jackson.JacksonUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@Slf4j
 class EnumUtilsTest {
 
     @Test
@@ -19,14 +20,14 @@ class EnumUtilsTest {
     @Test
     void getEnumObjectV2() {
 
-        System.out.println(DemoV2Enum.getNameByCode("200")); // 输出：二
-        System.out.println(DemoV2Enum.getCodeByName("三"));   // 输出：300
+        log.info(DemoV2Enum.getNameByCode("200")); // 输出：二
+        log.info(DemoV2Enum.getCodeByName("三"));   // 输出：300
+        log.info(JacksonUtils.toPrettyJson(DemoV2Enum.getByCode("200")));
+        log.info(JacksonUtils.toPrettyJson(DemoV2Enum.getByName("二")));
+        log.info(JacksonUtils.toPrettyJson(DemoV2Enum.getByCode("200").toString()));
+        log.info(JacksonUtils.toPrettyJson(DemoV2Enum.getByName("二").toString()));
 
-        DemoV2Enum e = DemoV2Enum.getByCode("100");
-        if (e != null) {
-            System.out.println(e.getDes()); // 输出：Order is pending
-            System.out.println(e.toString());
-        }
+
     }
 }
 
