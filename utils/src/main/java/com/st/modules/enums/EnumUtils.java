@@ -15,7 +15,11 @@ public class EnumUtils {
 
     /**
          * 根据条件获取枚举对象
-         *
+         *  <pre>
+     *      <li>
+     *          已经废弃. 最新,ref {@link EnumUtils#getEnumObjectV2(Class, Predicate)}
+     *      </li>
+         *  </pre>
          * @param className 枚举类
          * @param predicate 筛选条件
          * @param <T>

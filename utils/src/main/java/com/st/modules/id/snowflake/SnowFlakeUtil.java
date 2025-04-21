@@ -139,12 +139,12 @@ public class SnowFlakeUtil {
         return (value == null || value.isEmpty()) ? defaultValue : value;
     }
 
-    public static void main(String[] args) throws UnknownHostException {
+   /* public static void main(String[] args) throws UnknownHostException {
 
         System.out.println( InetAddress.getLocalHost().getHostName());
         System.out.println("Long ID: " + SnowFlakeUtil.nextId());
         System.out.println("Base62 ID: " + SnowFlakeUtil.nextIdBase62());
         System.out.println("UUID ID: " + SnowFlakeUtil.nextIdAsUuid());
         System.out.println("Instance Info: " + SnowFlakeUtil.getInstanceInfo());
-    }
+    }*/
 }
