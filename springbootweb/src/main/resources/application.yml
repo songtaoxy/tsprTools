@@ -1,4 +1,7 @@
 spring:
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
   datasource:
     #   数据源基本配置
 #    username: root

@@ -107,7 +107,11 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.st.tools</groupId>
+            <artifactId>utils</artifactId>
+            <version>tv20210521</version>
+        </dependency>
         <dependency>
             <groupId>com.st.tools</groupId>
             <artifactId>stcommon</artifactId>
@@ -117,6 +121,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
 <!--            <version>4.2.5.RELEASE</version>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.3.0</version> <!-- 使用最新稳定版 -->
         </dependency>
 
     </dependencies>

@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.9</version>
+        <version>2.7.6</version>
     </parent>
 
     <!-- info -->
@@ -25,8 +25,6 @@
         <module>stcommon</module>
         <module>springbootweb</module>
         <module>utest</module>
-        <module>stbptools005</module>
-        <module>stbptools006</module>
         <module>stbptools008</module>
         <module>dsa</module>
         <module>utils</module>
