@@ -1,15 +1,18 @@
 package com.st.tools.springbootweb.response;
 
 import com.st.modules.json.jackson.JacksonUtils;
+import com.st.tools.springbootweb.i18n.I18nUtil;
+import com.st.tools.springbootweb.utils.bean.SpringContextUtils;
 import com.st.tools.springbootweb.utils.trace.TraceIdContext;
+import io.swagger.annotations.Authorization;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Locale;
 
 
 /**
@@ -21,6 +24,7 @@ import java.util.HashMap;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(name = "Response", description = "统一响应结构")
+@Component
 public class Response<T> {
 
     @Schema(description = "状态码，如 200、500", example = "200")
@@ -33,6 +37,8 @@ public class Response<T> {
     private T result;
 
 
+
+
     public static <T> Response<T> build(String code, String massage, T result) {
         // 格式规范化
         if (result == null) {
@@ -42,16 +48,26 @@ public class Response<T> {
     }
 
     public static <T> Response<T> res(StatCode statCode, T result) {
-        return build(statCode.getCode(), statCode.getName(), result);
+
+        I18nUtil i18nUtil = SpringContextUtils.getBean(I18nUtil.class);
+        String i18nKey = statCode.getI18nKey();
+        String i18nMessage = i18nUtil.getMessage(i18nKey);
+
+//        return build(statCode.getCode(), statCode.getName(), result);
+        return build(statCode.getCode(), i18nMessage, result);
     }
 
     // local是从哪里获取的?
     private static Response<Result> buildRes(StatCode statCode, String detail, String path) {
+        I18nUtil i18nUtil = SpringContextUtils.getBean(I18nUtil.class);
+        Locale currentLocale = i18nUtil.getCurrentLocale();
+
         Result result = Result.builder()
                 .timestamp(LocalDateTime.now())
                 .detail(detail)
                 .path(path)
                 .traceId(TraceIdContext.getTraceId())
+                .locale(currentLocale.toString())
                 .build();
         return Response.res(statCode, result);
     }
@@ -60,13 +76,18 @@ public class Response<T> {
         return build(code, message, result);
     }
 
-
     public Response ok() {
-        return build(StatCode.SUCCESS.getCode(), StatCode.SUCCESS.getName(), null);
+        I18nUtil i18nUtil = SpringContextUtils.getBean(I18nUtil.class);
+        String i18nKey = StatCode.SUCCESS.getI18nKey();
+        String i18nMessage = i18nUtil.getMessage(i18nKey);
+        return build(StatCode.SUCCESS.getCode(), i18nMessage, null);
     }
 
     public static <T> Response<T> ok(T t) {
-     return build(StatCode.SUCCESS.getCode(), StatCode.SUCCESS.getName(), t);
+        I18nUtil i18nUtil = SpringContextUtils.getBean(I18nUtil.class);
+        String i18nKey = StatCode.SUCCESS.getI18nKey();
+        String i18nMessage = i18nUtil.getMessage(i18nKey);
+     return build(StatCode.SUCCESS.getCode(), i18nMessage, t);
     }
 
     public static <T> Response<T> ok(String msg, T result) {
@@ -75,12 +96,18 @@ public class Response<T> {
 
 
     public static Response fail() {
-        return build(StatCode.FAIL.getCode(), StatCode.FAIL.getName(), null);
+        I18nUtil i18nUtil = SpringContextUtils.getBean(I18nUtil.class);
+         String i18nKey_fail = StatCode.FAIL.getI18nKey();
+         String i18nMessage_fail = i18nUtil.getMessage(i18nKey_fail);
+        return build(StatCode.FAIL.getCode(), i18nMessage_fail, null);
     }
 
 
     public static <T> Response<T> fail(T t) {
-        return build(StatCode.FAIL.getCode(), StatCode.FAIL.getName(), t);
+        I18nUtil i18nUtil = SpringContextUtils.getBean(I18nUtil.class);
+        String i18nKey_fail = StatCode.FAIL.getI18nKey();
+        String i18nMessage_fail = i18nUtil.getMessage(i18nKey_fail);
+        return build(StatCode.FAIL.getCode(), i18nMessage_fail, t);
     }
 
     public static <T> Response<T> fail(String msg, T result) {

@@ -29,4 +29,7 @@ public class Result {
 
     @Schema(description = "请求追踪ID", example = "3e64c60a-45f2-4e26-a289-b6be72fe95f3")
     private String traceId;
+
+    private String locale;
+
 }

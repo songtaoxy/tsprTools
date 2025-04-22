@@ -1,13 +1,17 @@
 package com.st.tools.springbootweb.i18n;
 
+
+import com.st.tools.springbootweb.utils.bean.SpringContextUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * <li>浏览器语言动态设置Locale区域: ref <a href="https://www.cnblogs.com/lori/p/17415892.html" >refs</a></li>
@@ -19,28 +23,41 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class I18nUtil {
 
+
     private final MessageSource messageSource;
-
-
     /**
      * 通过code 获取错误信息
      * @param code
      * @return
      */
-    public String getMessage(String code) {
+    public  String getMessage(String code) {
         return getMessage(code, null);
     }
 
 
-
     /**
-     * 通过code 和参数获取错误信息
-     * @param code
-     * @return
+     * <li>国际化配置</li>
+     * {@code
+     * src/main/resources/i18n/message_zh.properties
+     * error.internal=服务器内部错误
+     * error.null=请求参数为空
+     * error.biz=业务处理失败
+     * error.validation=参数校验失败
+     * error.notfound=资源未找到
+     *
+     * }
+     *
+     * <li>通过code 和参数获取错误信息</li>
+     * {@code locale 即是: message_en.properties 中的“en” }
+     * @param code 即上面的 “error.validation”
+     * @return 即上面的, param对应的: ”参数校验失败“
      */
-    public String getMessage(String code, Object[] args) {
+    public  String getMessage(String code, Object[] args) {
         Locale locale = getCurrentLocale();
+
+        // code, locale, 返回,见上面分析
         return messageSource.getMessage(code, args, locale);
+
     }
 
     /**
@@ -58,5 +75,7 @@ public class I18nUtil {
 
         //Java中的Locale.getDefault()获取的是操作系统的默认区域设置，如果需要获取客户端浏览器的区域设置，可以从HTTP头中获取"Accept-Language"的值来进行解析
         return Locale.getDefault();
+
+
     }
 }

@@ -1,9 +1,11 @@
 package com.st.tools.springbootweb.aspect;
 
 import com.st.tools.springbootweb.exception.BizException;
+import com.st.tools.springbootweb.i18n.I18nUtil;
 import com.st.tools.springbootweb.response.StatCode;
 import com.st.tools.springbootweb.response.Result;
 import com.st.tools.springbootweb.response.Response;
+import com.st.tools.springbootweb.utils.bean.SpringContextUtils;
 import com.st.tools.springbootweb.utils.trace.TraceIdContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,11 +80,16 @@ public class GlobalExceptionHandler {
 
     // local是从哪里获取的?
     private Response<Result> buildErrorResponse(String code, String messageValue, String detail, String path) {
+
+        I18nUtil bean = SpringContextUtils.getBean(I18nUtil.class);
+        Locale currentLocale = bean.getCurrentLocale();
+
         Result result = Result.builder()
                 .timestamp(LocalDateTime.now())
                 .detail(detail)
                 .path(path)
                 .traceId(TraceIdContext.getTraceId())
+                .locale(currentLocale.toString())
                 .build();
         return Response.custum(code, messageValue, result);
     }

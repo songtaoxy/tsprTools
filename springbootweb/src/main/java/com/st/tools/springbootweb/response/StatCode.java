@@ -5,12 +5,15 @@ import com.st.modules.enums.EnumUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * <li>i18nKey 必须和国际化文件对应{@code src/main/resources/i18n/message_zh.properties}</li>
+ */
 @Getter
 @AllArgsConstructor
 public enum StatCode implements BaseEnum {
 
-    SUCCESS("200", "成功",null,"1",null,null),
-    FAIL("500", "失败",null,null,null,null),
+    SUCCESS("200", "成功",null,"1",null,"success"),
+    FAIL("500", "失败",null,null,null,"fail"),
     PASSWORD_FAIL("3001", "密码错误",null,null,null,null),
     LOGIN_FAIL("3002", "用户验证失败",null,null,null,null),
     USER_IS_NOT_EXIST("3003", "用户不存在！",null,null,null,null),

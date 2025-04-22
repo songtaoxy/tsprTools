@@ -11,12 +11,15 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -41,10 +44,22 @@ public class ControllerLogAspect {
 
     @Around("controllerMethods()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
+
+
         MethodSignature methodSig = (MethodSignature) joinPoint.getSignature();
         Method method = methodSig.getMethod();
         String className = joinPoint.getTarget().getClass().getSimpleName();
         String methodName = method.getName();
+
+        // 获取请求路径、请求方、Locale
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Locale locale = request.getLocale();
+        String path = request.getRequestURI();
+
+        // 示例：根据当前方法名作为国际化 key（更正式可以写注解控制）
+        /*String i18nKey = "log.api." + methodName;
+        String i18nMessage = i18nUtil.getMessage(i18nKey);*/
+
 
         boolean skipLogParams = method.isAnnotationPresent(NoLogParams.class);
 
@@ -62,7 +77,7 @@ public class ControllerLogAspect {
                         }
                     })
                     .collect(Collectors.joining(", "));
-            log.info("➡️ {}.{} 请求参数: [{}]", className, methodName, argsStr);
+            log.info("➡️path:{},  {}.{} 请求参数: [{}], 来自客户端区域: {}",path, className, methodName, argsStr, locale);
         }
 
         Object result;
