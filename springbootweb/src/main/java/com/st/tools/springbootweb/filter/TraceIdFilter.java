@@ -1,14 +1,13 @@
 package com.st.tools.springbootweb.filter;
 
-import com.st.modules.json.jackson.JacksonUtils;
-import com.st.tools.springbootweb.trace.TraceIdContext;
+import com.st.tools.springbootweb.utils.trace.TraceIdContext;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Select;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.UUID;
+
 
 @Slf4j
 public class TraceIdFilter implements Filter {
@@ -32,4 +31,21 @@ public class TraceIdFilter implements Filter {
             TraceIdContext.clear();
         }
     }
+
+
+    // TODO 研究mdc
+    /**
+     * <li>添加 TraceId（通过 Filter + MDC 实现日志链路）</li>
+     * <li>并在 logback-spring.xml 中添加 %X{traceId} 输出：</li>
+     */
+    /*@Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        String traceId = UUID.randomUUID().toString().replaceAll("-", "");
+        MDC.put("traceId", traceId);
+        try {
+            chain.doFilter(request, response);
+        } finally {
+            MDC.remove("traceId");
+        }
+    }*/
 }

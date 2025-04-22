@@ -8,6 +8,10 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 @Configuration
 public class I18nConfig {
 
+    /**
+     * 见 {@code src/main/resources/i18n/message.properties}国际化配置
+     * @return
+     */
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();

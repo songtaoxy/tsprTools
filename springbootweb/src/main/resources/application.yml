@@ -47,3 +47,10 @@ mybatis:
   # 取代config-location;configuration与config-location不能同时使用.
   configuration:
     mapUnderscoreToCamelCase: true
+
+# 请求参数脱敏（支持配置规则）配置脱敏字段
+log:
+  sensitiveFields:
+    - password
+    - idCard
+    - phone

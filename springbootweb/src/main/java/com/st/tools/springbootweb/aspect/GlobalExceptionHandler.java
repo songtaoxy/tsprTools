@@ -4,7 +4,7 @@ import com.st.tools.springbootweb.exception.BizException;
 import com.st.tools.springbootweb.response.ErrorCode;
 import com.st.tools.springbootweb.response.ErrorResult;
 import com.st.tools.springbootweb.response.Response;
-import com.st.tools.springbootweb.trace.TraceIdContext;
+import com.st.tools.springbootweb.utils.trace.TraceIdContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +61,10 @@ public class GlobalExceptionHandler {
     }
 
 
+    /**
+     * <li>国际化配置: ref springbootweb/src/main/resources/i18n/message.properties</li>
+     * <li>兜底异常处理</li>
+     */
     @ExceptionHandler(Exception.class)
     public Response<ErrorResult> handleException(Exception ex, HttpServletRequest request, Locale locale) {
 
@@ -74,7 +78,6 @@ public class GlobalExceptionHandler {
 
     // local是从哪里获取的?
     private Response<ErrorResult> buildErrorResponse(String code, String messageValue, String detail, String path, Locale locale) {
-//        String message = messageSource.getMessage(messageKey, null, locale);
         ErrorResult result = ErrorResult.builder()
                 .timestamp(LocalDateTime.now())
                 .detail(detail)

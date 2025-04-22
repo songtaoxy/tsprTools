@@ -1,7 +1,9 @@
 package com.st.tools.springbootweb.interceptor;
 
-import com.st.tools.springbootweb.trace.TraceIdContext;
+import com.st.tools.springbootweb.utils.log.LogHelper;
+import com.st.tools.springbootweb.utils.trace.TraceIdContext;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -20,6 +22,16 @@ public class RequestLogInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         request.setAttribute(START_TIME, System.currentTimeMillis());
+
+        String method = request.getMethod();
+        String uri = request.getRequestURI();
+        String ip = LogHelper.getClientIp(request);
+        String traceId = LogHelper.getTraceId();
+
+        String tenantId = MDC.get("tenantId");
+
+        log.info("Method: [{}] - URL: {} - IP: {} - TraceId: {} - TenandId: {}", method, uri, ip, traceId,tenantId);
+
         return true;
     }
 
@@ -27,6 +39,9 @@ public class RequestLogInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         Long start = (Long) request.getAttribute(START_TIME);
         long duration = System.currentTimeMillis() - start;
-        log.info("TraceId={} 请求={} 耗时={}ms", TraceIdContext.getTraceId(), request.getRequestURI(), duration);
+
+//        log.info("[{}] {} - Done in {} ms", request.getMethod(), request.getRequestURI(), cost);
+
+        log.info("TenantId={},TraceId={} 请求={} 耗时={}ms",MDC.get("tenantId"), TraceIdContext.getTraceId(), request.getRequestURI(), duration);
     }
 }
