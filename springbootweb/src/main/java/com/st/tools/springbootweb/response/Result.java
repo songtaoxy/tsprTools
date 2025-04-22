@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "错误信息结构")
-public class ErrorResult {
+public class Result {
 
     @Schema(description = "时间戳", example = "2025-04-22T14:22:00")
     private LocalDateTime timestamp;

@@ -11,7 +11,8 @@ public interface BaseEnum {
 
     String getDes(); // 获取枚举的描述信息
 
-    boolean isActive();      // 是否激活
+    // 是否激活. 0 未激活; 1激活
+    String getActive();      // 是否激活
 
     // 扩展信息
     String getExt();

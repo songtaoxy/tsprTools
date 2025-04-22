@@ -1,8 +1,8 @@
 package com.st.tools.springbootweb.aspect;
 
 import com.st.tools.springbootweb.exception.BizException;
-import com.st.tools.springbootweb.response.ErrorCode;
-import com.st.tools.springbootweb.response.ErrorResult;
+import com.st.tools.springbootweb.response.StatCode;
+import com.st.tools.springbootweb.response.Result;
 import com.st.tools.springbootweb.response.Response;
 import com.st.tools.springbootweb.utils.trace.TraceIdContext;
 import lombok.RequiredArgsConstructor;
@@ -24,40 +24,40 @@ public class GlobalExceptionHandler {
     private final MessageSource messageSource;
 
     @ExceptionHandler(BizException.class)
-    public Response<ErrorResult> handleBizException(BizException ex, HttpServletRequest request, Locale locale) {
+    public Response<Result> handleBizException(BizException ex, HttpServletRequest request, Locale locale) {
 
-        ErrorCode errorCode = ErrorCode.BIZ_ERROR;
+        StatCode errorCode = StatCode.BIZ_ERROR;
         String code = errorCode.getCode();
         String key = errorCode.getI18nKey();
         String value = messageSource.getMessage(key, null, locale);
 
-        return buildErrorResponse(String.valueOf(ex.getCode()), value, ex.getDetail(), request.getRequestURI(), locale);
+        return buildErrorResponse(String.valueOf(ex.getCode()), value, ex.getDetail(), request.getRequestURI());
     }
 
     @ExceptionHandler(NullPointerException.class)
-    public Response<ErrorResult> handleNullPointer(NullPointerException ex, HttpServletRequest request, Locale locale) {
+    public Response<Result> handleNullPointer(NullPointerException ex, HttpServletRequest request, Locale locale) {
 
-        ErrorCode errorCode = ErrorCode.NULL_ERROR;
+        StatCode errorCode = StatCode.NULL_ERROR;
         String code = errorCode.getCode();
         String key = errorCode.getI18nKey();
         String value = messageSource.getMessage(key, null, locale);
 
-        return buildErrorResponse(code, value, ex.getMessage(), request.getRequestURI(), locale);
+        return buildErrorResponse(code, value, ex.getMessage(), request.getRequestURI());
     }
 
 
     @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
-    public Response<ErrorResult> handleValidation(org.springframework.web.bind.MethodArgumentNotValidException ex, HttpServletRequest request, Locale locale) {
+    public Response<Result> handleValidation(org.springframework.web.bind.MethodArgumentNotValidException ex, HttpServletRequest request, Locale locale) {
         String fieldMessage = ex.getBindingResult().getFieldErrors().stream()
                 .map(f -> f.getField() + ": " + f.getDefaultMessage())
                 .findFirst().orElse("参数校验失败");
 
-        ErrorCode errorCode = ErrorCode.VALIDATION_ERROR;
+        StatCode errorCode = StatCode.VALIDATION_ERROR;
         String code = errorCode.getCode();
         String key = errorCode.getI18nKey();
         String value = messageSource.getMessage(key, null, locale);
 
-        return buildErrorResponse(code, value, fieldMessage, request.getRequestURI(), locale);
+        return buildErrorResponse(code, value, fieldMessage, request.getRequestURI());
     }
 
 
@@ -66,24 +66,24 @@ public class GlobalExceptionHandler {
      * <li>兜底异常处理</li>
      */
     @ExceptionHandler(Exception.class)
-    public Response<ErrorResult> handleException(Exception ex, HttpServletRequest request, Locale locale) {
+    public Response<Result> handleException(Exception ex, HttpServletRequest request, Locale locale) {
 
-        ErrorCode errorCode = ErrorCode.SYSTEM_ERROR;
+        StatCode errorCode = StatCode.SYSTEM_ERROR;
         String code = errorCode.getCode();
         String key = errorCode.getI18nKey();
         String value = messageSource.getMessage(key, null, locale);
 
-        return buildErrorResponse(code, value, ex.getMessage(), request.getRequestURI(), locale);
+        return buildErrorResponse(code, value, ex.getMessage(), request.getRequestURI());
     }
 
     // local是从哪里获取的?
-    private Response<ErrorResult> buildErrorResponse(String code, String messageValue, String detail, String path, Locale locale) {
-        ErrorResult result = ErrorResult.builder()
+    private Response<Result> buildErrorResponse(String code, String messageValue, String detail, String path) {
+        Result result = Result.builder()
                 .timestamp(LocalDateTime.now())
                 .detail(detail)
                 .path(path)
                 .traceId(TraceIdContext.getTraceId())
                 .build();
-        return Response.fail(code, messageValue, result);
+        return Response.custum(code, messageValue, result);
     }
 }

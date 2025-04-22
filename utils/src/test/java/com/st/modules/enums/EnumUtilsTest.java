@@ -37,15 +37,15 @@ class EnumUtilsTest {
 @Slf4j
 enum DemoEnum implements BaseEnum {
 
-    PENDING("100", "一","Order is pending", true, "ext"),
-    PROCESSING("200","二", "Order is being processed", true, "ext"),
-    COMPLETED("300", "三","Order is completed", false, "ext"),
-    CANCELLED("400", "四","Order is cancelled", false, "ext");
+    PENDING("100", "一","Order is pending", "1", "ext"),
+    PROCESSING("200","二", "Order is being processed", "1", "ext"),
+    COMPLETED("300", "三","Order is completed", "1", "ext"),
+    CANCELLED("400", "四","Order is cancelled", "1", "ext");
 
     private final String code;
     private final String name;
     private final String des;
-    private final boolean active;
+    private final String active;
     private final String ext;
 
 
@@ -83,15 +83,15 @@ enum DemoEnum implements BaseEnum {
 @Slf4j
 enum DemoV2Enum implements BaseEnum {
 
-    PENDING("100", "一","des", true, "ext"),
-    PROCESSING("200","二", "des", true, "ext"),
-    COMPLETED("300", "三","des", false, "ext"),
-    CANCELLED("400", "四","des", false, "ext");
+    PENDING("100", "一","des", "1", "ext"),
+    PROCESSING("200","二", "des", "1", "ext"),
+    COMPLETED("300", "三","des", "1", "ext"),
+    CANCELLED("400", "四","des", "1", "ext");
 
     private final String code;
     private final String name;
     private final String des;
-    private final boolean active;
+    private final String active;
     private final String ext;
 
 
