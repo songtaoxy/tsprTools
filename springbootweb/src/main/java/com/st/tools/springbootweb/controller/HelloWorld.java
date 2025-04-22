@@ -7,23 +7,23 @@ import com.st.tools.springbootweb.pojo.others.Person;
 import com.st.tools.springbootweb.model.entity.User2;
 import com.st.tools.springbootweb.service.User2Service;
 import com.st.tools.springbootweb.service.HelloService;
+import com.st.tools.springbootweb.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Controller
+@RestController
 public class HelloWorld {
   static String template;
 
   @Autowired HelloService helloService;
+  @Autowired UserService userService;
 
 
   @Autowired
@@ -32,9 +32,9 @@ public class HelloWorld {
   Person p = null;
 
   @RequestMapping(value = "/hello", method = RequestMethod.GET)
-  @ResponseBody
   public Map<String, Object> helloWorld() {
 
+    System.out.println(1/0);
     Map<String, Object> hello = new HashMap<>();
     hello.put("hello", "helloworld");
     hello.put("hello2", "helloworld");
@@ -62,6 +62,14 @@ public class HelloWorld {
     List<Map<String,Object>> records = stringIPage.getRecords();
     records.forEach(System.out::println);
     return hello;
+  }
+
+
+  @PostMapping (value = "/hello2")
+  public Map<String, Object> helloWorld2() {
+    Map map  = new HashMap<String,String >();
+    map.put("h","h2");
+    return map;
   }
 }
 

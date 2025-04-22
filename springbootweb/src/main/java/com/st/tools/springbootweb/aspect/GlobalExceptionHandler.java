@@ -1,11 +1,13 @@
 package com.st.tools.springbootweb.aspect;
 
 import com.st.tools.springbootweb.exception.BizException;
+import com.st.tools.springbootweb.response.ErrorCode;
 import com.st.tools.springbootweb.response.ErrorResult;
 import com.st.tools.springbootweb.response.Response;
 import com.st.tools.springbootweb.trace.TraceIdContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,16 +20,29 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
+    @Autowired
     private final MessageSource messageSource;
 
     @ExceptionHandler(BizException.class)
     public Response<ErrorResult> handleBizException(BizException ex, HttpServletRequest request, Locale locale) {
-        return buildErrorResponse(String.valueOf(ex.getCode()), "error.biz", ex.getDetail(), request.getRequestURI(), locale);
+
+        ErrorCode errorCode = ErrorCode.BIZ_ERROR;
+        String code = errorCode.getCode();
+        String key = errorCode.getI18nKey();
+        String value = messageSource.getMessage(key, null, locale);
+
+        return buildErrorResponse(String.valueOf(ex.getCode()), value, ex.getDetail(), request.getRequestURI(), locale);
     }
 
     @ExceptionHandler(NullPointerException.class)
     public Response<ErrorResult> handleNullPointer(NullPointerException ex, HttpServletRequest request, Locale locale) {
-        return buildErrorResponse("400", "error.null", ex.getMessage(), request.getRequestURI(), locale);
+
+        ErrorCode errorCode = ErrorCode.NULL_ERROR;
+        String code = errorCode.getCode();
+        String key = errorCode.getI18nKey();
+        String value = messageSource.getMessage(key, null, locale);
+
+        return buildErrorResponse(code, value, ex.getMessage(), request.getRequestURI(), locale);
     }
 
 
@@ -36,23 +51,36 @@ public class GlobalExceptionHandler {
         String fieldMessage = ex.getBindingResult().getFieldErrors().stream()
                 .map(f -> f.getField() + ": " + f.getDefaultMessage())
                 .findFirst().orElse("参数校验失败");
-        return buildErrorResponse("400", "error.validation", fieldMessage, request.getRequestURI(), locale);
+
+        ErrorCode errorCode = ErrorCode.VALIDATION_ERROR;
+        String code = errorCode.getCode();
+        String key = errorCode.getI18nKey();
+        String value = messageSource.getMessage(key, null, locale);
+
+        return buildErrorResponse(code, value, fieldMessage, request.getRequestURI(), locale);
     }
 
 
     @ExceptionHandler(Exception.class)
     public Response<ErrorResult> handleException(Exception ex, HttpServletRequest request, Locale locale) {
-        return buildErrorResponse("500", "error.internal", ex.getMessage(), request.getRequestURI(), locale);
+
+        ErrorCode errorCode = ErrorCode.SYSTEM_ERROR;
+        String code = errorCode.getCode();
+        String key = errorCode.getI18nKey();
+        String value = messageSource.getMessage(key, null, locale);
+
+        return buildErrorResponse(code, value, ex.getMessage(), request.getRequestURI(), locale);
     }
 
-    private Response<ErrorResult> buildErrorResponse(String code, String messageKey, String detail, String path, Locale locale) {
-        String message = messageSource.getMessage(messageKey, null, locale);
+    // local是从哪里获取的?
+    private Response<ErrorResult> buildErrorResponse(String code, String messageValue, String detail, String path, Locale locale) {
+//        String message = messageSource.getMessage(messageKey, null, locale);
         ErrorResult result = ErrorResult.builder()
                 .timestamp(LocalDateTime.now())
                 .detail(detail)
                 .path(path)
                 .traceId(TraceIdContext.getTraceId())
                 .build();
-        return Response.fail(code, message, result);
+        return Response.fail(code, messageValue, result);
     }
 }
