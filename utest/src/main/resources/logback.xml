@@ -112,5 +112,4 @@
         <appender-ref ref="fileDEBUGLog"/>
         <appender-ref ref="fileErrorLog"/>
     </logger>
-
 </configuration>
