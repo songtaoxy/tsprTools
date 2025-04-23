@@ -37,6 +37,7 @@ public class BaseFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws ServletException, IOException {
 
+        log.info("basefilter starting ....");
         // traceId
         String traceId = req.getHeader(HEADER_NAME);
         if (traceId == null || traceId.isEmpty()) {
@@ -85,6 +86,8 @@ public class BaseFilter extends OncePerRequestFilter {
             // 清空后
             Map<String, String> copyOfContextMap_after = MDC.getCopyOfContextMap();
             log.info("清空后,MDC:["+JacksonUtils.toPrettyJson(copyOfContextMap_after)+"]");
+
+            log.info("basefilter Ending....");
 
         }
     }
