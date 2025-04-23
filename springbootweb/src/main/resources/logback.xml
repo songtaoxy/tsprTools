@@ -15,8 +15,10 @@
   <property name="logPath" value="logs"/>
   <!--    日志输出的格式-->
   <!--    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t-%L] %-5level %logger{36} %L %M - %msg%xEx%n"/>-->
+  <!--    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}-%r  %highlight(%-5level) -&#45;&#45; [%15.15thread] %cyan(%-38.38logger{36}) \\(%20method:%-4line\\) : %msg%ex{full}%n"/>-->
+
   <property name="PATTERN"
-            value="%d{yyyy-MM-dd HH:mm:ss.SSS}-%r  %highlight(%-5level) --- [%15.15thread] %cyan(%-38.38logger{36}) \\(%20method:%-4line\\) : %msg%ex{full}%n"/>
+            value="%d{yyyy-MM-dd HH:mm:ss.SSS}-%r  [%highlight(%-5level)] [%18.18thread] [tenantId:%X{tenantId}] [locale:%X{locale}] [traceId:%X{traceId}] [ip:%X{ip}] [uri:%X{uri}] [contextPath:%X{contextPath}] [servletPath:%X{servletPath}] [method:%X{method}] %cyan(%logger#%method:%line) : [%msg%ex{full}]%n"/>
   <contextName>logback</contextName>
 
   <!--输出到控制台 ConsoleAppender-->

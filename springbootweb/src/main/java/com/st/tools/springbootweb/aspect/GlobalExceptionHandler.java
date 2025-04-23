@@ -87,7 +87,7 @@ public class GlobalExceptionHandler {
         Result result = Result.builder()
                 .timestamp(LocalDateTime.now())
                 .detail(detail)
-                .path(path)
+                .uri(path)
                 .traceId(TraceIdContext.getTraceId())
                 .locale(currentLocale.toString())
                 .build();

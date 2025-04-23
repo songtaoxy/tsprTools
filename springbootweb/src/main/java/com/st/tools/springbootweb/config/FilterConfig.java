@@ -1,9 +1,8 @@
 package com.st.tools.springbootweb.config;
 
+import com.st.tools.springbootweb.filter.BaseFilter;
 import com.st.tools.springbootweb.filter.FilterDemo01;
 import com.st.tools.springbootweb.filter.FilterDemo02;
-import com.st.tools.springbootweb.filter.TenantFilter;
-import com.st.tools.springbootweb.filter.TraceIdFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,25 +40,16 @@ public class FilterConfig {
 
 	@Bean
 	public FilterRegistrationBean registerMyFilter3(){
-		FilterRegistrationBean<TraceIdFilter> bean = new FilterRegistrationBean<>();
+		FilterRegistrationBean<BaseFilter> bean = new FilterRegistrationBean<>();
 		bean.setOrder(2);
-		bean.setFilter(new TraceIdFilter());
+		bean.setFilter(new BaseFilter());
 		// 匹配"/hello/"下面的所有url
 		//bean.addUrlPatterns("/hello/*");
 		bean.addUrlPatterns("/*");
 		return bean;
 	}
 
-	@Bean
-	public FilterRegistrationBean registerMyFilter4(){
-		FilterRegistrationBean<TenantFilter> bean = new FilterRegistrationBean<>();
-		bean.setOrder(2);
-		bean.setFilter(new TenantFilter());
-		// 匹配"/hello/"下面的所有url
-		//bean.addUrlPatterns("/hello/*");
-		bean.addUrlPatterns("/*");
-		return bean;
-	}
+
 	/*@Bean
 	public FilterRegistrationBean registerMyAnotherFilter(){
 		FilterRegistrationBean<MyAnotherFilter> bean = new FilterRegistrationBean<>();

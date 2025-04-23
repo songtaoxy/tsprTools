@@ -3,15 +3,16 @@ package com.st.tools.springbootweb.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.st.modules.json.jackson.JacksonUtils;
 import com.st.tools.springbootweb.pojo.others.Person;
 import com.st.tools.springbootweb.model.entity.User2;
 import com.st.tools.springbootweb.response.Response;
+import com.st.tools.springbootweb.response.Result;
 import com.st.tools.springbootweb.service.User2Service;
 import com.st.tools.springbootweb.service.HelloService;
 import com.st.tools.springbootweb.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-public class HelloWorld {
+public class HelloWorldController {
   static String template;
 
   @Autowired HelloService helloService;
@@ -33,9 +34,9 @@ public class HelloWorld {
   Person p = null;
 
   @RequestMapping(value = "/hello", method = RequestMethod.GET)
-  public  Response<Map> helloWorld() {
+  public  Response<Result> helloWorld() {
 
-    System.out.println(1/0);
+//    System.out.println(1/0);
     Map<String, Object> hello = new HashMap<>();
     hello.put("hello", "helloworld");
     hello.put("hello2", "helloworld");
@@ -62,7 +63,9 @@ public class HelloWorld {
     System.out.println(stringIPage.getPages());
     List<Map<String,Object>> records = stringIPage.getRecords();
     records.forEach(System.out::println);
-    return Response.ok(hello);
+
+    Result build = Result.build(hello.toString());
+    return Response.ok(build);
   }
 
 

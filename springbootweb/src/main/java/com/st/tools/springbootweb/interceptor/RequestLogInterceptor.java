@@ -24,7 +24,6 @@ public class RequestLogInterceptor implements HandlerInterceptor {
         request.setAttribute(START_TIME, System.currentTimeMillis());
 
 
-
         String method = request.getMethod();
         String uri = request.getRequestURI();
         String ip = LogHelper.getClientIp(request);

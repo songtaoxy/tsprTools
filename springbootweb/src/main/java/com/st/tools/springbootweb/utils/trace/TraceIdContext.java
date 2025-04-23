@@ -1,8 +1,10 @@
 package com.st.tools.springbootweb.utils.trace;
 
+import com.st.tools.springbootweb.filter.BaseFilter;
+
 /**
  * <li>TraceId 支持</li>
- * 全局唯一 ID ref {@link com.st.tools.springbootweb.filter.TraceIdFilter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain}
+ * 全局唯一 ID ref {@link BaseFilter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain}
  */
 public class TraceIdContext {
     private static final ThreadLocal<String> TRACE_ID_HOLDER = new ThreadLocal<>();
