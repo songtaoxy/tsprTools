@@ -1,5 +1,6 @@
 package com.st.tools.springbootweb.filter;
 
+import com.st.modules.json.jackson.JacksonUtils;
 import com.st.tools.springbootweb.i18n.I18nUtil;
 import com.st.tools.springbootweb.utils.bean.SpringContextUtils;
 import com.st.tools.springbootweb.utils.log.LogHelper;
@@ -14,6 +15,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -70,16 +72,20 @@ public class BaseFilter extends OncePerRequestFilter {
         try {
             chain.doFilter(req, res);
         } finally {
-            log.info("当前线程请求与返回结束后, 线程结束, 清空数据");
+
+            // 清空前
+            log.info("当前线程请求与返回结束后, 线程结束, 清空MDC数据");
+            Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
+            log.info("清空前,MDC:["+JacksonUtils.toPrettyJson(copyOfContextMap)+"]");
+
+            // 清空
             TraceIdContext.clear();
-            MDC.remove("traceId");
-            MDC.remove("tenantId");
-            MDC.remove("ip");
-            MDC.remove("uri");
-            MDC.remove("contextPath");
-            MDC.remove("servletPath");
-            MDC.remove("method");
-            MDC.remove("locale");
+            MDC.clear();
+
+            // 清空后
+            Map<String, String> copyOfContextMap_after = MDC.getCopyOfContextMap();
+            log.info("清空后,MDC:["+JacksonUtils.toPrettyJson(copyOfContextMap_after)+"]");
+
         }
     }
 
