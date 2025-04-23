@@ -1,6 +1,7 @@
 package com.st.tools.springbootweb.utils.bean;
 
 import org.springframework.beans.BeansException;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -26,6 +27,8 @@ public class SpringContextUtils implements ApplicationContextAware {
 
     private static final List<Consumer<ApplicationContext>> callbacks = new ArrayList<>();
 
+    private static volatile boolean ready = false;
+
 
     /**
      * <li>注意：此时 context 有可能还没完全刷新，不建议直接用</li>
@@ -41,7 +44,7 @@ public class SpringContextUtils implements ApplicationContextAware {
     }
 
 
-    @EventListener(ContextRefreshedEvent.class)
+    /*@EventListener(ContextRefreshedEvent.class)
     public void onApplicationEvent(ContextRefreshedEvent event) {
         // ✅ 真正安全注入点：Spring 容器初始化完成后
         SpringContextUtils.context = event.getApplicationContext();
@@ -52,19 +55,34 @@ public class SpringContextUtils implements ApplicationContextAware {
             cb.accept(context);
         }
         callbacks.clear();
-    }
-    /** 安全获取 ApplicationContext，未初始化时抛出异常 */
-    public static ApplicationContext getContext() {
-        if (context == null) {
-            throw new IllegalStateException("Spring 容器未初始化完成，无法获取 ApplicationContext");
+    }*/
+
+
+    /**
+     * ApplicationReadyEvent 相对于 ContextRefreshedEvent 更安全
+     * @param event
+     */
+    @EventListener(ApplicationReadyEvent.class)
+    public void onApplicationReady(ApplicationReadyEvent event) {
+        SpringContextUtils.ready = true;
+        SpringContextUtils.context = event.getApplicationContext();
+        System.out.println("✅ Spring Boot 完全启动完成，ApplicationContext 可安全使用");
+
+        // 执行所有延迟注册的回调
+        for (Consumer<ApplicationContext> cb : callbacks) {
+            try {
+                cb.accept(context);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return context;
-    }
-    /** 获取指定类型的 Bean */
-    public static <T> T getBean(Class<T> clazz) {
-        return getContext().getBean(clazz);
+        callbacks.clear();
     }
 
+
+    /**
+     * 注册一个回调，在容器 ready 后自动执行
+     */
     public static void whenContextReady(Consumer<ApplicationContext> callback) {
         if (context != null) {
             callback.accept(context);
@@ -73,6 +91,32 @@ public class SpringContextUtils implements ApplicationContextAware {
         }
     }
 
+    /** 安全获取 ApplicationContext，未初始化时抛出异常 */
+    public static ApplicationContext getContext() {
+        if (context == null || ! isReady()) {
+            throw new IllegalStateException("Spring 容器未初始化完成，无法获取 ApplicationContext");
+        }
+        return context;
+    }
+
+
+    /**
+     * 执行某段逻辑，仅在 Spring 容器准备好后才执行
+     */
+    public static void runAfterContextReady(Runnable runnable) {
+        whenContextReady(ctx -> runnable.run());
+    }
+
+    public static boolean isReady() {
+        return ready;
+    }
+
+
+
+    /** 获取指定类型的 Bean */
+    public static <T> T getBean(Class<T> clazz) {
+        return getContext().getBean(clazz);
+    }
     /** 获取指定名称的 Bean */
     public static Object getBean(String name) {
         return getContext().getBean(name);

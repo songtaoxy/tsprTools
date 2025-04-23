@@ -35,7 +35,7 @@ public class HelloWorld {
   @RequestMapping(value = "/hello", method = RequestMethod.GET)
   public  Response<Map> helloWorld() {
 
-//    System.out.println(1/0);
+    System.out.println(1/0);
     Map<String, Object> hello = new HashMap<>();
     hello.put("hello", "helloworld");
     hello.put("hello2", "helloworld");
