@@ -41,7 +41,7 @@ public class HelloWorldController {
 //    System.out.println(1/0);
     // test null
     String s = null;
-//    s.split("x");
+    s.split("x");
 
 
     Map<String, Object> hello = new HashMap<>();

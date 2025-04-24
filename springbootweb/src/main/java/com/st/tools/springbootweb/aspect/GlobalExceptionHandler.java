@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
         String key = errorCode.getI18nKey();
         String value = messageSource.getMessage(key, null, locale);
 
-        return buildErrorResponse(String.valueOf(ex.getCode()), value, ex.getDetail());
+        return buildErrorResponse(String.valueOf(ex.getCode()), value, ExceptionUtils.getCause(ex));
     }
 
     @ExceptionHandler(NullPointerException.class)
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
         String key = errorCode.getI18nKey();
         String value = messageSource.getMessage(key, null, locale);
 
-        return buildErrorResponse(code, value, ex.getMessage());
+        return buildErrorResponse(code, value, ExceptionUtils.getCause(ex));
     }
 
     // local是从哪里获取的?
