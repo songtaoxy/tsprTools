@@ -1,8 +1,12 @@
 package com.st.tools.springbootweb.aspect;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.st.modules.json.jackson.JacksonUtils;
+import com.st.tools.springbootweb.response.Response;
+import com.st.tools.springbootweb.response.Result;
 import com.st.tools.springbootweb.utils.log.NoLogParams;
 import com.st.tools.springbootweb.utils.mask.SensitiveFieldMasker;
+import jdk.internal.org.objectweb.asm.TypeReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -45,6 +49,7 @@ public class ControllerLogAspect {
     @Around("controllerMethods()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
 
+        String doubleLine ="\n====================================================================== \n";
 
         MethodSignature methodSig = (MethodSignature) joinPoint.getSignature();
         Method method = methodSig.getMethod();
@@ -77,7 +82,12 @@ public class ControllerLogAspect {
                         }
                     })
                     .collect(Collectors.joining(", "));
-            log.info("➡️path:{},  {}.{} 请求参数: [{}], 来自客户端区域: {}",path, className, methodName, argsStr, locale);
+//            log.info("➡️path:{},  {}.{} 请求参数: [{}], 来自客户端区域: {}",path, className, methodName, argsStr, locale);
+
+            log.info("{}➡️ {}, {}#{} 请求参数如下: {} [{}]", doubleLine,path, className, methodName,doubleLine, JacksonUtils.toPrettyJson(Result.build(argsStr)));
+
+//            log.info("\n=================================== \n 请求信息,如下: \n===================================\n");
+//            log.info(JacksonUtils.toPrettyJson(Result.build(argsStr)));
         }
 
         Object result;
@@ -86,11 +96,17 @@ public class ControllerLogAspect {
 
             String resultStr = objectMapper.writeValueAsString(result);
             resultStr = masker.maskSensitiveFields(resultStr);
-            log.info("⬅️ {}.{} 响应结果: {}", className, methodName, resultStr);
+
+//            log.info("\n=================================== \n 返回信息,如下: \n===================================\n");
+//            log.info("\n⬅️ {}.{} 响应结果: {}", className, methodName, JacksonUtils.toPrettyJson(JacksonUtils.fromJson(resultStr,Response.class)));
+            log.info("{}⬅️ {}, {}#{} 返回信息如下: {} [{}", doubleLine,path, className, methodName,doubleLine, JacksonUtils.toPrettyJson(JacksonUtils.fromJson(resultStr,Response.class)));
 
             return result;
         } catch (Throwable e) {
-            log.error("❌ {}.{} 调用异常: {}", className, methodName, e.getMessage(), e);
+            // 如果返回, 有异常, 只打印一次异常堆栈.避免多次打印
+//            log.error("❌ {}.{} 返回时, 调用异常: {}", className, methodName, e.getMessage(), e);
+            log.info("{}⬅️❌ {}, {}#{} 返回时, 调用异常: {} {} ", doubleLine,path, className, methodName, e.getMessage(),doubleLine, e);
+
             throw e;
         }
     }

@@ -58,17 +58,11 @@ public class Response<T> {
     }
 
     // local是从哪里获取的?
-    private static Response<Result> buildRes(StatCode statCode, String detail, String path) {
+    private static Response<Result> buildRes(StatCode statCode, String detail) {
         I18nUtil i18nUtil = SpringContextUtils.getBean(I18nUtil.class);
         Locale currentLocale = i18nUtil.getCurrentLocale();
 
-        Result result = Result.builder()
-                .timestamp(LocalDateTime.now())
-                .detail(detail)
-                .uri(path)
-                .traceId(TraceIdContext.getTraceId())
-                .locale(currentLocale.toString())
-                .build();
+        Result result = Result.build(detail);
         return Response.res(statCode, result);
     }
 

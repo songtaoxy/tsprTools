@@ -39,6 +39,11 @@ public class HelloWorldController {
   public  Response<Result> helloWorld() {
 
 //    System.out.println(1/0);
+    // test null
+    String s = null;
+//    s.split("x");
+
+
     Map<String, Object> hello = new HashMap<>();
     hello.put("hello", "helloworld");
     hello.put("hello2", "helloworld");

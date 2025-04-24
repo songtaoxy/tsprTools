@@ -1,6 +1,5 @@
 package com.st.tools.springbootweb.response;
 
-import com.st.tools.springbootweb.utils.trace.TraceIdContext;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,29 +17,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "错误信息结构")
-public class Result {
+public class Result<T> {
 
 
     // 存放各种信息
     @Schema(description = "错误详情", example = "java.lang.NullPointerException")
-    private String detail;
+    private T ext;
 
-    @Schema(description = "时间戳", example = "2025-04-22T14:22:00")
-    private LocalDateTime timestamp;
-
-    @Schema(description = "请求追踪ID", example = "3e64c60a-45f2-4e26-a289-b6be72fe95f3")
-    private String traceId;
-    private String tenantId;
-    private String locale;
-    private String ip;
-    private String uri;
-    private String contextPath;
-    private String servletPath;
-    private String method;
+    // 基本信息
+    private Base base;
 
 
-    public static Result build(String detail){
-        Result result = Result.builder()
+    public static <T> Result<T> build(T ext){
+
+        Base base = Base.builder()
                 .timestamp(LocalDateTime.now())
                 .traceId(MDC.get("traceId"))
                 .tenantId(MDC.get("tenantId"))
@@ -52,12 +42,31 @@ public class Result {
                 .method(MDC.get("method"))
                 .build();
 
-        result.setDetail(detail);
-
+        Result<T> result = new Result<T>();
+        result.setExt(ext);
+        result.setBase(base);
 
         return result;
+    }
 
 
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    static class Base{
+        @Schema(description = "时间戳", example = "2025-04-22T14:22:00")
+        private LocalDateTime timestamp;
+
+        @Schema(description = "请求追踪ID", example = "3e64c60a-45f2-4e26-a289-b6be72fe95f3")
+        private String traceId;
+        private String tenantId;
+        private String locale;
+        private String ip;
+        private String uri;
+        private String contextPath;
+        private String servletPath;
+        private String method;
     }
 
 }

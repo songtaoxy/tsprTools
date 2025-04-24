@@ -1,6 +1,7 @@
 package com.st.tools.springbootweb.aspect;
 
 import com.st.tools.springbootweb.exception.BizException;
+import com.st.tools.springbootweb.exception.ExceptionUtils;
 import com.st.tools.springbootweb.i18n.I18nUtil;
 import com.st.tools.springbootweb.response.StatCode;
 import com.st.tools.springbootweb.response.Result;
@@ -33,7 +34,7 @@ public class GlobalExceptionHandler {
         String key = errorCode.getI18nKey();
         String value = messageSource.getMessage(key, null, locale);
 
-        return buildErrorResponse(String.valueOf(ex.getCode()), value, ex.getDetail(), request.getRequestURI());
+        return buildErrorResponse(String.valueOf(ex.getCode()), value, ex.getDetail());
     }
 
     @ExceptionHandler(NullPointerException.class)
@@ -44,7 +45,8 @@ public class GlobalExceptionHandler {
         String key = errorCode.getI18nKey();
         String value = messageSource.getMessage(key, null, locale);
 
-        return buildErrorResponse(code, value, ex.getMessage(), request.getRequestURI());
+
+        return buildErrorResponse(code, value, ExceptionUtils.getCause(ex));
     }
 
 
@@ -59,7 +61,7 @@ public class GlobalExceptionHandler {
         String key = errorCode.getI18nKey();
         String value = messageSource.getMessage(key, null, locale);
 
-        return buildErrorResponse(code, value, fieldMessage, request.getRequestURI());
+        return buildErrorResponse(code, value, fieldMessage);
     }
 
 
@@ -75,22 +77,24 @@ public class GlobalExceptionHandler {
         String key = errorCode.getI18nKey();
         String value = messageSource.getMessage(key, null, locale);
 
-        return buildErrorResponse(code, value, ex.getMessage(), request.getRequestURI());
+        return buildErrorResponse(code, value, ex.getMessage());
     }
 
     // local是从哪里获取的?
-    private Response<Result> buildErrorResponse(String code, String messageValue, String detail, String path) {
+    private Response<Result> buildErrorResponse(String code, String messageValue, String detail) {
 
         I18nUtil bean = SpringContextUtils.getBean(I18nUtil.class);
         Locale currentLocale = bean.getCurrentLocale();
 
-        Result result = Result.builder()
+       /* Result result = Result.builder()
                 .timestamp(LocalDateTime.now())
                 .detail(detail)
                 .uri(path)
                 .traceId(TraceIdContext.getTraceId())
                 .locale(currentLocale.toString())
-                .build();
+                .build();*/
+
+        Result result = Result.build(detail);
         return Response.custum(code, messageValue, result);
     }
 }
