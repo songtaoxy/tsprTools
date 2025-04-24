@@ -6,7 +6,6 @@ import com.st.tools.springbootweb.response.Response;
 import com.st.tools.springbootweb.response.Result;
 import com.st.tools.springbootweb.utils.log.NoLogParams;
 import com.st.tools.springbootweb.utils.mask.SensitiveFieldMasker;
-import jdk.internal.org.objectweb.asm.TypeReference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -52,7 +51,6 @@ public class ControllerLogAspect {
 
     @Around("controllerMethods()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
-//        request.setAttribute(START_TIME, System.currentTimeMillis());
 
         String doubleLine ="\n================================================================================== \n";
 
@@ -87,12 +85,7 @@ public class ControllerLogAspect {
                         }
                     })
                     .collect(Collectors.joining(", "));
-//            log.info("➡️path:{},  {}.{} 请求参数: [{}], 来自客户端区域: {}",path, className, methodName, argsStr, locale);
-
             log.info("{}➡️ {}, {}#{} 请求参数如下: {} [{}]", doubleLine,path, className, methodName,doubleLine, JacksonUtils.toPrettyJson(Result.build(argsStr)));
-
-//            log.info("\n=================================== \n 请求信息,如下: \n===================================\n");
-//            log.info(JacksonUtils.toPrettyJson(Result.build(argsStr)));
         }
 
         Object result;
