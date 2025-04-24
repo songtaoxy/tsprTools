@@ -11,6 +11,7 @@ import com.st.tools.springbootweb.response.Result;
 import com.st.tools.springbootweb.service.User2Service;
 import com.st.tools.springbootweb.service.HelloService;
 import com.st.tools.springbootweb.service.UserService;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ public class HelloWorldController {
 
   Person p = null;
 
+  @SneakyThrows
   @RequestMapping(value = "/hello", method = RequestMethod.GET)
   public  Response<Result> helloWorld() {
 
@@ -65,7 +67,16 @@ public class HelloWorldController {
     records.forEach(System.out::println);
 
     Result build = Result.build(hello.toString());
+
+//    pr();
+
     return Response.ok(build);
+  }
+
+  public static void pr(){
+    for(int i =0; i<=10000000;i++){
+      System.out.print(i);
+    }
   }
 
 
