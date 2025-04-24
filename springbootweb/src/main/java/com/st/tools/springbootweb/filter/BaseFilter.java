@@ -68,6 +68,8 @@ public class BaseFilter extends OncePerRequestFilter {
         MDC.put("servletPath", servletPath);
         MDC.put("method", method);
         MDC.put("locale", locale);
+        MDC.put("START_TIME", String.valueOf(System.currentTimeMillis()));
+
 
 
         try {
