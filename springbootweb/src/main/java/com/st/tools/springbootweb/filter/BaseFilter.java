@@ -83,7 +83,8 @@ public class BaseFilter extends OncePerRequestFilter {
             MDC.clear();
             // 清空后
             Map<String, String> copyOfContextMap_after = MDC.getCopyOfContextMap();
-            String mdx_msg="\n当前线程请求与返回结束后, 线程结束, 清空MDC数据." +
+            String mdx_msg=
+                    "\n当前线程请求与返回结束后, 线程结束, 清空MDC数据." +
                     "\n 清空前,MDC:" +
                     "\n========================\n" +
                     JacksonUtils.toPrettyJson(copyOfContextMap) +

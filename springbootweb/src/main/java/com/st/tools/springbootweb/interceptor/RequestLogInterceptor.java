@@ -1,5 +1,6 @@
 package com.st.tools.springbootweb.interceptor;
 
+import com.st.tools.springbootweb.filter.BaseFilter;
 import com.st.tools.springbootweb.utils.log.LogHelper;
 import com.st.tools.springbootweb.utils.trace.TraceIdContext;
 import lombok.extern.slf4j.Slf4j;
@@ -7,11 +8,13 @@ import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 记录请求耗时的拦截器
+ * <li>记录请求耗时的拦截器. 请求耗时功能, 已经有更好方案, ref {@link  BaseFilter#doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)}</li>
+ *
  */
 @Slf4j
 @Component
