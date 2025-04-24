@@ -25,9 +25,5 @@ public class ListenerDemo implements ApplicationListener<AvailabilityChangeEvent
 
 		AvailabilityState state = event.getState();
 		System.out.println("监听器: 监听到的:"+state.toString());
-
-
-
-
 	}
 }

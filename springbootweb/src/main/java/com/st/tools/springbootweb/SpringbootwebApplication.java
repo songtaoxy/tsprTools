@@ -14,8 +14,9 @@ public class SpringbootwebApplication {
   public static void main(String[] args) {
 
     SpringApplication.run(SpringbootwebApplication.class, args);
-    System.out.println("hi");
+    System.out.println("Server starting successfully!");
 
+    // save proxy.
     //System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
 
   }

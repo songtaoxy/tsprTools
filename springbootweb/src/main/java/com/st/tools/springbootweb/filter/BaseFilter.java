@@ -77,17 +77,21 @@ public class BaseFilter extends OncePerRequestFilter {
         } finally {
 
             // 清空前
-            log.info("当前线程请求与返回结束后, 线程结束, 清空MDC数据");
             Map<String, String> copyOfContextMap = MDC.getCopyOfContextMap();
-            log.info("清空前,MDC:["+JacksonUtils.toPrettyJson(copyOfContextMap)+"]");
-
             // 清空
             TraceIdContext.clear();
             MDC.clear();
-
             // 清空后
             Map<String, String> copyOfContextMap_after = MDC.getCopyOfContextMap();
-            log.info("清空后,MDC:["+JacksonUtils.toPrettyJson(copyOfContextMap_after)+"]");
+            String mdx_msg="\n当前线程请求与返回结束后, 线程结束, 清空MDC数据." +
+                    "\n 清空前,MDC:" +
+                    "\n========================\n" +
+                    JacksonUtils.toPrettyJson(copyOfContextMap) +
+                    "," +
+                    "\n清空后,MDC:" +
+                    "\n========================\n[" +
+                    JacksonUtils.toPrettyJson(copyOfContextMap_after);
+            log.info(mdx_msg);
 
             log.info("basefilter Ending....");
 
