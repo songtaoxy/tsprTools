@@ -17,7 +17,7 @@ import java.util.Locale;
 
 /**
  * <li>支持Swagger注解, 对Swagger展示</li>
- * @param <T>
+ * @param <R>
  */
 @Data
 @Builder
@@ -25,7 +25,7 @@ import java.util.Locale;
 @AllArgsConstructor
 @Schema(name = "Response", description = "统一响应结构")
 @Component
-public class Response<T> {
+public class Response<R> {
 
     @Schema(description = "状态码，如 200、500", example = "200")
     private String code;
@@ -34,7 +34,7 @@ public class Response<T> {
     private String msg;
 
     @Schema(description = "实际返回结果（业务数据或错误信息）")
-    private T result;
+    private R result;
 
 
 

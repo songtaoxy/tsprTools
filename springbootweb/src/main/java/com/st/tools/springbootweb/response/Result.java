@@ -28,7 +28,7 @@ public class Result<T> {
     private Base base;
 
 
-    public static <T> Result<T> build(T ext){
+    public static <R> Result<R> build(R ext){
 
         Base base = Base.builder()
                 .timestamp(LocalDateTime.now())
@@ -42,7 +42,7 @@ public class Result<T> {
                 .method(MDC.get("method"))
                 .build();
 
-        Result<T> result = new Result<T>();
+        Result<R> result = new Result<R>();
         result.setExt(ext);
         result.setBase(base);
 
