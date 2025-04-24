@@ -102,9 +102,7 @@ public class ControllerLogAspect {
             String resultStr = objectMapper.writeValueAsString(result);
             resultStr = masker.maskSensitiveFields(resultStr);
 
-//            log.info("\n=================================== \n 返回信息,如下: \n===================================\n");
-//            log.info("\n⬅️ {}.{} 响应结果: {}", className, methodName, JacksonUtils.toPrettyJson(JacksonUtils.fromJson(resultStr,Response.class)));
-//            Long start = (Long) request.getAttribute(START_TIME);
+
 
             String start_time = MDC.get("START_TIME");
             long duration = System.currentTimeMillis() - Long.parseLong(start_time);
@@ -113,15 +111,11 @@ public class ControllerLogAspect {
 
             return result;
         } catch (Throwable e) {
-            // 如果返回, 有异常, 只打印一次异常堆栈.避免多次打印
-//            log.error("❌ {}.{} 返回时, 调用异常: {}", className, methodName, e.getMessage(), e);
 
             String start_time = MDC.get("START_TIME");
             long duration = System.currentTimeMillis() - Long.parseLong(start_time);
 
-//            String msgs = doubleLine + "⬅️❌, " + path +", "+className + "#"+methodName+", 耗时" +duration +"ms, 返回时调用异常:"+e.getMessage();
             log.error("{}⬅️❌ {}, {}#{}, 耗时:{}ms, 返回时调用异常: {} {}", doubleLine,path, className, methodName,String.valueOf(duration), e.getMessage(),doubleLine, e);
-//            log.error(msgs,e);
             throw e;
         }
     }
