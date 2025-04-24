@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * <li>记录请求耗时的拦截器. 请求耗时功能, 已经有更好方案, ref {@link  BaseFilter#doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)}</li>
+ * <li>记录请求耗时的拦截器. 请求耗时功能, 已经有更好方案, ref
+ * {@code com.st.tools.springbootweb.filter.BaseFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)}</li>
  *
  */
 @Slf4j
