@@ -1,6 +1,6 @@
 package com.st.api.practice.exception;
 
-import com.st.utils.log.LogUtils;
+
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,6 @@
 package com.st.api.practice.regx;
 
 import com.google.common.collect.ImmutableMap;
-import com.st.utils.log.LogUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

@@ -1,8 +1,7 @@
 package com.st.api.practice.charset;
 
-import com.st.utils.bytes.ByteUtil;
-import com.st.utils.string.S;
-import com.st.utils.string.StringUtils;
+
+
 
 import java.nio.charset.StandardCharsets;
 
@@ -24,14 +23,14 @@ public class CharsetDemo {
 
 
       System.out.println(
-          StringUtils.objs2Str(
+          /*StringUtils.objs2Str(
               new Object[] {"byte ===> int(10)  ===> int(hex)\n",
                 i, S.B, "===>", S.B, ByteUtil.byte2Int(i),S.B, "===>", ByteUtil.byteToHex(i)
-              }));
+              })*/);
     }
 
     System.out.println((byte)655);
-    System.out.println(ByteUtil.byte2Int((byte) -133));
+//    System.out.println(ByteUtil.byte2Int((byte) -133));
 
 
 

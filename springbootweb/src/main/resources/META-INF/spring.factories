@@ -1,2 +1,2 @@
 org.springframework.context.ApplicationListener=\
-com.st.tools.springbootweb.listener.ListenerDemo
+com.st.tools.common.listener.ListenerDemo

@@ -3,7 +3,7 @@ package com.st.api.practice.lombok;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.junit.jupiter.api.Test;
-import com.st.utils.log.LogUtils;
+
 
 /**
  * @author: st

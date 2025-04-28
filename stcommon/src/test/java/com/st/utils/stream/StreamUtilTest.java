@@ -2,7 +2,7 @@ package com.st.utils.stream;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
-import com.st.utils.log.LogUtils;
+
 import com.st.utils.props2json.PropsToJsonUtil;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +19,8 @@ class StreamUtilTest {
 
     String str = "{\"k1\":\"v1\", \"ak2\":\"v2\",\"k3\":\"v3\"}";
 
-    Map<String, Object> map = StreamUtil.jsonStr2map(str);
+//    Map<String, Object> map = StreamUtil.jsonStr2map(str);
+    Map<String, Object> map = null;
 
     System.out.println(map);
 

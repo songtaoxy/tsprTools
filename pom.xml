@@ -43,7 +43,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <!-- 用于打包,功能类似于spring-boot-maven-plugin-->
         <start-class>com.st.tools.MyApplication</start-class>
-        <!-- <mainClass>com.st.tools.springbootweb.SpringbootwebApplication</mainClass>-->
+        <!-- <mainClass>com.st.tools.WebApplication</mainClass>-->
         <java.version>1.8</java.version>
         <!--配置maven编译jdk的版本.效果同maven的setting.xml中的jdk设置-->
         <maven.compiler.source>1.8</maven.compiler.source>

@@ -35,6 +35,12 @@
             <artifactId>utils</artifactId>
             <version>tv20210521</version>
         </dependency>
+        <dependency>
+            <groupId>com.st.tools</groupId>
+            <artifactId>stbptools008</artifactId>
+            <version>v20231114</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

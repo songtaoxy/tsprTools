@@ -1,5 +1,6 @@
 package com.st.utils.string;
 
+import com.st.modules.string.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

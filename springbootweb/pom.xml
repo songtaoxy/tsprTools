@@ -19,7 +19,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <mainClass>com.st.tools.springbootweb.SpringbootwebApplication</mainClass>
+        <mainClass>com.st.tools.WebApplication</mainClass>
         <druid>1.1.17</druid>
         <mybatis.plus>3.5.0</mybatis.plus>
         <caffeine.version>2.9.3</caffeine.version>
@@ -138,6 +138,10 @@
 
 
     <build>
+
+
+
+
         <plugins>
 
             <plugin>

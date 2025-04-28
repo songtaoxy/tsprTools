@@ -3,7 +3,6 @@ package com.st.api.practice.guava;
 import com.google.common.cache.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import com.st.utils.log.LogUtils;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
