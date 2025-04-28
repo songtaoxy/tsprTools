@@ -22,6 +22,7 @@ public class ClassUtilsTest {
         Class<? extends Per.PerBuilder> aClass = builder1.getClass();
         Class<? extends Per.PerBuilder> aClass1 = builder1.getClass();
 
+        System.out.println();
 
         System.out.println(aClass1.getName().equals(aClass1.getName()));
         System.out.println(aClass1 == aClass);
