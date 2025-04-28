@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.st.tools.common.pojo.others.Person;
-import com.st.tools.common.model.entity.User2;
+import com.st.tools.modules.demo.model.entity.User2;
 import com.st.tools.common.response.Response;
 import com.st.tools.common.response.Result;
 import com.st.tools.modules.demo.service.User2Service;

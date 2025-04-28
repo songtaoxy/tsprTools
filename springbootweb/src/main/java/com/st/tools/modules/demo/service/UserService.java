@@ -1,7 +1,7 @@
 package com.st.tools.modules.demo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.st.tools.common.model.entity.User;
+import com.st.tools.modules.demo.model.entity.User;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.st.tools.common.model.entity;
+package com.st.tools.modules.demo.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

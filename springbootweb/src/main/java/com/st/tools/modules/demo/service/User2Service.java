@@ -3,7 +3,7 @@ package com.st.tools.modules.demo.service;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.st.tools.common.model.entity.User2;
+import com.st.tools.modules.demo.model.entity.User2;
 
 import java.util.Map;
 

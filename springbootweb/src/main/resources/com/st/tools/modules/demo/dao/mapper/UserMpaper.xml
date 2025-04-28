@@ -13,7 +13,7 @@
   </insert>-->
 
 
-<select id="listAllUsers" resultType="com.st.tools.common.model.entity.User">
+<select id="listAllUsers" resultType="com.st.tools.modules.demo.model.entity.User">
  select *
  from user;
  </select>

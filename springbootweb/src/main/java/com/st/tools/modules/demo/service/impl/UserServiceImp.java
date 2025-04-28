@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.st.tools.modules.demo.dao.mapper.UserMapper;
-import com.st.tools.common.model.entity.User;
+import com.st.tools.modules.demo.model.entity.User;
 import com.st.tools.modules.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

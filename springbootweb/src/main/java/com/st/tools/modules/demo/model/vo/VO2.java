@@ -1,4 +1,4 @@
-package com.st.tools.common.model.vo;
+package com.st.tools.modules.demo.model.vo;
 
 
 import com.st.modules.json.jackson.JacksonUtils;

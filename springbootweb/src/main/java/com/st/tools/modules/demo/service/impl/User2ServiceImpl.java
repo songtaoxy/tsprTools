@@ -3,7 +3,7 @@ package com.st.tools.modules.demo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.st.tools.common.model.entity.User2;
+import com.st.tools.modules.demo.model.entity.User2;
 import com.st.tools.modules.demo.dao.mapper.User2Mapper;
 import com.st.tools.modules.demo.service.User2Service;
 import org.springframework.beans.factory.annotation.Autowired;

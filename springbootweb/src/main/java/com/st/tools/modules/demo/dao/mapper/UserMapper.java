@@ -1,7 +1,7 @@
 package com.st.tools.modules.demo.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.st.tools.common.model.entity.User;
+import com.st.tools.modules.demo.model.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
