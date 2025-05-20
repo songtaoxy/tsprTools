@@ -59,6 +59,7 @@ public class UserController {
       @RequestParam("pageSize") Integer pageSize,
       @RequestBody Map map) {
 
+
     log.info("index    ===> {}",index);
     log.info("current  ===> {}",current);
     log.info("pageSize ===> {}",pageSize);
@@ -68,6 +69,7 @@ public class UserController {
     System.out.println(userConfig.getName());
     return userService.findPage(current, pageSize);
   }
+
 
   @GetMapping("/{id}")
   public User getUserById(@PathVariable("id") Integer id) {

@@ -1,4 +1,4 @@
-package com.st.tools.sort;
+package com.st.dsa.sort;
 
 public class QuickSort {
 
