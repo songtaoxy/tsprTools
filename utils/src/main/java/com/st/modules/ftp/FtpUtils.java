@@ -173,6 +173,15 @@ public class FtpUtils {
 
     // 假定 FtpUtils 中有 getFtpClient() 可用
     // 1. 普通下载：全量下载远程文件到本地
+
+    /**
+     * <pre>
+     * case: boolean ok = FtpDownloadUtils.downloadFile("/upload/hello.txt", new File("/tmp/hello.txt"));
+     * </pre>
+     * @param remoteFile
+     * @param localFile
+     * @return
+     */
     public static boolean downloadFile(String remoteFile, File localFile) {
         FTPClient ftpClient = null;
         try {
@@ -192,6 +201,15 @@ public class FtpUtils {
     }
 
     // 2. 断点续传下载
+
+    /**
+     * <pre>
+     * case: boolean resumed = FtpDownloadUtils.resumeDownload("/upload/bigfile.zip", new File("/tmp/bigfile.zip"));
+     * </pre>
+     * @param remoteFile
+     * @param localFile
+     * @return
+     */
     public static boolean resumeDownload(String remoteFile, File localFile) {
         FTPClient ftpClient = null;
         boolean result = false;
