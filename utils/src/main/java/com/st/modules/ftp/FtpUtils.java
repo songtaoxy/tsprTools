@@ -176,7 +176,8 @@ public class FtpUtils {
 
     /**
      * <pre>
-     * case: boolean ok = FtpDownloadUtils.downloadFile("/upload/hello.txt", new File("/tmp/hello.txt"));
+     * - 直接覆盖写入
+     * - case: boolean ok = FtpDownloadUtils.downloadFile("/upload/hello.txt", new File("/tmp/hello.txt"));
      * </pre>
      * @param remoteFile
      * @param localFile
@@ -204,6 +205,8 @@ public class FtpUtils {
 
     /**
      * <pre>
+     * - 自动检测本地文件长度，设置 FTP 断点并续写（断点自动偏移、适合大文件断网重试）
+     * - completePendingCommand(): 必须调用，确保 FTP 流操作完整提交
      * case: boolean resumed = FtpDownloadUtils.resumeDownload("/upload/bigfile.zip", new File("/tmp/bigfile.zip"));
      * </pre>
      * @param remoteFile
