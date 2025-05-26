@@ -32,8 +32,8 @@ public class ClimbingStairs {
     /**
      * <pre>
      *     - 动态规划 + 保存前面的解
-     *     -时间复杂度：O(n)，需要遍历 n 次。
-     *     -空间复杂度：O(1)（仅用3个变量）
+     *     - 时间复杂度：O(n)，需要遍历 n 次。
+     *     - 空间复杂度：O(1)（仅用3个变量）
      *     - test ref {@code ClimbingStairsTest}
      * </pre>
      * @param n
