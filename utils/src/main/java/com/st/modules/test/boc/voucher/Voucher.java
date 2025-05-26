@@ -1,18 +1,23 @@
-package com.st.modules.test;
+package com.st.modules.test.boc.voucher;
 
 
 
+    import com.st.modules.constant.FileConst;
     import com.st.modules.file.FileUtil;
+    import com.st.modules.file.clean.FileCleanupManager;
     import com.st.modules.tar.TarUtils;
     import com.st.modules.time.TimeUtils;
+    import lombok.extern.slf4j.Slf4j;
+    import org.jetbrains.annotations.NotNull;
 
     import java.io.File;
+    import java.io.IOException;
     import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
     import java.util.stream.Collectors;
-
+@Slf4j
 public class Voucher {
 
         public static final String appPath = System.getProperty("user.dir");
@@ -31,22 +36,17 @@ public class Voucher {
                     mapOf("type", "报销", "no", "BX002", "date", "2024-05-26", "amount", "500", "remark", "办公用品")
             );
 
+            // 2, convert: list<map> -> list<BO>
             List<VoucherTransmitBO> voucherTransmitBOS = VoucherTransmitBO.mapListToBOList(allVouchers);
 
-            // 2. 按类型分组
-           /* Map<String, List<Map<String, Object>>> typeGroup = new HashMap<>();
-            for (Map<String, Object> v : allVouchers) {
-                String type = String.valueOf(v.get("type"));
-                typeGroup.computeIfAbsent(type, k -> new ArrayList<>()).add(v);
-            }*/
-
+            // 3. 按类型分组
             Map<String, List<VoucherTransmitBO>> typeGroup = voucherTransmitBOS.stream().collect(Collectors.groupingBy(VoucherTransmitBO::getType));
 
-            // 3. 类型顺序
+            // 4. 类型顺序
             List<String> typeOrder = new ArrayList<>(typeGroup.keySet());
             Collections.sort(typeOrder); // 可自定义顺序
 
-            // 4. 计算每类全局编号起始值
+            // 5. 计算每类全局编号起始值
             Map<String, Integer> typeStartGlobalIndex = new HashMap<>();
             int startIdx = 1;
             for (String type : typeOrder) {
@@ -54,51 +54,48 @@ public class Voucher {
                 startIdx += typeGroup.get(type).size();
             }
 
-            // 5. 并行流式生成格式化数据
+            // 6. 并行流式生成格式化数据
             List<String> formattedAll = formatVouchersParallel(typeOrder, typeGroup, typeStartGlobalIndex);
+//            System.out.println(String.join("\n", formattedAll));
 
-            System.out.println(String.join("\n", formattedAll));
-
-            // 6. 写入文件
-            // System.out.println(System.getProperty("java.io.tmpdir"));
-            // File tempFile = Files.createTempFile("myapp_", ".tmp").toFile(); // NIO写法
-            String txtPostFix=".txt";
-            String tarPostFix=".tar.gz";
-            String voucherTempFile= appPath+"/voucher_temp/";
+            // 7. 写入文件(txt)
             String fileName = TimeUtils.time2Str();
-            String tempFilePath = voucherTempFile+fileName +txtPostFix;
-            String tempFileTarGzPath=voucherTempFile+fileName+"/x/y" +tarPostFix;
-            System.out.println(tempFilePath);
+            String tempFilePath = FileConst.buildVoucherTxt(fileName);
+            File tempFile = wirteTxtFile(tempFilePath, formattedAll);
 
-//            File tempFile = File.createTempFile("voucher_temp_", TimeUtils.time2Str() +".txt");
-            File tempFile = FileUtil.createFileOverwrite(tempFilePath);
-            File tempFileTarGz = FileUtil.createFileOverwrite(tempFileTarGzPath);
-
-            String fileContent = String.join("\n", formattedAll);
-//            String filePath = System.getProperty("user.dir")+"/tmp/voucher_export.txt";
-//            String filePath = tempFile.getAbsolutePath();
-//            System.out.println(filePath);
-
-
-//            FileUtil.createFile(filePath);
-            Files.write(Paths.get(tempFile.getAbsolutePath()), fileContent.getBytes(StandardCharsets.UTF_8));
-            System.out.println("write done");
-
-            TarUtils.compressToTarGz(tempFile,new File(tempFileTarGzPath));
+            // 8, 压缩: 将txt压缩成tar.gz
+            File tempFileTarGz = compressWithTargz(fileName, tempFile);
 
             boolean flag=false;
-            // 7. FTP上传
+            // 9. FTP上传tar.gz
 //            flag = ftpUpload(filePath, "/目标目录/voucher_export.txt");
 
-            // 添加判断(如果ftp上传成功, 则
+            // 10, 延迟清理文件: 如果ftp上传成功, 则清理文件(延迟)
            if(flag){
-                 tempFile.deleteOnExit();
-                 tempFileTarGz.deleteOnExit();
+               FileCleanupManager.register(tempFile);
+               FileCleanupManager.register(tempFileTarGz);
            }
-            System.out.println("clear ...");
         }
 
-        /**
+    @NotNull
+    private static File compressWithTargz(String fileName, File tempFile) throws IOException {
+        String tempFileTarGzPath=FileConst.buildVoucherTarGz(fileName +"/x/y");
+        File tempFileTarGz = FileUtil.createFileOverwrite(tempFileTarGzPath);
+        TarUtils.compressToTarGz(tempFile,new File(tempFileTarGzPath));
+        return tempFileTarGz;
+    }
+
+    @NotNull
+    private static File wirteTxtFile(String tempFilePath, List<String> formattedAll) throws IOException {
+        File tempFile = FileUtil.createFileOverwrite(tempFilePath);
+        System.out.println(tempFile.getAbsolutePath());
+        String fileContent = String.join("\n", formattedAll);
+        Files.write(Paths.get(tempFile.getAbsolutePath()), fileContent.getBytes(StandardCharsets.UTF_8));
+        log.info("write done");
+        return tempFile;
+    }
+
+    /**
          * 并行流式处理所有类型，内部循环用for，尽可能减少流式操作
          */
         public static List<String> formatVouchersParallel(

@@ -1,4 +1,4 @@
-package com.st.modules.test;
+package com.st.modules.test.boc.voucher;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
