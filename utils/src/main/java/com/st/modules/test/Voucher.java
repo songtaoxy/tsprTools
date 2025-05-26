@@ -1,7 +1,9 @@
-package com.st.modules.file;
+package com.st.modules.test;
 
 
 
+    import com.st.modules.file.FileUtil;
+    import com.st.modules.tar.TarUtils;
     import com.st.modules.time.TimeUtils;
 
     import java.io.File;
@@ -9,8 +11,11 @@ package com.st.modules.file;
 import java.nio.file.Paths;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+    import java.util.stream.Collectors;
 
 public class Voucher {
+
+        public static final String appPath = System.getProperty("user.dir");
 
         public static void main(String[] args) throws Exception {
             // 1. 查询凭证数据（Map结构）
@@ -26,12 +31,16 @@ public class Voucher {
                     mapOf("type", "报销", "no", "BX002", "date", "2024-05-26", "amount", "500", "remark", "办公用品")
             );
 
+            List<VoucherTransmitBO> voucherTransmitBOS = VoucherTransmitBO.mapListToBOList(allVouchers);
+
             // 2. 按类型分组
-            Map<String, List<Map<String, Object>>> typeGroup = new HashMap<>();
+           /* Map<String, List<Map<String, Object>>> typeGroup = new HashMap<>();
             for (Map<String, Object> v : allVouchers) {
                 String type = String.valueOf(v.get("type"));
                 typeGroup.computeIfAbsent(type, k -> new ArrayList<>()).add(v);
-            }
+            }*/
+
+            Map<String, List<VoucherTransmitBO>> typeGroup = voucherTransmitBOS.stream().collect(Collectors.groupingBy(VoucherTransmitBO::getType));
 
             // 3. 类型顺序
             List<String> typeOrder = new ArrayList<>(typeGroup.keySet());
@@ -51,29 +60,41 @@ public class Voucher {
             System.out.println(String.join("\n", formattedAll));
 
             // 6. 写入文件
-
-            System.out.println(System.getProperty("java.io.tmpdir"));
-
-            File tempFile = File.createTempFile("voucher_temp", TimeUtils.time2Str() +".txt");
+            // System.out.println(System.getProperty("java.io.tmpdir"));
             // File tempFile = Files.createTempFile("myapp_", ".tmp").toFile(); // NIO写法
+            String txtPostFix=".txt";
+            String tarPostFix=".tar.gz";
+            String voucherTempFile= appPath+"/voucher_temp/";
+            String fileName = TimeUtils.time2Str();
+            String tempFilePath = voucherTempFile+fileName +txtPostFix;
+            String tempFileTarGzPath=voucherTempFile+fileName+"/x/y" +tarPostFix;
+            System.out.println(tempFilePath);
 
+//            File tempFile = File.createTempFile("voucher_temp_", TimeUtils.time2Str() +".txt");
+            File tempFile = FileUtil.createFileOverwrite(tempFilePath);
+            File tempFileTarGz = FileUtil.createFileOverwrite(tempFileTarGzPath);
 
             String fileContent = String.join("\n", formattedAll);
-            String filePath = System.getProperty("user.dir")+"/tmp/voucher_export.txt";
-            filePath = tempFile.getAbsolutePath();
-            System.out.println(filePath);
+//            String filePath = System.getProperty("user.dir")+"/tmp/voucher_export.txt";
+//            String filePath = tempFile.getAbsolutePath();
+//            System.out.println(filePath);
 
 
-            FileUtil.createFile(filePath);
-            Files.write(Paths.get(filePath), fileContent.getBytes(StandardCharsets.UTF_8));
+//            FileUtil.createFile(filePath);
+            Files.write(Paths.get(tempFile.getAbsolutePath()), fileContent.getBytes(StandardCharsets.UTF_8));
             System.out.println("write done");
+
+            TarUtils.compressToTarGz(tempFile,new File(tempFileTarGzPath));
 
             boolean flag=false;
             // 7. FTP上传
 //            flag = ftpUpload(filePath, "/目标目录/voucher_export.txt");
 
             // 添加判断(如果ftp上传成功, 则
-           if(flag){tempFile.deleteOnExit();}
+           if(flag){
+                 tempFile.deleteOnExit();
+                 tempFileTarGz.deleteOnExit();
+           }
             System.out.println("clear ...");
         }
 
@@ -82,20 +103,20 @@ public class Voucher {
          */
         public static List<String> formatVouchersParallel(
                 List<String> typeOrder,
-                Map<String, List<Map<String, Object>>> typeGroup,
+                Map<String, List<VoucherTransmitBO>> typeGroup,
                 Map<String, Integer> typeStartGlobalIndex
         ) {
             // 用线程安全集合接收结果
             List<String> result = Collections.synchronizedList(new ArrayList<>());
 
             typeOrder.parallelStream().forEach(type -> {
-                List<Map<String, Object>> vouchers = typeGroup.get(type);
+                List<VoucherTransmitBO> vouchers = typeGroup.get(type);
                 int startGlobal = typeStartGlobalIndex.get(type);
                 for (int i = 0; i < vouchers.size(); i++) {
                     int localIdx = i + 1;
                     int globalIdx = startGlobal + i;
-                    Map<String, Object> v = vouchers.get(i);
-                    String line = formatVoucher(globalIdx, localIdx, type, v);
+                    VoucherTransmitBO voucherTransmitBO = vouchers.get(i);
+                    String line = formatVoucher(globalIdx, localIdx, type, voucherTransmitBO);
                     result.add(line);
                 }
             });
@@ -105,12 +126,12 @@ public class Voucher {
             return result;
         }
 
-        public static String formatVoucher(int globalIdx, int localIdx, String type, Map<String, Object> v) {
+        public static String formatVoucher(int globalIdx, int localIdx, String type, VoucherTransmitBO bo) {
             return globalIdx + "," + localIdx + "," + type + "," +
-                    v.getOrDefault("no", "") + "," +
-                    v.getOrDefault("date", "") + "," +
-                    v.getOrDefault("amount", "") + "," +
-                    v.getOrDefault("remark", "");
+                    bo.getNo() + "," +
+                    bo.getDate() + "," +
+                    bo.getAmount() + "," +
+                    bo.getRemark();
         }
 
         // FTP 上传（实现略）
