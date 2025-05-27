@@ -12,7 +12,27 @@ public class FileConst {
     public static final String filePostFixTxt = ".txt";
     public static final String filePostFixTarGz = ".tar.gz";
 
-    public static final String voucherTempFile = appDir+ File.separator+"voucher_temp"+File.separator+TimeUtils.time2StrCust("yyyy-MM-dd_HHmmss")+File.separator;
+    public static final String s=File.separator;
+    public static final String timeFlag = TimeUtils.time2StrCust("yyyy-MM-dd_HHmmss");
+
+    // 凭证: 基本目录
+    public static final String voucherTempDir = appDir+ File.separator+"voucher_temp"+File.separator;
+    // 模块
+    //- [[经费总账系统 fgls]] -〉Fund General Ledger System
+    //- [[固定资产系统 fams ]]-> Fixed Assets Management System
+    public static final String fgls = "fgls";
+    public static final String fams = "fams";
+
+    // 经费总账/下发文件目录
+    public static final String fglsDistributeFile = voucherTempDir+fgls+s+"distribute"+s+timeFlag+s;
+    // 经费总账/接收文件目录
+    public static final String fglsReceiveFile = voucherTempDir+fgls+s+"receive"+s+timeFlag+s;
+
+    // 固定资产/下发文件目录
+    public static final String famsDistributeFile = voucherTempDir+fgls+s+"distribute"+s+timeFlag+s;
+    // 固定资产/接收文件目录
+    public static final String famsReceiveFile = voucherTempDir+fgls+s+"receive"+s+timeFlag+s;
+
 
 
 
