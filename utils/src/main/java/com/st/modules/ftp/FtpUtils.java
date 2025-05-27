@@ -34,6 +34,17 @@ import java.util.Properties;
 
  * </pre>
  *
+ * dependencys
+ * <pre>
+ *  {@code
+ *        <dependency>
+ *             <groupId>commons-net</groupId>
+ *             <artifactId>commons-net</artifactId>
+ *             <version>3.8.0</version>
+ *         </dependency>
+ *  }
+ * </pre>
+ *
  * unit test ref {@code com.st.modules.ftp.FtpUtilsTest}
  */
 public class FtpUtils {
