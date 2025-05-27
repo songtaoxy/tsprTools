@@ -3,6 +3,8 @@ package com.st.modules.test.boc.voucher;
 
 
     import com.google.gson.annotations.SerializedName;
+    import com.st.modules.config.AppConfigUtils;
+    import com.st.modules.config.DynamicAppConfig;
     import com.st.modules.constant.FileConst;
     import com.st.modules.file.FileUtils;
     import com.st.modules.file.clean.FileCleanupManager;
@@ -26,6 +28,8 @@ public class Voucher {
 
         @SneakyThrows
         public static void main(String[] args) throws Exception {
+
+            log.info(DynamicAppConfig.get("ftp.pass"));
 
             // 1. 查询凭证数据（Map结构）(模拟)
             List<Map<String, Object>> base = Arrays.asList(
