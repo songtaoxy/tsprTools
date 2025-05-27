@@ -105,9 +105,13 @@ public class VoucherTransmitBO {
 
     public VoucherTransmitBO(Map<String, Object> baseMap, Map<String, Object> extraMap) {
 
-        this.orgL1=(String) baseMap.get("orgL1");
-        this.ouCode=this.orgL1=(String) baseMap.get("ouCode");
-        this.orgL1AndOuCode = (String) baseMap.get("orgL1AndOuCode");
+//        this.orgL1=(String) baseMap.get("orgL1");
+//        this.ouCode=this.orgL1=(String) baseMap.get("ouCode");
+//        this.orgL1AndOuCode = (String) baseMap.get("orgL1AndOuCode");
+        String orgL1AndOuCodeTemp = (String) baseMap.get("orgL1AndOuCode");
+        String org_L1 = orgL1AndOuCodeTemp.substring(0,5);
+        String ou_code = orgL1AndOuCodeTemp.substring(5);
+        this.orgL1AndOuCode = org_L1+ou_code;
 
 
         // 全局编号
