@@ -49,6 +49,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 public class DynamicAppConfig {
+    // -DappEnv=dev
+    private static final String jvm_param ="appEnv";
+
+    private static final String preFix = "app_";
+    private static final String postFix = ".properties";
+    private static final String var_env = "env";
+
 
     // 配置缓存（线程安全，支持动态刷新）
     private static volatile Map<String, String> CONFIG_MAP = new ConcurrentHashMap<>();
@@ -67,14 +74,14 @@ public class DynamicAppConfig {
     // 获取当前环境
     public static String getActiveEnv() {
         // 优先读取JVM参数；也可加上System.getenv支持
-        String env = System.getProperty("appEnv");
-        if (env == null) env = "dev";
+        String env = System.getProperty(jvm_param);
+        if (env == null) env = var_env;
         return env.toLowerCase();
     }
 
     // 加载配置文件
     private static void loadConfig(String env) {
-        String fileName = "app_" + env + ".properties";
+        String fileName = preFix + env + postFix;
         Properties props = new Properties();
         try (InputStream in = DynamicAppConfig.class.getClassLoader().getResourceAsStream(fileName)) {
             if (in == null) throw new RuntimeException("未找到配置文件: " + fileName);
