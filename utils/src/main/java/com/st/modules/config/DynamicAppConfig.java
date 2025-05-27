@@ -63,7 +63,9 @@ public class DynamicAppConfig {
     private static volatile Path CONFIG_PATH = null;
     private static Thread watchThread = null;
 
-    // 初始化
+    // 初始化:
+    // 如果服务启动时, 并未使用(启动类及其相关流程中), 则不会加载DynamicAppConfig及执行该部分.
+    // 当DynamicAppConfig首次被使用时, 执行, 只执行一次.
     static {
         String env = getActiveEnv();
         loadConfig(env);
