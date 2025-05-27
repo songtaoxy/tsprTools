@@ -2,6 +2,7 @@ package com.st.modules.ftp;
 
 
 
+import com.st.modules.config.DynamicAppConfig;
 import org.apache.commons.net.ftp.FTPClient;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -32,6 +33,8 @@ import java.util.Properties;
  * 优化方向: 上传、下载, 使用多线程
 
  * </pre>
+ *
+ * unit test ref {@code com.st.modules.ftp.FtpUtilsTest}
  */
 public class FtpUtils {
     private static String server;
@@ -42,19 +45,11 @@ public class FtpUtils {
 
     // 静态块：初始化配置
     static {
-        Properties props = new Properties();
-        try (InputStream in = FtpUtils.class.getClassLoader().getResourceAsStream("ftp.properties")) {
-            if (in != null) {
-                props.load(in);
-                server = props.getProperty("ftp.server");
-                port = Integer.parseInt(props.getProperty("ftp.port", "21"));
-                user = props.getProperty("ftp.user");
-                pass = props.getProperty("ftp.pass");
-                remotePath = props.getProperty("ftp.remotePath", "/");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("FTP配置文件加载失败", e);
-        }
+                server = DynamicAppConfig.get("ftp.server");
+                port = Integer.parseInt(DynamicAppConfig.get("ftp.port", "21"));
+                user = DynamicAppConfig.get("ftp.user");
+                pass = DynamicAppConfig.get("ftp.pass");
+                remotePath = DynamicAppConfig.get("ftp.remotePath", "/");
     }
 
 

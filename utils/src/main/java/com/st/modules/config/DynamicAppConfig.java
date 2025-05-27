@@ -54,7 +54,7 @@ public class DynamicAppConfig {
 
     private static final String preFix = "app_";
     private static final String postFix = ".properties";
-    private static final String var_env = "env";
+    private static final String var_env_dev = "dev";
 
 
     // 配置缓存（线程安全，支持动态刷新）
@@ -77,7 +77,7 @@ public class DynamicAppConfig {
     public static String getActiveEnv() {
         // 优先读取JVM参数；也可加上System.getenv支持
         String env = System.getProperty(jvm_param);
-        if (env == null) env = var_env;
+        if (env == null) env = var_env_dev;
         return env.toLowerCase();
     }
 
