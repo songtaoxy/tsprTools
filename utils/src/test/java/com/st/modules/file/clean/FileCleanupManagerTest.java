@@ -1,7 +1,7 @@
 package com.st.modules.file.clean;
 
 import com.st.modules.constant.FileConst;
-import com.st.modules.file.FileUtil;
+import com.st.modules.file.FileUtils;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +13,6 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.concurrent.TimeUnit;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * <pre>
@@ -36,7 +34,7 @@ class FileCleanupManagerTest {
         FileCleanupConfig.maxFiles = 1000;
         FileCleanupConfig.cleanupIntervalMillis = 1000;
 //        FileCleanupConfig.logFile = null;
-        FileCleanupConfig.logFile  = FileUtil.createFileIfNotExists(FileConst.appDir+"/var/log/jvm_cleanFile_log.log");
+        FileCleanupConfig.logFile  = FileUtils.createFileIfNotExists(FileConst.appDir+"/var/log/jvm_cleanFile_log.log");
 
     }
 

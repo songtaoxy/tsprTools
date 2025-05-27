@@ -1,7 +1,7 @@
 package com.st.modules.file.clean;
 
 import com.st.modules.constant.FileConst;
-import com.st.modules.file.FileUtil;
+import com.st.modules.file.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public final class FileCleanupConfig {
 
     static {
         try {
-            logFile = FileUtil.createFileIfNotExists(FileConst.appDir+"/var/log/jvm_cleanFile_log.log");
+            logFile = FileUtils.createFileIfNotExists(FileConst.appDir+"/var/log/jvm_cleanFile_log.log");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

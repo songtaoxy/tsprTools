@@ -12,7 +12,7 @@ import java.util.Properties;
  * - 安装步骤: pom.xml:commons-net的jar
  *
  * - ftp配置:
- * - - 配置可通过 resources/ftp.properties 管理,代码零硬编码
+ * - - 配置可通过 {@code resources/ftp.properties} 管理,代码零硬编码
  *
  * - 多种上传方式: 字符串、文件、任意输入流
  * - 自动连接、登录、切换目录、异常处理
@@ -57,6 +57,7 @@ public class FtpUtils {
         }
     }
 
+
     // 获取FTP客户端连接（自动登录与目录切换）
     public static FTPClient getFtpClient() throws IOException {
         FTPClient ftpClient = new FTPClient();
@@ -66,6 +67,7 @@ public class FtpUtils {
         ftpClient.changeWorkingDirectory(remotePath);
         return ftpClient;
     }
+
 
     // 上传字符串内容为文件（如txt、csv等）
     public static boolean uploadString(String filename, String content) {
@@ -78,6 +80,7 @@ public class FtpUtils {
             return false;
         }
     }
+
 
     // 上传本地文件
     public static boolean uploadFile(String filename, File localFile) {

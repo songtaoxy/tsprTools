@@ -40,7 +40,7 @@ import java.util.*;
  * </pre>
  */
 @Slf4j
-public class FileUtil {
+public class FileUtils {
 
 	public static void main(String[] args) {
 		String filePath = "/Users/songtao/personaldriveMac/Projects/tsprTools/stbptools008/src/main/java/com/st/modules/file/test.txt";

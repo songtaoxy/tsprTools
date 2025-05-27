@@ -30,4 +30,13 @@ public class TimeUtils {
         String formatted = now.format(formatter);
         return formatted;
     }
+
+    public static String time2StrCust(String format) {
+        // 当前时间
+        LocalDateTime now = LocalDateTime.now();
+        // 注意 MM 是月份，mm 是分钟，dd 是日，DD 是一年中的第几天（不要误用）
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        String formatted = now.format(formatter);
+        return formatted;
+    }
 }
