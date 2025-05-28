@@ -4,8 +4,12 @@ package com.st.modules.file.ftp;
 
 import com.st.modules.config.DynamicAppConfig;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 /**
  * <pre>
@@ -47,36 +51,12 @@ import java.nio.charset.StandardCharsets;
  * unit test ref {@code com.st.modules.ftp.FtpUtilsTest}
  */
 public class FtpUtils {
-    private static String server;
-    private static int port;
-    private static String user;
-    private static String pass;
-    private static String remotePath;
 
-    // 静态块：初始化配置
-    static {
-                server = DynamicAppConfig.get("ftp.server");
-                port = Integer.parseInt(DynamicAppConfig.get("ftp.port", "21"));
-                user = DynamicAppConfig.get("ftp.user");
-                pass = DynamicAppConfig.get("ftp.pass");
-                remotePath = DynamicAppConfig.get("ftp.remotePath", "/");
-    }
-
-
-    // 获取FTP客户端连接（自动登录与目录切换）
-    public static FTPClient getFtpClient() throws IOException {
-        FTPClient ftpClient = new FTPClient();
-        ftpClient.connect(server, port);
-        ftpClient.login(user, pass);
-        ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-        ftpClient.changeWorkingDirectory(remotePath);
-        return ftpClient;
-    }
 
 
     // 上传字符串内容为文件（如txt、csv等）
     public static boolean uploadString(String filename, String content) {
-        try {FTPClient ftpClient = getFtpClient();
+        try {FTPClient ftpClient = FTPClientFactory.getFtpClient();
              InputStream input = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
             boolean done = ftpClient.storeFile(filename, input);
             return done;
@@ -89,7 +69,7 @@ public class FtpUtils {
 
     // 上传本地文件
     public static boolean uploadFile(String filename, File localFile) {
-        try {FTPClient ftpClient = getFtpClient();
+        try {FTPClient ftpClient = FTPClientFactory.getFtpClient();
              InputStream input = new FileInputStream(localFile);
             boolean done = ftpClient.storeFile(filename, input);
             return done;
@@ -101,7 +81,7 @@ public class FtpUtils {
 
     // 上传输入流
     public static boolean uploadStream(String filename, InputStream in) {
-        try {FTPClient ftpClient = getFtpClient();
+        try {FTPClient ftpClient = FTPClientFactory.getFtpClient();
              InputStream input = in ;
             boolean done = ftpClient.storeFile(filename, input);
             return done;
@@ -134,7 +114,7 @@ public class FtpUtils {
             FTPClient ftpClient = null;
             boolean success = false;
             try {
-                ftpClient = getFtpClient();
+                ftpClient = FTPClientFactory.getFtpClient();
 
                 // 检查远程文件是否已存在，以及已上传长度
                 long remoteSize = 0;
@@ -194,7 +174,7 @@ public class FtpUtils {
     public static boolean downloadFile(String remoteFile, File localFile) {
         FTPClient ftpClient = null;
         try {
-            ftpClient = FtpUtils.getFtpClient();
+            ftpClient = FTPClientFactory.getFtpClient();
             try (OutputStream output = new BufferedOutputStream(new FileOutputStream(localFile))) {
                 boolean success = ftpClient.retrieveFile(remoteFile, output);
                 return success;
@@ -227,7 +207,7 @@ public class FtpUtils {
         RandomAccessFile raf = null;
         InputStream is = null;
         try {
-            ftpClient = FtpUtils.getFtpClient();
+            ftpClient = FTPClientFactory.getFtpClient();
 
             // 获取远程文件大小
             long remoteSize = ftpClient.mlistFile(remoteFile) != null ? ftpClient.mlistFile(remoteFile).getSize() : 0;
@@ -264,6 +244,119 @@ public class FtpUtils {
             }
         }
         return result;
+    }
+
+    // ##########################################
+    // part: 批量上传:上传目录或多个目标文件
+    // ##########################################
+
+
+
+    // ##########################################
+    // part: 批量下载: 下载目录或多个目标文件
+    // ##########################################
+
+    /**
+     * 批量下载远程目录下所有文件到本地目录
+     * @param remoteDir FTP目录（如"/upload"）
+     * @param localDir  本地目录（如"/tmp/download"），自动创建
+     * @return 下载成功的文件数
+     */
+    public static int batchDownloadDir(String remoteDir, String localDir) {
+        return batchDownload(remoteDir, localDir, f -> true);
+    }
+
+    /**
+     * 根据文件名通配/后缀/关键字等，批量下载FTP文件
+     * <pre>
+     * 要点:
+     * - 本地目录自动创建，避免手动 mkdir
+     * - 支持任意复杂文件名筛选（Predicate<FTPFile>），最大灵活度
+     * - 下载量/成功日志可控，便于自动化和监控
+     * - 若需断点续传下载，建议在上述方法内调用 resumeDownload(...) 方法，见前述实现
+     *
+     * 线程并行优化建议
+     * - 如果目录下文件量极大，可用 ExecutorService 并行多线程下载（每个文件一个线程任务）
+     * - 推荐设定最大并发数，避免本地IO与FTP带宽瓶颈
+     * </pre>
+     *
+     * Usage
+     * <pre>
+     * {@code
+     * // 1. 批量下载目录下所有文件
+     * int n1 = FtpUtils.batchDownloadDir("/remote/dir", "/tmp/localDir");
+     *
+     * // 2. 仅下载 tar.gz 文件
+     * int n2 = FtpUtils.batchDownload("/remote/dir", "/tmp/localDir", f -> f.getName().endsWith(".tar.gz"));
+     *
+     * // 3. 下载文件名包含"voucher"
+     * int n3 = FtpUtils.batchDownloadByKeyword("/remote/dir", "/tmp/localDir", "voucher");
+     *
+     * // 4. 按正则（如下载以 2024 开头、以 .txt 结尾的文件）
+     * int n4 = FtpUtils.batchDownloadByRegex("/remote/dir", "/tmp/localDir", "^2024.*\\.txt$");
+     * }
+     * </pre>
+     * @param remoteDir FTP目录
+     * @param localDir  本地目录
+     * @param filter    文件名过滤（如f -> f.getName().endsWith(".tar.gz")）
+     * @return 下载成功的文件数
+     */
+    public static int batchDownload(String remoteDir, String localDir, Predicate<FTPFile> filter) {
+        FTPClient ftpClient = null;
+        int successCount = 0;
+        try {
+            ftpClient = FTPClientFactory.getFtpClient();
+            ftpClient.changeWorkingDirectory(remoteDir);
+            FTPFile[] files = ftpClient.listFiles();
+
+            File localDirFile = new File(localDir);
+            if (!localDirFile.exists()) localDirFile.mkdirs();
+
+            for (FTPFile f : files) {
+                if (!f.isFile()) continue;
+                if (!filter.test(f)) continue;
+                File localFile = new File(localDir, f.getName());
+                try (OutputStream out = new BufferedOutputStream(new FileOutputStream(localFile))) {
+                    boolean ok = ftpClient.retrieveFile(f.getName(), out);
+                    if (ok) {
+                        System.out.println("下载成功：" + f.getName());
+                        successCount++;
+                    } else {
+                        System.out.println("下载失败：" + f.getName());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ftpClient != null && ftpClient.isConnected()) {
+                try { ftpClient.logout(); ftpClient.disconnect(); } catch (Exception ignored) {}
+            }
+        }
+        return successCount;
+    }
+
+    /**
+     * 根据文件名正则批量下载
+     * @param remoteDir FTP目录
+     * @param localDir 本地目录
+     * @param regex 正则表达式
+     * @return 下载数
+     */
+    public static int batchDownloadByRegex(String remoteDir, String localDir, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        return batchDownload(remoteDir, localDir, f -> pattern.matcher(f.getName()).matches());
+    }
+
+    /**
+     * 根据关键字批量下载
+     * @param remoteDir
+     * @param localDir
+     * @param keyword 文件名含该关键字
+     * @return 下载数
+     */
+    public static int batchDownloadByKeyword(String remoteDir, String localDir, String keyword) {
+        return batchDownload(remoteDir, localDir, f -> f.getName().contains(keyword));
     }
     }
 

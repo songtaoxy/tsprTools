@@ -1,6 +1,6 @@
 package com.st.modules.tar;
 
-import com.st.modules.file.FileUtils;
+import com.st.modules.file.FileCreateUtils;
 import com.st.modules.file.tar.TarUtils;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -22,19 +22,19 @@ class TarUtilsTest {
         System.out.println(property);
 
         // 单个文件
-        File sourceFile = FileUtils.createFileIfNotExists(property+"/tmp/hello.txt");
+        File sourceFile = FileCreateUtils.createFileIfNotExists(property+"/tmp/hello.txt");
         System.out.println(sourceFile.getAbsolutePath());
 
-        File outTarGz = FileUtils.createFileOverwrite(property+"/tmp/hello.tar.gz");
+        File outTarGz = FileCreateUtils.createFileOverwrite(property+"/tmp/hello.tar.gz");
         TarUtils.compressToTarGz(sourceFile, outTarGz);
         System.out.println("压缩单文件完成: " + outTarGz.getAbsolutePath());
 
         // 目录
         String dirPath = property+"/tmp/testdir";
-        File dirFIle = FileUtils.createDirIfNotExists(dirPath);
+        File dirFIle = FileCreateUtils.createDirIfNotExists(dirPath);
 
         String outTarGzPath= property+"/tmp/testdir.tar.gz";
-        File outTarGzDir = FileUtils.createFileOverwrite(outTarGzPath);
+        File outTarGzDir = FileCreateUtils.createFileOverwrite(outTarGzPath);
 
         TarUtils.compressToTarGz(dirFIle, outTarGzDir);
         System.out.println("压缩目录完成: " + outTarGzDir.getAbsolutePath());

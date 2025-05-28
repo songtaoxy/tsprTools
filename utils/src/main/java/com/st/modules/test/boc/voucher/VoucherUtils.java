@@ -1,7 +1,7 @@
 package com.st.modules.test.boc.voucher;
 
 import com.st.modules.constant.FileConst;
-import com.st.modules.file.FileUtils;
+import com.st.modules.file.FileCreateUtils;
 import com.st.modules.file.tar.TarUtils;
 import com.st.modules.time.TimeUtils;
 import com.sun.istack.internal.NotNull;
@@ -133,14 +133,14 @@ public class VoucherUtils {
         Map<String, String> filePathMap = buildFilePath(orgOuKey);
         String tempFileTarGzPath= filePathMap.get("tarGzFilePath");
 
-        File tempFileTarGz = FileUtils.createFileOverwrite(tempFileTarGzPath);
+        File tempFileTarGz = FileCreateUtils.createFileOverwrite(tempFileTarGzPath);
         TarUtils.compressToTarGz(tempFile,new File(tempFileTarGzPath));
         return tempFileTarGz;
     }
 
     @NotNull
     public static File wirteTxtFile(String tempFilePath, List<String> formattedAll) throws IOException {
-            File tempFile = FileUtils.createFileOverwrite(tempFilePath);
+            File tempFile = FileCreateUtils.createFileOverwrite(tempFilePath);
         System.out.println(tempFile.getAbsolutePath());
         String fileContent = String.join("\n", formattedAll);
         Files.write(Paths.get(tempFile.getAbsolutePath()), fileContent.getBytes(StandardCharsets.UTF_8));

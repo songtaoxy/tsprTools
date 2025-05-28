@@ -1,7 +1,7 @@
 package com.st.modules.file.clean;
 
 import com.st.modules.constant.FileConst;
-import com.st.modules.file.FileUtils;
+import com.st.modules.file.FileCreateUtils;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +34,7 @@ class FileCleanupManagerTest {
         FileCleanupConfig.maxFiles = 1000;
         FileCleanupConfig.cleanupIntervalMillis = 1000;
 //        FileCleanupConfig.logFile = null;
-        FileCleanupConfig.logFile  = FileUtils.createFileIfNotExists(FileConst.appDir+"/var/log/jvm_cleanFile_log.log");
+        FileCleanupConfig.logFile  = FileCreateUtils.createFileIfNotExists(FileConst.appDir+"/var/log/jvm_cleanFile_log.log");
 
     }
 
