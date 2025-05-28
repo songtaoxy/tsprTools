@@ -2,7 +2,10 @@ package com.st.modules.test.boc.voucher;
 
 
 
+    import com.google.inject.Module;
     import com.st.modules.config.DynamicAppConfig;
+    import com.st.modules.constant.FileConst;
+    import com.st.modules.constant.ModulesConst;
     import com.st.modules.file.clean.FileCleanupManager;
     import com.st.modules.serialNumber.DailySystemSerialNoGenerator;
     import com.st.modules.time.TimeUtils;
@@ -15,7 +18,7 @@ package com.st.modules.test.boc.voucher;
 @Slf4j
 public class Voucher {
 
-        public static final String appPath = System.getProperty("user.dir");
+        public static final String appPath = System.getProperty(FileConst.userDir);
 
         @SneakyThrows
         public static void main(String[] args) throws Exception {
@@ -26,7 +29,7 @@ public class Voucher {
             Map<String, String> baseDatas = new HashMap<>();
             String dateStr = TimeUtils.time2StrCust("yyyyMMdd");
             String dateTimeStr = TimeUtils.time2StrCust("yyyyMMddHHmmss");
-            String serialnumber = DailySystemSerialNoGenerator.getInstance().nextSerial("fgls");
+            String serialnumber = DailySystemSerialNoGenerator.getInstance().nextSerial(ModulesConst.fgls);
             baseDatas.put("dateStr", dateStr);
             baseDatas.put("dateTimeStr", dateTimeStr);
             baseDatas.put("serialnumber", serialnumber);

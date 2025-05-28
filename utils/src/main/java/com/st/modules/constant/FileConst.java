@@ -6,7 +6,8 @@ import java.io.File;
 
 public class FileConst {
 
-    public static final String appDir = System.getProperty("user.dir");
+    public static final String userDir = "user.dir";
+    public static final String appDir = System.getProperty(userDir);
     public static final String verticalLine ="|";
 
     public static final String filePostFixTxt = ".txt";
