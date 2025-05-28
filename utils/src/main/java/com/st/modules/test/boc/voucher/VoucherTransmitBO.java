@@ -121,7 +121,7 @@ public class VoucherTransmitBO {
     // 凭证编号
     private String glDocNumber;
     // 凭证入账日期
-    private String goDocAccountingDate;
+    private String glDocAccountingDate;
     // 凭证ID
     private String glJeHeaderId;
     // 凭证行号
