@@ -32,7 +32,7 @@ public class VoucherUtils {
     Map<String,String> fileMap = new HashMap<String, String>();
 
     // dir
-    String dir = FileConst.fglsDistributeFile;
+    String dir = FileConst.fglsDistributeDir;
 
     // file elements
     String prefix = "AP_GL_";

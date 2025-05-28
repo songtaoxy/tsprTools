@@ -102,6 +102,33 @@ public class VoucherTransmitBO {
     //	来源表;是
     private String glSlLinkTable;
 
+    // ##################################
+    // 辅助字段
+    // ##################################
+    private String voucherCode;
+
+    // ##################################
+    // 经费总账返回字段. 8个
+    // ##################################
+    // 原始文件名
+    private String fileName;
+    // 文件日期 YYYY-MM-DD
+    private String fileDate;
+    // 处理状态: S成功; E失败
+    private String processFlag;
+    // 错误消息
+    private String errorMessage;
+    // 凭证编号
+    private String glDocNumber;
+    // 凭证入账日期
+    private String goDocAccountingDate;
+    // 凭证ID
+    private String glJeHeaderId;
+    // 凭证行号
+    private String glJeLineNum;
+
+
+
 
     public VoucherTransmitBO(Map<String, Object> baseMap, Map<String, Object> extraMap) {
 
