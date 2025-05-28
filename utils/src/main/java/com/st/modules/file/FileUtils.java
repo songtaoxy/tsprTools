@@ -42,29 +42,7 @@ import java.util.*;
 @Slf4j
 public class FileUtils {
 
-	public static void main(String[] args) {
-		String filePath = "/Users/songtao/personaldriveMac/Projects/tsprTools/stbptools008/src/main/java/com/st/modules/file/test.txt";
-		String filePath2 = "/Users/songtao/downloads/";
-		//String dir3 = "/Users/songtao/downloads/a/b/c/d";
-		String dir3 = "/Users/songtao/downloads/a/";
-		File file = new File(filePath2);
-		//File file = new File("/Users/songtao/personaldriveMac/");
-		double dirSize = getFileSize(file);
 
-
-		String s = readTxt(filePath);
-		System.out.println(s);
-
-		String s1 = readFile(new File(filePath));
-		System.out.println(s1);
-
-		List<File> files = listFilesForFolder(new File(filePath2));
-		for (File f : files) {
-			System.out.println(f.getAbsolutePath());
-		}
-
-		deleteDir(new File(dir3));
-	}
 
 	/**
 	 * 判断文件是否存在
@@ -106,7 +84,7 @@ public class FileUtils {
 				return target;
 			} else {
 				// 先删除文件或整个目录
-				deleteRecursively(target);
+				delete(target);
 			}
 		}
 
@@ -123,26 +101,6 @@ public class FileUtils {
 		}
 		return target;
 	}
-
-	/**
-	 * 递归删除文件或目录
-	 */
-	private static void deleteRecursively(File file) {
-		if (!file.exists()) return;
-		if (file.isFile()) {
-			file.delete();
-		} else {
-			File[] sub = file.listFiles();
-			if (sub != null) {
-				for (File f : sub) {
-					deleteRecursively(f);
-				}
-			}
-			file.delete();
-		}
-	}
-
-
 
 
 	// 1. 创建文件，不覆盖已存在
@@ -168,6 +126,11 @@ public class FileUtils {
 
 	/**
 	 * 删除单个文件或整个目录（递归）
+	 * <pre>
+	 *  使用场:
+	 *  - 如果入参是String, 使用 {@code com.st.modules.file.FileUtils#delete(java.lang.String)}
+	 *  - 如果入参是File, 使用 {@code com.st.modules.file.FileUtils#delete(java.io.File)}
+	 * </pre>
 	 * <pre>
 	 * 关键边界说明:
 	 * - 路径为空或null：直接返回false并输出警告
@@ -377,101 +340,6 @@ public class FileUtils {
 	}
 
 
-	/**
-	 * <li>判断目录是否存在, 不存在, 则创建</li>
-	 * <li>存在, 则不动, 提醒已经存在, 无需创建. </li>
-	 *
-	 * @param dir 目录(而非文件)
-	 */
-	public static void mkdir(String dir) {
-		File folder = new File(dir);
-		if (!folder.exists() && !folder.isDirectory()) {
-			folder.mkdirs();
-			log.info("目录已被创建:[" + dir + "]");
-		} else {
-			log.info("目录已存在:[" + dir + "]");
-		}
-	}
-
-
-	/**
-	 * 文件若存在, 则不做操作; <p></p>
-	 * 文件若存在, 不会新建; 否则新建
-	 *
-	 * @param fileFullName
-	 */
-	/**
-	 * <ul>创建文件
-	 *     <li>文件已经存在, 不再创建</li>
-	 *     <li>文件不存在, 创建</li>
-	 * </ul>
-	 * @param fileFullName
-	 * @return
-	 */
-	@SneakyThrows
-	public static File createFile(String fileFullName) {
-		File file = new File(fileFullName);
-
-		mkdir(file.getParent());
-
-		if (!file.exists()) {
-			file.createNewFile();
-			log.info("文件已被创建:[" + fileFullName + "]");
-		} else {
-			log.info("文件已存在:[" + fileFullName + "]");
-		}
-		return file;
-	}
-
-	/**
-	 * <ul>创建文件
-	 *     <li>文件已经存在, 先删除, 再创建</li>
-	 *     <li>文件不存在, 创建</li>
-	 * </ul>
-	 * @param fileFullName
-	 */
-	@SneakyThrows
-	public static File updateFile(String fileFullName) {
-		File file = new File(fileFullName);
-
-		mkdir(file.getParent());
-
-		if (file.exists()) {
-			log.info("文件已存在, 正在删除旧文件.... ");
-			file.delete();
-		}
-		file.createNewFile();
-		log.info("文件已被创建:[" + fileFullName + "]");
-
-		return file;
-	}
-
-
-	/**
-	 * 删除目录
-	 *
-	 * @param dir
-	 * @return
-	 */
-	/**
-	 * <li>递归删除目录</li>
-	 * @param dir
-	 * @return
-	 */
-	public static boolean deleteDir(File dir) {
-		if (dir.isDirectory()) {
-			String[] children = dir.list();
-//递归删除目录中的子目录下
-			for (int i = 0; i < children.length; i++) {
-				boolean success = deleteDir(new File(dir, children[i]));
-				if (!success) {
-					return false;
-				}
-			}
-		}
-		// 目录此时为空，可以删除
-		return dir.delete();
-	}
 
 	//建立一个读文件的方法
 
@@ -545,17 +413,7 @@ public class FileUtils {
 		ismove = oldName.renameTo(newName);
 		return ismove;
 	}
-/*
-	@SneakyThrows
-	public static File transform(MultipartFile file, String path) {
-		File destFile = new File(path);
-		if (!destFile.getParentFile().exists()) {
-			destFile.getParentFile().mkdirs();
-		}
-		// 将上传的文件从内存放到硬盘
-		file.transferTo(destFile);
-		return destFile;
-	}*/
+
 
 	/**
 	 * 将文本文件写入文件
@@ -655,6 +513,157 @@ public class FileUtils {
 		System.out.println(JacksonUtils.toPrettyJson(js));
 		return t;
 	}
+/*
+	@SneakyThrows
+	public static File transform(MultipartFile file, String path) {
+		File destFile = new File(path);
+		if (!destFile.getParentFile().exists()) {
+			destFile.getParentFile().mkdirs();
+		}
+		// 将上传的文件从内存放到硬盘
+		file.transferTo(destFile);
+		return destFile;
+	}*/
 
+	/**
+	 * <li>判断目录是否存在, 不存在, 则创建</li>
+	 * <li>存在, 则不动, 提醒已经存在, 无需创建. </li>
+	 *
+	 * @param dir 目录(而非文件)
+	 */
+/*	public static void mkdir(String dir) {
+		File folder = new File(dir);
+		if (!folder.exists() && !folder.isDirectory()) {
+			folder.mkdirs();
+			log.info("目录已被创建:[" + dir + "]");
+		} else {
+			log.info("目录已存在:[" + dir + "]");
+		}
+	}*/
+
+
+	/**
+	 * 文件若存在, 则不做操作; <p></p>
+	 * 文件若存在, 不会新建; 否则新建
+	 *
+	 * @param fileFullName
+	 */
+	/**
+	 * <ul>创建文件
+	 *     <li>文件已经存在, 不再创建</li>
+	 *     <li>文件不存在, 创建</li>
+	 * </ul>
+	 * @param fileFullName
+	 * @return
+	 */
+	/*@SneakyThrows
+	public static File createFile(String fileFullName) {
+		File file = new File(fileFullName);
+
+		mkdir(file.getParent());
+
+		if (!file.exists()) {
+			file.createNewFile();
+			log.info("文件已被创建:[" + fileFullName + "]");
+		} else {
+			log.info("文件已存在:[" + fileFullName + "]");
+		}
+		return file;
+	}*/
+
+	/**
+	 * <ul>创建文件
+	 *     <li>文件已经存在, 先删除, 再创建</li>
+	 *     <li>文件不存在, 创建</li>
+	 * </ul>
+	 * @param fileFullName
+	 */
+/*	@SneakyThrows
+	public static File updateFile(String fileFullName) {
+		File file = new File(fileFullName);
+
+		mkdir(file.getParent());
+
+		if (file.exists()) {
+			log.info("文件已存在, 正在删除旧文件.... ");
+			file.delete();
+		}
+		file.createNewFile();
+		log.info("文件已被创建:[" + fileFullName + "]");
+
+		return file;
+	}*/
+
+
+	/**
+	 * 删除目录
+	 *
+	 * @param dir
+	 * @return
+	 */
+	/**
+	 * <li>递归删除目录</li>
+	 * @param dir
+	 * @return
+	 */
+/*	public static boolean deleteDir(File dir) {
+		if (dir.isDirectory()) {
+			String[] children = dir.list();
+//递归删除目录中的子目录下
+			for (int i = 0; i < children.length; i++) {
+				boolean success = deleteDir(new File(dir, children[i]));
+				if (!success) {
+					return false;
+				}
+			}
+		}
+		// 目录此时为空，可以删除
+		return dir.delete();
+	}*/
+
+
+	/**
+	 * 递归删除文件或目录
+	 */
+	/*private static void deleteRecursively(File file) {
+		if (!file.exists()) return;
+		if (file.isFile()) {
+			file.delete();
+		} else {
+			File[] sub = file.listFiles();
+			if (sub != null) {
+				for (File f : sub) {
+					deleteRecursively(f);
+				}
+			}
+			file.delete();
+		}
+	}
+*/
+
+
+	/*public static void main(String[] args) {
+		String filePath = "/Users/songtao/personaldriveMac/Projects/tsprTools/stbptools008/src/main/java/com/st/modules/file/test.txt";
+		String filePath2 = "/Users/songtao/downloads/";
+		//String dir3 = "/Users/songtao/downloads/a/b/c/d";
+		String dir3 = "/Users/songtao/downloads/a/";
+		File file = new File(filePath2);
+		//File file = new File("/Users/songtao/personaldriveMac/");
+		double dirSize = getFileSize(file);
+
+
+		String s = readTxt(filePath);
+		System.out.println(s);
+
+		String s1 = readFile(new File(filePath));
+		System.out.println(s1);
+
+		List<File> files = listFilesForFolder(new File(filePath2));
+		for (File f : files) {
+			System.out.println(f.getAbsolutePath());
+		}
+
+		delete(new File(dir3));
+	}*/
 
 }
