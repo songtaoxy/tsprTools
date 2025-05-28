@@ -1,4 +1,4 @@
-package com.st.modules.file;
+package com.st.modules.file.wp.mogo;
 
 /**
  * @author: st
@@ -11,7 +11,7 @@ package com.st.modules.file;
  * <li>接收oa传入文件列表</li>
  * <li>该文件在业务过程中的状态信息</li>
  */
-public class FilesInputEntry {
+public class FilesInput {
 	/**
 	 * 文件名称
 	 */
@@ -20,7 +20,14 @@ public class FilesInputEntry {
 	 * 文件类型: pdf, ofd, zip, xml
 	 */
 	private String type;
-
+	/**
+	 * 文件内容: oa传入 byte[]->string
+	 */
+	private String contentsStr;
+	/**
+	 * 文件内容: oa传入 byte[]->string->byte[]
+	 */
+	private byte[] contentsBytes;
 	/**
 	 * 上传影像平台
 	 */
@@ -47,16 +54,19 @@ public class FilesInputEntry {
 
 
 
-	public FilesInputEntry() {
+	public FilesInput() {
 	}
-	public FilesInputEntry(String name, String type, String contentsStr) {
+	public FilesInput(String name, String type, String contentsStr) {
 		this.name = name;
 		this.type = type;
+		this.contentsStr = contentsStr;
 	}
 
-	public FilesInputEntry(String name, String type, String contentsStr, byte[] contentsBytes, String imageId, String validateSingnStatus, String billType, String md5, String ps) {
+	public FilesInput(String name, String type, String contentsStr, byte[] contentsBytes, String imageId, String validateSingnStatus, String billType, String md5, String ps) {
 		this.name = name;
 		this.type = type;
+		this.contentsStr = contentsStr;
+		this.contentsBytes = contentsBytes;
 		this.imageId = imageId;
 		this.validateSingnStatus = validateSingnStatus;
 		this.billType = billType;
@@ -80,7 +90,21 @@ public class FilesInputEntry {
 		this.type = type;
 	}
 
+	public String getContentsStr() {
+		return contentsStr;
+	}
 
+	public void setContentsStr(String contentsStr) {
+		this.contentsStr = contentsStr;
+	}
+
+	public byte[] getContentsBytes() {
+		return contentsBytes;
+	}
+
+	public void setContentsBytes(byte[] contentsBytes) {
+		this.contentsBytes = contentsBytes;
+	}
 
 	public String getImageId() {
 		return imageId;

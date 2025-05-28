@@ -284,62 +284,6 @@ public class FileUtils {
 	}
 
 
-	/**
-	 * 返回某目录下所有文件的路径
-	 *
-	 * @param folder
-	 * @return
-	 */
-	public static List<File> listFilesForFolder(File folder) {
-		List<File> fileUrlList = new ArrayList<>();
-		for (File fileEntry : folder.listFiles()) {
-			if (fileEntry.isDirectory()) {
-				listFilesForFolder(fileEntry);
-			} else {
-				fileUrlList.add(fileEntry);
-			}
-		}
-		return fileUrlList;
-	}
-
-
-	/**
-	 * 返回某目录下所有文件的路径
-	 *
-	 * @param folder
-	 * @return
-	 */
-	public static List<String> listFilesNameForFolder(File folder) {
-		List<String> fileUrlList = new ArrayList<>();
-
-		for (File fileEntry : folder.listFiles()) {
-			if (fileEntry.isDirectory()) {
-				listFilesNameForFolder(fileEntry);
-			} else {
-				fileUrlList.add(fileEntry.getName());
-			}
-		}
-		return fileUrlList;
-	}
-
-	/**
-	 * 返回某目录下所有文件的路径
-	 *
-	 * @param files
-	 * @param folder
-	 * @return
-	 */
-	public static void listFilesForFolder(List<File> files, File folder) {
-		for (File fileEntry : folder.listFiles()) {
-			if (fileEntry.isDirectory()) {
-				listFilesForFolder(files, fileEntry);
-			} else {
-				files.add(fileEntry);
-			}
-		}
-	}
-
-
 
 	//建立一个读文件的方法
 
@@ -430,13 +374,77 @@ public class FileUtils {
 	}
 
 
+
 	/**
-	 * <li>获取文件或目录(整个目录)的大小</li>
+	 * 返回某目录下所有文件的路径
 	 *
+	 * @param folder
+	 * @return
+	 */
+	/*public static List<File> listFilesForFolder(File folder) {
+		List<File> fileUrlList = new ArrayList<>();
+		for (File fileEntry : folder.listFiles()) {
+			if (fileEntry.isDirectory()) {
+				listFilesForFolder(fileEntry);
+			} else {
+				fileUrlList.add(fileEntry);
+			}
+		}
+		return fileUrlList;
+	}*/
+
+
+	/**
+	 * 返回某目录下所有文件的路径
+	 *
+	 * @param folder
+	 * @return
+	 */
+	/*public static List<String> listFilesNameForFolder(File folder) {
+		List<String> fileUrlList = new ArrayList<>();
+
+		for (File fileEntry : folder.listFiles()) {
+			if (fileEntry.isDirectory()) {
+				listFilesNameForFolder(fileEntry);
+			} else {
+				fileUrlList.add(fileEntry.getName());
+			}
+		}
+		return fileUrlList;
+	}*/
+
+	/**
+	 * 返回某目录下所有文件的路径
+	 *
+	 * @param files
+	 * @param folder
+	 * @return
+	 */
+	/*public static void listFilesForFolder(List<File> files, File folder) {
+		for (File fileEntry : folder.listFiles()) {
+			if (fileEntry.isDirectory()) {
+				listFilesForFolder(files, fileEntry);
+			} else {
+				files.add(fileEntry);
+			}
+		}
+	}
+*/
+
+
+
+
+
+	/**
+	 *
+	 * <li>获取文件或目录(整个目录)的大小</li>
+	 * <pre>
+	 *  deprecated, alternative ref {@code com.st.modules.file.FileInfoUtils#getFileInfo(java.lang.String)}
+	 * </pre>
 	 * @param file
 	 * @return 文件大小:单位 bytes
 	 */
-	public static Long getFileSize(File file) {
+	/*public static Long getFileSize(File file) {
 
 		Long fileSizeRecursive = getFileSizeRecursive(file);
 		fileSizeHandler(file, fileSizeRecursive);
@@ -444,10 +452,10 @@ public class FileUtils {
 		return fileSizeRecursive;
 
 
-	}
+	}*/
 
 	//@SneakyThrows
-	public static Long getFileSizeRecursive(File file) {
+	/*public static Long getFileSizeRecursive(File file) {
 
 		//判断文件是否存在
 		if (file.exists()) {
@@ -464,17 +472,21 @@ public class FileUtils {
 			//return 0L;
 		}
 		return null;
-	}
+	}*/
 
 	/**
+	 *
 	 * <li>单位转换: 人容易识别的单位 如: M,G, ...</li>
+	 * <pre>
+	 * 已经过期, 更好的: {@code com.st.modules.file.FileInfoUtils#humanReadableSize(long)}
+	 * </pre>
 	 *
 	 * @param file
 	 * @param size
 	 * @param <T>
 	 * @return
 	 */
-	public static <T> T fileSizeHandler(File file, Long size) {
+	/*public static <T> T fileSizeHandler(File file, Long size) {
 		T t = null;
 
 
@@ -512,7 +524,7 @@ public class FileUtils {
 		log.info(js.toString());
 		System.out.println(JacksonUtils.toPrettyJson(js));
 		return t;
-	}
+	}*/
 /*
 	@SneakyThrows
 	public static File transform(MultipartFile file, String path) {

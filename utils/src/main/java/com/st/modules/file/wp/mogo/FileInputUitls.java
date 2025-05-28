@@ -1,9 +1,10 @@
-package com.st.modules.file;
+package com.st.modules.file.wp.mogo;
 
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.st.modules.file.FileTypeEnum;
 import com.st.modules.json.jackson.JacksonUtils;
 import com.st.modules.log.LogBody;
 

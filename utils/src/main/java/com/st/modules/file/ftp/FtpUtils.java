@@ -1,4 +1,4 @@
-package com.st.modules.ftp;
+package com.st.modules.file.ftp;
 
 
 
@@ -6,7 +6,6 @@ import com.st.modules.config.DynamicAppConfig;
 import org.apache.commons.net.ftp.FTPClient;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Properties;
 
 /**
  * <pre>

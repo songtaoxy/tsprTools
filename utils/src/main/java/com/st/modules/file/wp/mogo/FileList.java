@@ -1,7 +1,8 @@
-package com.st.modules.file;
+package com.st.modules.file.wp.mogo;
 
 
 
+import com.st.modules.file.FileTypeEnum;
 import com.st.modules.json.jackson.JacksonUtils;
 
 import java.util.List;

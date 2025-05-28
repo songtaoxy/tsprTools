@@ -2,7 +2,7 @@ package com.st.modules.test.boc.voucher;
 
 import com.st.modules.constant.FileConst;
 import com.st.modules.file.FileUtils;
-import com.st.modules.tar.TarUtils;
+import com.st.modules.file.tar.TarUtils;
 import com.st.modules.time.TimeUtils;
 import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;

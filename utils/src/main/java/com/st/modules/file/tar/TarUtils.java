@@ -1,4 +1,4 @@
-package com.st.modules.tar;
+package com.st.modules.file.tar;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;

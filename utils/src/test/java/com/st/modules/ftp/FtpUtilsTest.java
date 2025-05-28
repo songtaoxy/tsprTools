@@ -1,10 +1,9 @@
 package com.st.modules.ftp;
 
+import com.st.modules.file.ftp.FtpUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class FtpUtilsTest {
 

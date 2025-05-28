@@ -23,6 +23,7 @@ import java.util.List;
  *
  * 二, 用法
  * <pre>
+ * {@code
  * // com.st.modules.file.FileInfoUtils#getFileInfo(java.lang.String)
  * // com.st.modules.file.FileInfoUtils#getFileInfoInternal(java.io.File)
  * public static void main(String[] args) {
@@ -34,6 +35,7 @@ import java.util.List;
  *             e.printStackTrace();
  *         }
  *     }
+ * }
  * </pre>
  *
  * 三, 返回值
@@ -300,7 +302,7 @@ public class FileInfoUtils {
 
 
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         try {
             String path = "/Users/songtao/Downloads"; // 文件或目录
 //            path = "/Users/songtao/Downloads/应付系统传递固定资产及经费总账系统故事-孙树轩.xlsx";
@@ -320,6 +322,6 @@ public class FileInfoUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
 

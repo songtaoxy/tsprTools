@@ -25,48 +25,6 @@ public class FileTrans {
 		transFile(f1, f3);
 	}
 
-	/**
-	 * <ul>功能
-	 *     <li>1, 获取文件流 byte[]</li>
-	 *     <li>2, 将文件流 byte[]->String </li>
-	 *     <li>3, 发送String</li>
-	 *     <li>4, 接收String</li>
-	 *     <li>5, 将String转成byte[]</li>
-	 *     <li>6, 将byte[] 写到文件</li>
-	 * </ul>
-	 * <ul>
-	 *     应用场景
-	 *     <li>网络传输文件</li>
-	 *     <li>两个程序间传输文件</li>
-	 * </ul>
-	 * @param f1 文件的绝对路径
-	 * @param f2 文件的绝对路径
-	 */
-	@SneakyThrows
-	public static void transFile_old(String f1, String f2) {
-		// 读取文件为字节数组
-		File file = new File(f1);
-		byte[] fileBytes = new byte[(int)file.length()];
-		FileInputStream fis = new FileInputStream(file);
-		fis.read(fileBytes);
-		fis.close();
-
-		// 字节数组转为Base64编码的String
-		String encodedStr = Base64.getEncoder().encodeToString(fileBytes);
-
-		// String转为字节数组
-		byte[] decodedBytes = Base64.getDecoder().decode(encodedStr);
-
-		// 字节数组写入新文件
-		File newFile = new File(f2);
-		FileOutputStream fos = new FileOutputStream(newFile);
-		fos.write(decodedBytes);
-		fos.close();
-
-		System.out.println("文件转换完成");
-	}
-
-
 
 	/**
 	 * <ul>功能
@@ -138,6 +96,47 @@ public class FileTrans {
 		fos.close();
 	}
 
+
+	/**
+	 * <ul>功能
+	 *     <li>1, 获取文件流 byte[]</li>
+	 *     <li>2, 将文件流 byte[]->String </li>
+	 *     <li>3, 发送String</li>
+	 *     <li>4, 接收String</li>
+	 *     <li>5, 将String转成byte[]</li>
+	 *     <li>6, 将byte[] 写到文件</li>
+	 * </ul>
+	 * <ul>
+	 *     应用场景
+	 *     <li>网络传输文件</li>
+	 *     <li>两个程序间传输文件</li>
+	 * </ul>
+	 * @param f1 文件的绝对路径
+	 * @param f2 文件的绝对路径
+	 */
+	@SneakyThrows
+	public static void transFile_old(String f1, String f2) {
+		// 读取文件为字节数组
+		File file = new File(f1);
+		byte[] fileBytes = new byte[(int)file.length()];
+		FileInputStream fis = new FileInputStream(file);
+		fis.read(fileBytes);
+		fis.close();
+
+		// 字节数组转为Base64编码的String
+		String encodedStr = Base64.getEncoder().encodeToString(fileBytes);
+
+		// String转为字节数组
+		byte[] decodedBytes = Base64.getDecoder().decode(encodedStr);
+
+		// 字节数组写入新文件
+		File newFile = new File(f2);
+		FileOutputStream fos = new FileOutputStream(newFile);
+		fos.write(decodedBytes);
+		fos.close();
+
+		System.out.println("文件转换完成");
+	}
 
 }
 
