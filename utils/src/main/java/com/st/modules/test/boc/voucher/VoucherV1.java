@@ -56,12 +56,12 @@ public class VoucherV1 {
 
             // 7. 写入文件(txt)
             String fileName = TimeUtils.time2Str();
-            Map<String, String> filePath = VoucherUtils.buildFilePath("");
+            Map<String, String> filePath = VoucherUtils.buildFilePath(null);
             String tempFilePath = filePath.get("txtFilePath");
             File tempFile = VoucherUtils.wirteTxtFile(tempFilePath, formattedAll);
 
             // 8, 压缩: 将txt压缩成tar.gz
-            File tempFileTarGz =VoucherUtils.compressWithTargz(tempFile,"");
+            File tempFileTarGz =VoucherUtils.compressWithTargz(tempFile,null);
 
             log.info("txt:"+tempFile.getAbsolutePath());
             log.info("targz:"+tempFileTarGz.getAbsolutePath());

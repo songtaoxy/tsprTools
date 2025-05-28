@@ -25,6 +25,8 @@ public class FileConst {
 
     // 经费总账/下发文件目录
     public static final String fglsDistributeDir = voucherTempDir+fgls+s+"distribute"+s+timeFlag+s;
+//    public static final String fglsDistributeDir = voucherTempDir+fgls+s+"distribute"+s;
+
     // 经费总账/接收文件目录
     public static final String fglsReceiveDir = voucherTempDir+fgls+s+"receive"+s+timeFlag+s;
 
@@ -32,8 +34,5 @@ public class FileConst {
     public static final String famsDistributeDir = voucherTempDir+fgls+s+"distribute"+s+timeFlag+s;
     // 固定资产/接收文件目录
     public static final String famsReceiveDir = voucherTempDir+fgls+s+"receive"+s+timeFlag+s;
-
-
-
 
 }

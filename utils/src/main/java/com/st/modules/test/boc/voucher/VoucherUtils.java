@@ -3,6 +3,7 @@ package com.st.modules.test.boc.voucher;
 import com.st.modules.constant.FileConst;
 import com.st.modules.file.FileCreateUtils;
 import com.st.modules.file.tar.TarUtils;
+import com.st.modules.serialNumber.DailySystemSerialNoGenerator;
 import com.st.modules.time.TimeUtils;
 import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +27,9 @@ public class VoucherUtils {
      * </pre>
      * @return
      */
-    public static Map<String,String> buildFilePath(String  orgOuKey){
-    String name = "";
+    public static Map<String,String> buildFilePath(Map<String, String> baseDatas){
+    String orgOuKey = baseDatas.get("orgOuKey");
+    String seri = "_"+ baseDatas.get("serialnumber");
 
     Map<String,String> fileMap = new HashMap<String, String>();
 
@@ -38,8 +40,8 @@ public class VoucherUtils {
     String prefix = "AP_GL_";
     String org_L1 = orgOuKey.substring(0,5);
     String ou_code = orgOuKey.substring(5);
-    String date_flag = TimeUtils.time2StrCust("yyyyMMdd");
-    String seri = "_001";
+    String date_flag = baseDatas.get("dateStr");
+
 
     String txtFileName= prefix+org_L1+ou_code+"_"+date_flag+seri+FileConst.filePostFixTxt;
     String tarGzFileName= prefix+org_L1+ou_code+"_"+date_flag+seri+FileConst.filePostFixTarGz;
@@ -129,8 +131,9 @@ public class VoucherUtils {
 
 
     @NotNull
-    public static File compressWithTargz(File tempFile,String orgOuKey) throws IOException {
-        Map<String, String> filePathMap = buildFilePath(orgOuKey);
+    public static File compressWithTargz(File tempFile,Map<String, String> baseDatas) throws IOException {
+
+        Map<String, String> filePathMap = buildFilePath(baseDatas);
         String tempFileTarGzPath= filePathMap.get("tarGzFilePath");
 
         File tempFileTarGz = FileCreateUtils.createFileOverwrite(tempFileTarGzPath);

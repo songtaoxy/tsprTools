@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * - 线程安全、全局单例、每天重置、每次自增
  * - 全局单例：getInstance() 确保单 JVM 唯一实例。
  * - synchronized 保证多线程安全，每天自动重置。
- * - 重启后序号不会连续，如需持久化需用 DB/Redis。
+ * - 重启后序号不会连续，如需持久化需用 DB/Redis; 重启后, 从001重新开始。
  * - 超过 999 可自行扩展（如 %04d）。
  * - 不依赖数据库，部署/测试环境简单可用
  *    </pre>
