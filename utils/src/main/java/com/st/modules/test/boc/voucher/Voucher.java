@@ -35,15 +35,6 @@ public class Voucher {
             baseDatas.put("serialnumber", serialnumber);
 
 
-            // 1. 查询凭证数据（Map结构）(模拟)
-            List<Map<String, Object>> base = Arrays.asList(
-                    TestDatas.mapOf("type", "收款", "no", "SK001", "date", "2024-05-25", "amount", "1000", "remark", "A客户回款", "orgL1AndOuCode", "AAAAAA123456789"),
-                    TestDatas.mapOf("type", "收款", "no", "SK002", "date", "2024-05-26", "amount", "1500", "remark", "B客户回款", "orgL1AndOuCode", "BBBBB345678912"),
-                    TestDatas.mapOf("type", "付款", "no", "FK001", "date", "2024-05-25", "amount", "800", "remark", "供应商付款", "orgL1AndOuCode", "AAAAAA123456789"),
-                    TestDatas.mapOf("type", "报销", "no", "BX001", "date", "2024-05-24", "amount", "300", "remark", "差旅报销", "orgL1AndOuCode", "AAAAAA123456789"),
-                    TestDatas.mapOf("type", "报销", "no", "BX002", "date", "2024-05-26", "amount", "500", "remark", "办公用品", "orgL1AndOuCode", "BBBBB345678912")
-            );
-//            List<Map<String, Object>> allTestData = TestDatas.generateTestVouchers(base, 1000, 350);
             List<Map<String, Object>> allTestData = VoucherDataGenerator.generateTestData();
 
 
@@ -95,7 +86,7 @@ public class Voucher {
 
                 // 9. FTP上传（可选，演示为假）
                 boolean ftpSuccess = false;
-//        ftpSuccess = FtpUtils.upload(tarGzFile, "/upload/" + tarGzFile.getName());
+                //  ftpSuccess = FtpUtils.upload(tarGzFile, "/upload/" + tarGzFile.getName());
 
                 // 10. 成功后延迟清理
                 if (ftpSuccess) {
