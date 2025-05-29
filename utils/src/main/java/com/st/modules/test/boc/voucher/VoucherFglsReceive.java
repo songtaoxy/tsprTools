@@ -1,6 +1,7 @@
 package com.st.modules.test.boc.voucher;
 
 import com.st.modules.constant.FileConst;
+import com.st.modules.enums.GlVoucherStatusEnum;
 import com.st.modules.file.ftp.FtpUtils;
 import com.st.modules.file.tar.TarUtils;
 import lombok.SneakyThrows;
@@ -54,10 +55,13 @@ public class VoucherFglsReceive {
             boolean allSuccess = list.stream().allMatch(line -> "S".equals(line.getProcessFlag()));
             String globalStat = allSuccess ? "success" : "fail";
 
+            String status = null;
             if ("success".equals(globalStat)) {
-                // 2.5 DB操作：更新应付单表
-                updateVoucherStatusToIssued(voucherCode);
+                status = GlVoucherStatusEnum.FGLS_OK.getCode();
+            }else {
+                status = GlVoucherStatusEnum.FGLS_FAIL.getCode();
             }
+            updateVoucherStatusToIssued(voucherCode,status);
         }
     }
 
@@ -185,10 +189,9 @@ public class VoucherFglsReceive {
         return list;
     }
 
-    public static void updateVoucherStatusToIssued(String voucherCode) {
+    public static void updateVoucherStatusToIssued(String voucherCode,String status) {
         // 推荐使用JDBC、MyBatis等持久层实现
-        // 伪代码如下
-        String sql = "UPDATE pay_voucher SET voucher_stat='已下发' WHERE voucher_code=?";
+        String sql = "UPDATE gl_voucher SET free9= '"+ status+ "' WHERE pk_voucher = '" + voucherCode+"'";
         // 执行sql...
     }
 }
