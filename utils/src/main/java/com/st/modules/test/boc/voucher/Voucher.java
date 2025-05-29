@@ -43,7 +43,9 @@ public class Voucher {
                     TestDatas.mapOf("type", "报销", "no", "BX001", "date", "2024-05-24", "amount", "300", "remark", "差旅报销", "orgL1AndOuCode", "AAAAAA123456789"),
                     TestDatas.mapOf("type", "报销", "no", "BX002", "date", "2024-05-26", "amount", "500", "remark", "办公用品", "orgL1AndOuCode", "BBBBB345678912")
             );
-            List<Map<String, Object>> allTestData = TestDatas.generateTestVouchers(base, 1000, 350);
+//            List<Map<String, Object>> allTestData = TestDatas.generateTestVouchers(base, 1000, 350);
+            List<Map<String, Object>> allTestData = VoucherDataGenerator.generateTestData();
+
 
             // 2, convert: list<map> -> list<BO>
             Map<String, Object> extraMap = new HashMap<>();

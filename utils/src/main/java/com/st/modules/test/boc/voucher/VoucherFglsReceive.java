@@ -2,6 +2,7 @@ package com.st.modules.test.boc.voucher;
 
 import com.st.modules.constant.FileConst;
 import com.st.modules.file.ftp.FtpUtils;
+import com.st.modules.file.tar.TarUtils;
 import lombok.SneakyThrows;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -19,7 +20,7 @@ public class VoucherFglsReceive {
     public static void main(String[] args) {
 
         String fglsReceiveDir = FileConst.fglsReceiveDir;
-        FtpUtils.batchDownload("remoteDir", fglsReceiveDir, f -> f.getName().endsWith(".tar. gz"));
+//        FtpUtils.batchDownload("remoteDir", fglsReceiveDir, f -> f.getName().endsWith(".tar. gz"));
 
         // 1. 列出所有tar.gz文件
         List<File> tgzFiles = listAllTarGzFiles(fglsReceiveDir);
@@ -31,8 +32,13 @@ public class VoucherFglsReceive {
     }
 
     private static void handleAndUpdateDbs(File file) {
+        String txtFileName = file.getName().replace("tar.gz", "txt");
+        String tarDir = file.getParent();
+
         // 2.1 解压，获得txt
-        File txt = untarGzToTxt(file);
+//        File txt = untarGzToTxt(file);
+        TarUtils.extractTarGz(file.getAbsolutePath(),tarDir);
+        File txt = new File(tarDir + File.separator + txtFileName);
 
         // 2.2 读取txt，封装list
         List<VoucherTransmitBO> lines = parseTxtToList(txt);
@@ -61,28 +67,7 @@ public class VoucherFglsReceive {
         return files == null ? Collections.emptyList() : Arrays.asList(files);
     }
 
-    // 一个tar.gz, 一个txt
-    @SneakyThrows
-    public static File untarGzToTxt(File tarGz)  {
-        // 依赖 commons-compress
-        File destDir = new File(tarGz.getParentFile(), "unzipped_" + tarGz.getName().replace(".tar.gz", ""));
-        destDir.mkdirs();
-        try (InputStream fi = new FileInputStream(tarGz);
-             InputStream gzi = new GZIPInputStream(fi);
-             TarArchiveInputStream tarIn = new TarArchiveInputStream(gzi)) {
-            TarArchiveEntry entry;
-            while ((entry = tarIn.getNextTarEntry()) != null) {
-                if (entry.isFile() && entry.getName().endsWith(".txt")) {
-                    File txt = new File(destDir, entry.getName());
-                    try (OutputStream out = new FileOutputStream(txt)) {
-                        IOUtils.copy(tarIn, out);
-                    }
-                    return txt;
-                }
-            }
-        }
-        throw new IOException("txt not found in " + tarGz.getName());
-    }
+
     @SneakyThrows
     public static List<VoucherTransmitBO> parseTxtToList(File txt)  {
 
@@ -93,53 +78,106 @@ public class VoucherFglsReceive {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("\\|");
+//
+//                VoucherTransmitBO voucherTransmitBO = VoucherTransmitBO.builder()
+//                        .userJeSourceName(parts[1]) // 跳过全局行号
+//                        .userJeCategoryName(parts[2])
+//                        .jeBatchName(parts[3])
+//                        .jeHeaderName(parts[4])
+//                        .transactionNum(parts[5])
+//                        .accountingDate(parts[6])
+//                        .currencyCode(parts[7])
+//                        .currencyRate(parts[8])
+//                        .imageNumber(parts[9])
+//                        .imageAddress(parts[10]) //跳过行号
+//                        .segment1(parts[12])
+//                        .segment2(parts[13])
+//                        .segment3(parts[14])
+//                        .segment4(parts[15])
+//                        .segment5(parts[16])
+//                        .segment6(parts[17])
+//                        .segment7(parts[18])
+//                        .segment8(parts[19])
+//                        .segment9(parts[20])
+//                        .enteredDr(parts[21])
+//                        .enteredCr(parts[22])
+//                        .accountedDr(parts[23])
+//                        .accountedCr(parts[24])
+//                        .lineDesc(parts[25])
+//                        .reference21(parts[26])
+//                        .reference22(parts[27])
+//                        .reference23(parts[28])
+//                        .reference24(parts[29])
+//                        .reference25(parts[30])
+//                        .reference26(parts[31])
+//                        .reference27(parts[32])
+//                        .reference28(parts[33])
+//                        .reference29(parts[34])
+//                        .reference30(parts[35])
+//                        .glSlLinkId(parts[36])
+//                        .glSlLinkTable(parts[37])
+//                        .fileName(parts[38]) // 经费总账返回的8个字段
+//                        .fileDate(parts[39])
+//                        .processFlag(parts[40])
+//                        .errorMessage(parts[41])
+//                        .glDocNumber(parts[42])
+//                        .glDocAccountingDate(parts[43])
+//                        .glJeHeaderId(parts[44])
+//                        .glJeLineNum(parts[45])
+//                        .build();
+
 
                 VoucherTransmitBO voucherTransmitBO = VoucherTransmitBO.builder()
-                        .userJeSourceName(parts[1]) // 跳过全局行号
-                        .userJeCategoryName(parts[2])
+//                        .userJeSourceName(parts[1]) // 跳过全局行号
+//                        .userJeCategoryName(parts[2])
                         .jeBatchName(parts[3])
-                        .jeHeaderName(parts[4])
-                        .transactionNum(parts[5])
-                        .accountingDate(parts[6])
-                        .currencyCode(parts[7])
-                        .currencyRate(parts[8])
-                        .imageNumber(parts[9])
-                        .imageAddress(parts[10]) //跳过行号
-                        .segment1(parts[12])
-                        .segment2(parts[13])
-                        .segment3(parts[14])
-                        .segment4(parts[15])
-                        .segment5(parts[16])
-                        .segment6(parts[17])
-                        .segment7(parts[18])
-                        .segment8(parts[19])
-                        .segment9(parts[20])
-                        .enteredDr(parts[21])
-                        .enteredCr(parts[22])
-                        .accountedDr(parts[23])
-                        .accountedCr(parts[24])
-                        .lineDesc(parts[25])
-                        .reference21(parts[26])
-                        .reference22(parts[27])
-                        .reference23(parts[28])
-                        .reference24(parts[29])
-                        .reference25(parts[30])
-                        .reference26(parts[31])
-                        .reference27(parts[32])
-                        .reference28(parts[33])
-                        .reference29(parts[34])
-                        .reference30(parts[35])
-                        .glSlLinkId(parts[36])
-                        .glSlLinkTable(parts[37])
-                        .fileName(parts[38]) // 经费总账返回的8个字段
-                        .fileDate(parts[39])
-                        .processFlag(parts[40])
-                        .errorMessage(parts[41])
-                        .glDocNumber(parts[42])
-                        .glDocAccountingDate(parts[43])
-                        .glJeHeaderId(parts[44])
-                        .glJeLineNum(parts[45])
+//                        .jeHeaderName(parts[4])
+//                        .transactionNum(parts[5])
+//                        .accountingDate(parts[6])
+//                        .currencyCode(parts[7])
+//                        .currencyRate(parts[8])
+//                        .imageNumber(parts[9])
+//                        .imageAddress(parts[10]) //跳过行号
+//                        .segment1(parts[12])
+//                        .segment2(parts[13])
+//                        .segment3(parts[14])
+//                        .segment4(parts[15])
+//                        .segment5(parts[16])
+//                        .segment6(parts[17])
+//                        .segment7(parts[18])
+//                        .segment8(parts[19])
+//                        .segment9(parts[20])
+//                        .enteredDr(parts[21])
+//                        .enteredCr(parts[22])
+//                        .accountedDr(parts[23])
+//                        .accountedCr(parts[24])
+//                        .lineDesc(parts[25])
+//                        .reference21(parts[26])
+//                        .reference22(parts[27])
+//                        .reference23(parts[28])
+//                        .reference24(parts[29])
+//                        .reference25(parts[30])
+//                        .reference26(parts[31])
+//                        .reference27(parts[32])
+//                        .reference28(parts[33])
+//                        .reference29(parts[34])
+//                        .reference30(parts[35])
+//                        .glSlLinkId(parts[36])
+//                        .glSlLinkTable(parts[37])
+//                        .fileName(parts[38]) // 经费总账返回的8个字段
+//                        .fileDate(parts[39])
+                        .processFlag(parts[38])
+//                        .errorMessage(parts[41])
+//                        .glDocNumber(parts[42])
+//                        .glDocAccountingDate(parts[43])
+//                        .glJeHeaderId(parts[44])
+//                        .glJeLineNum(parts[45])
+                        .voucherCode(parts[3].split("-")[2])
                         .build();
+
+
+
+
 
                 list.add(voucherTransmitBO);
             }

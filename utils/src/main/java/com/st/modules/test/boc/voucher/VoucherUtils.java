@@ -125,7 +125,8 @@ public class VoucherUtils {
                 bo.getReference29()+v+
                 bo.getReference30()+v+
                 bo.getGlSlLinkId()+v+
-                bo.getGlSlLinkTable();
+                bo.getGlSlLinkTable()+v+
+                bo.getProcessFlag();
 
     }
 

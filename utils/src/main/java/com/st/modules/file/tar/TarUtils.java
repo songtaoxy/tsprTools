@@ -1,5 +1,6 @@
 package com.st.modules.file.tar;
 
+import lombok.SneakyThrows;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -111,7 +112,8 @@ public class TarUtils {
      * @param destDir 目标目录（自动创建）
      * @throws IOException
      */
-    public static void extractTarGz(String tarGzPath, String destDir) throws IOException {
+    @SneakyThrows
+    public static void extractTarGz(String tarGzPath, String destDir) {
         File dest = new File(destDir);
         if (!dest.exists()) dest.mkdirs();
 

@@ -152,7 +152,9 @@ public class VoucherTransmitBO {
         // 技巧: 其中“自定义流水号” =-pk_voucher-pk_detail& 两个表的主键; 返回时可以解析处理.
         // AP8882025052-60010000-223353535
         // split("-") [1]及[2]
-        this.jeBatchName="AP"+"自定义项"+ TimeUtils.time2StrCust("yyyyMMdd")+"-"+baseMap.get("pk_voucher")+"-"+baseMap.get("pk_detail");
+//        this.jeBatchName="AP"+"自定义项"+ TimeUtils.time2StrCust("yyyyMMdd")+"-"+baseMap.get("pk_voucher")+"-"+baseMap.get("pk_detail");
+        this.jeBatchName=(String) baseMap.get("jeBatchName");
+
         // 凭证名称：应付单默认采购发票，付款单默认付款
         this.jeHeaderName="自定义项";
         // 6、交易流水号：应付系统，应付单/付款单号
@@ -227,6 +229,7 @@ public class VoucherTransmitBO {
         this.glSlLinkId="";
         // 38、来源表：为空
         this.glSlLinkTable="";
+        this.processFlag=(String) baseMap.get("TestDatas");
 
     }
 
