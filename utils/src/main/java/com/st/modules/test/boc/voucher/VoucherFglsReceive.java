@@ -1,19 +1,14 @@
 package com.st.modules.test.boc.voucher;
 
 import com.st.modules.constant.FileConst;
-import com.st.modules.enums.GlVoucherStatusEnum;
-import com.st.modules.file.ftp.FtpUtils;
+import com.st.modules.enums.StatusVoucherEnum;
 import com.st.modules.file.tar.TarUtils;
 import lombok.SneakyThrows;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.utils.IOUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.zip.GZIPInputStream;
 
 public class VoucherFglsReceive {
 
@@ -57,9 +52,9 @@ public class VoucherFglsReceive {
 
             String status = null;
             if ("success".equals(globalStat)) {
-                status = GlVoucherStatusEnum.FGLS_OK.getCode();
+                status = StatusVoucherEnum.FGLS_OK.getCode();
             }else {
-                status = GlVoucherStatusEnum.FGLS_FAIL.getCode();
+                status = StatusVoucherEnum.FGLS_FAIL.getCode();
             }
             updateVoucherStatusToIssued(voucherCode,status);
         }

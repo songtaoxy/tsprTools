@@ -1,7 +1,8 @@
-package com.st.modules.config;
+package com.st.modules.config.deprecated;
 
 
 
+import com.st.modules.config.DynamicAppConfig;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;

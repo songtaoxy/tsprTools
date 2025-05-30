@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @ToString
 @Slf4j
-public enum GlVoucherStatusEnum implements BaseEnum{
+public enum StatusVoucherEnum implements BaseEnum{
     INIT("100","未下发","初始态",null,null),
     FGLS_OK("110","下发经费总账成功",null,null,null),
     FGLS_FAIL("120","下发经费总账失败",null,null,null),
@@ -36,19 +36,19 @@ public enum GlVoucherStatusEnum implements BaseEnum{
     private final String ext;
 
 
-    public static GlVoucherStatusEnum getByCode(String code) {
-        return EnumUtils.getByCode(GlVoucherStatusEnum.class, code).orElse(null);
+    public static StatusVoucherEnum getByCode(String code) {
+        return EnumUtils.getByCode(StatusVoucherEnum.class, code).orElse(null);
     }
 
-    public static GlVoucherStatusEnum getByName(String name) {
-        return EnumUtils.getByName(GlVoucherStatusEnum.class, name).orElse(null);
+    public static StatusVoucherEnum getByName(String name) {
+        return EnumUtils.getByName(StatusVoucherEnum.class, name).orElse(null);
     }
 
     public static String getNameByCode(String code) {
-        return EnumUtils.getNameByCode(GlVoucherStatusEnum.class, code);
+        return EnumUtils.getNameByCode(StatusVoucherEnum.class, code);
     }
 
     public static String getCodeByName(String name) {
-        return EnumUtils.getCodeByName(GlVoucherStatusEnum.class, name);
+        return EnumUtils.getCodeByName(StatusVoucherEnum.class, name);
     }
 }

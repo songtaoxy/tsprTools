@@ -1,4 +1,4 @@
-package com.st.modules.constant;
+package com.st.modules.constant.deprecated;
 
 public class ModulesConst {
 
