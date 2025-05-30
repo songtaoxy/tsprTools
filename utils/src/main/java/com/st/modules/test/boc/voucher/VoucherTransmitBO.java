@@ -22,6 +22,8 @@ public class VoucherTransmitBO {
     private String orgL1;
     private String ouCode;
     private String orgL1AndOuCode;
+    private String pk_voucher;
+    private String pk_detail;
 
     //	序号;是
     private String lineNo;
@@ -128,43 +130,56 @@ public class VoucherTransmitBO {
     private String glJeLineNum;
 
 
-
-
+    /**
+     *
+     * @param baseMap
+     * @param extraMap
+     */
     public VoucherTransmitBO(Map<String, Object> baseMap, Map<String, Object> extraMap) {
 
 //        this.orgL1=(String) baseMap.get("orgL1");
 //        this.ouCode=this.orgL1=(String) baseMap.get("ouCode");
 //        this.orgL1AndOuCode = (String) baseMap.get("orgL1AndOuCode");
-        String orgL1AndOuCodeTemp = (String) baseMap.get("orgL1AndOuCode");
-        String org_L1 = orgL1AndOuCodeTemp.substring(0,5);
-        String ou_code = orgL1AndOuCodeTemp.substring(5);
-        this.orgL1AndOuCode = org_L1+ou_code;
+//        String orgL1AndOuCodeTemp = (String) baseMap.get("orgL1AndOuCode");
+//        String org_L1 = orgL1AndOuCodeTemp.substring(0,5);
+//        String ou_code = orgL1AndOuCodeTemp.substring(5);
+//        this.orgL1AndOuCode = org_L1+ou_code;
+//
+//        this.processFlag=(String) baseMap.get("TestDatas");
 
 
-        // 全局编号
+        this.orgL1 = (String) baseMap.get("orgl1");
+        this.ouCode= (String) baseMap.get("oucode");
+        this.orgL1AndOuCode = orgL1+ouCode;
+        this.pk_voucher=(String) baseMap.get("pk_voucher");
+        this.pk_detail=(String) baseMap.get("pk_detail");
+        this.processFlag=(String) baseMap.get("processFlag");
+
+
+        // 1 全局编号
         this.lineNo = "";
-        //	凭证来源;是; 固定值:应付款
-        this.userJeSourceName = "应付款";
-        //	凭证类别;是; 自定义项
+        //	2 凭证来源;是; 固定值:应付款
+        this.userJeSourceName = (String) baseMap.get("userJeSourceName");;
+        //	3 凭证类别;是; 自定义项
 //        this.userJeCategoryName = "自定义项";
         this.userJeCategoryName =(String) baseMap.get("type");
         // 凭证批名: AP+OU编号+日期+自定义流水号; 示例：AP88820250526001
         // 技巧: 其中“自定义流水号” =-pk_voucher-pk_detail& 两个表的主键; 返回时可以解析处理.
         // AP8882025052-60010000-223353535
         // split("-") [1]及[2]
-//        this.jeBatchName="AP"+"自定义项"+ TimeUtils.time2StrCust("yyyyMMdd")+"-"+baseMap.get("pk_voucher")+"-"+baseMap.get("pk_detail");
-        this.jeBatchName=(String) baseMap.get("jeBatchName");
+        // 4  this.jeBatchName="AP"+"自定义项"+ TimeUtils.time2StrCust("yyyyMMdd")+"-"+baseMap.get("pk_voucher")+"-"+baseMap.get("pk_detail");
+        this.jeBatchName="AP"+ouCode+TimeUtils.time2StrCust("yyyyMMdd")+"-"+pk_voucher+"-"+pk_detail;
 
-        // 凭证名称：应付单默认采购发票，付款单默认付款
-        this.jeHeaderName="自定义项";
+        // 5 凭证名称：应付单默认采购发票，付款单默认付款
+        this.jeHeaderName=(String) baseMap.get("jeHeaderName");
         // 6、交易流水号：应付系统，应付单/付款单号
-        this.transactionNum="自定义项";
+        this.transactionNum=(String) baseMap.get("transactionNum");
         // 7、入账日期：推送此文件的日期作为入账日期，生成凭证后需要回写到应付单中的入账日期（GL日期），发送分录时增加
         // 生成凭证的入账日期,格式YYYY-MM-DD）
         this.accountingDate=TimeUtils.time2StrCust("yyyy-MM-dd");
         // 8、币种：默认值CNY，后续确定是否存在其他币种，如存在，取应付单上的币种字段
         // 表: bd_currtype
-        this.currencyCode="自定义项";
+        this.currencyCode=(String) baseMap.get("currencyCode");
         // 9、币种汇率：默认值1，后续确定是否存在其他币种，如存在，取单据上的汇率字段
         // 分录表/excrate2
         this.currencyRate= (String) baseMap.get("excrate2");
@@ -176,20 +191,20 @@ public class VoucherTransmitBO {
         // 每个类别下, 重新分配行号
         this.jeLineNum="";
         //13、机构段：根据单据上的分配行的机构字段，对应明细机构，与经费总账同一数据来源
-        this.segment1="自定义项";
+        this.segment1=(String) baseMap.get("segment1");
          // 14、责任中心段：根据应付单上的分配行的责任中心字段（部门），明细责任中心，无值默认为0（应付贷方和付款），与经费总账同一数据来源
-        this.segment2="自定义项";
+        this.segment2=(String) baseMap.get("segment2");
         // 15、科目段：凭证模板直接取分配行科目字段（末级）
         // 分录表/accountcode
         this.segment3=(String) baseMap.get("accountcode");
         // 16、参考段：按照分配行
-        this.segment4="自定义项";
+        this.segment4=(String) baseMap.get("segment4");
         // 17、产品段：按照分配行
-        this.segment5="自定义项";
+        this.segment5=(String) baseMap.get("segment5");
         // 18、内部往来段：按照分配行，跨机构往来业务
-        this.segment6="自定义项";
+        this.segment6=(String) baseMap.get("segment6");
         // 19、专项段：按照分配行
-        this.segment7="自定义项";
+        this.segment7=(String) baseMap.get("segment7");
         // 20、备用1段：默认0
         this.segment8="0";
         // 21、备用2段：默认0
@@ -206,30 +221,31 @@ public class VoucherTransmitBO {
         // 26、应付单摘要：借方摘要为应付单供应商名称+应付单号+应付单行摘要（供应商名称截取前12位）
         this.lineDesc=(String) baseMap.get("explanation");
         // 27、参考1：供应商名称，使用单据表头供应商名称
-        this.reference21="自定义项";
+        this.reference21=(String) baseMap.get("reference21");
         // 28、参考2：凭证类别为发票，取发票ID（应付单主键）；凭证类别为付款，取付款ID（付款单主键） 无则为空
-        this.reference22="自定义项";
+        this.reference22=(String) baseMap.get("reference22");
         // 29、参考3：凭证类别为发票，取发票行号，贷方暂为空；凭证类别为付款，取付款ID(付款单主键)  无则为空
-        this.reference23="自定义项";
+        this.reference23=(String) baseMap.get("reference23");
         // 30、参考4：凭证类别为发票，暂为空；凭证类别为付款，取付款单单据编号
-        this.reference24="自定义项";
+        this.reference24=(String) baseMap.get("reference24");
         // 31、参考5：凭证类别为发票，取发票编号(应付单号)；凭证类别为付款，借方取发票编号（应付单号），贷方暂为空
-        this.reference25="自定义项";
+        this.reference25=(String) baseMap.get("reference25");
         // 32、参考6：凭证类别为发票，默认值AP Invoices；凭证类别为付款，默认值AP Payments
-        this.reference26="自定义项";
+        this.reference26=(String) baseMap.get("reference26");
         // 33、参考7：账套ID，取固定值2004
         this.reference27="2004";
         // 34、参考8：凭证类别为发票，暂为空；凭证类别为付款，取支付编号（付款单编号）  无则为空
-        this.reference28="自定义项";
+        this.reference28=(String) baseMap.get("reference28");
         // 35、参考9：凭证类别为发票，暂为空；凭证类别为付款，取付款ID（付款单主键）    无则为空
-        this.reference29="自定义项";
+        this.reference29=(String) baseMap.get("reference29");
         // 36、参考10：凭证类别为发票，借方固定值为CHARGE，贷方固定值为LIABILITY；凭证类别为付款，借方固定值为LIABILITY，贷方固定值为CASH
-        this.reference30="自定义项";
+        this.reference30=(String) baseMap.get("reference30");
         // 37、来源ID：为空
         this.glSlLinkId="";
         // 38、来源表：为空
         this.glSlLinkTable="";
-        this.processFlag=(String) baseMap.get("TestDatas");
+
+
 
     }
 

@@ -1,18 +1,20 @@
-package com.st.modules.test.boc.voucher;
+package com.st.modules.test.boc.voucher.mock;
+
 import java.util.*;
 import java.text.SimpleDateFormat;
 
-public class VoucherDataGenerator {
+public class VoucherDataGenerator2 {
 
+    // 时间工具：格式化日期
     public static String time2StrCust(String pattern) {
         return new SimpleDateFormat(pattern).format(new Date());
     }
 
     /**
      * 生成测试数据
-     * @param orgl1OuCount 生成多少个 orgL1AndOuCode（即多少类）
+     * @param orgl1OuCount orgL1AndOuCode类数
      * @param perClassCount 每类生成多少条
-     * @return List<Map<String, Object>>
+     * @return List<Map<String, Object>> 测试数据
      */
     public static List<Map<String, Object>> generateTestData(int orgl1OuCount, int perClassCount) {
         List<Map<String, Object>> all = new ArrayList<>();
@@ -21,52 +23,45 @@ public class VoucherDataGenerator {
         Random rand = new Random();
 
         for (int i = 0; i < orgl1OuCount; i++) {
-            String orgl1 = String.format("%05d", i); // orgl1长度5
+            String orgl1 = String.format("%05d", i); // orgl1 长度5
             String oucode = String.format("%03d", i % 1000);
             String orgL1AndOuCode = orgl1 + oucode;
 
-            int remain = perClassCount;
-            int perTypeBase = perClassCount / types.length;
+            int totalThisClass = 0;
+            int perTypeCount = Math.max(100, perClassCount / types.length);
 
-            for (int t = 0; t < types.length; t++) {
-                String type = types[t];
-                int perTypeCount = (t == types.length - 1) ? remain : perTypeBase;
-                remain -= perTypeCount;
-
-                // 每type下pk_voucher分组，设置每个pk_voucher下多少条（比如5~10条）
-                int pkVoucherCount = Math.max(10, perTypeCount / 10); // 每type下有10组pk_voucher
-                int detailPerVoucher = Math.max(5, perTypeCount / pkVoucherCount);
-
-                for (int v = 0; v < pkVoucherCount; v++) {
+            for (String type : types) {
+                // 每个type下 jeBatchName 至少5种
+                int jeBatchKinds = Math.max(5, perTypeCount / 20);
+                List<String> jeBatchNames = new ArrayList<>();
+                for (int j = 0; j < jeBatchKinds; j++) {
+                    // jeBatchName = "AP"+ouCode+日期+"-"+pk_voucher+"-"+pk_detail
+                    // pk_voucher/pk_detail 用j保证唯一
                     String pk_voucher = String.format("%07d", rand.nextInt(10000000));
-                    // 三种processFlag分布方式，循环用
-                    String[] flagModes = {"ALL_S", "ALL_E", "MIX"};
-                    String flagMode = flagModes[v % flagModes.length];
+                    String pk_detail = String.format("%08d", rand.nextInt(100000000));
+                    String jeBatchName = "AP" + oucode + time2StrCust("yyyyMMdd") + "-" + pk_voucher + "-" + pk_detail;
+                    jeBatchNames.add(jeBatchName);
+                }
 
-                    for (int d = 0; d < detailPerVoucher; d++) {
+                int perJeBatchCount = Math.max(5, perTypeCount / jeBatchKinds);
+
+                for (String jeBatchName : jeBatchNames) {
+                    // 控制processFlag三种情况
+                    for (int k = 0; k < perJeBatchCount; k++) {
                         Map<String, Object> map = new HashMap<>();
+                        // 1. 基础字段
                         map.put("orgl1", orgl1);
                         map.put("oucode", oucode);
-                        map.put("orgL1AndOuCode", orgL1AndOuCode);
-
-                        map.put("pk_voucher", pk_voucher);
+                        map.put("pk_voucher", String.format("%07d", rand.nextInt(10000000)));
                         map.put("pk_detail", String.format("%08d", rand.nextInt(100000000)));
-                        // 控制processFlag
-                        String pf;
-                        if ("ALL_S".equals(flagMode)) {
-                            pf = "S";
-                        } else if ("ALL_E".equals(flagMode)) {
-                            pf = "E";
-                        } else { // MIX
-                            pf = (d % 2 == 0) ? "S" : "E";
-                        }
-                        map.put("processFlag", pf);
-
-                        // 其它业务字段，按需填充
+                        map.put("processFlag",
+                                (k < perJeBatchCount / 3) ? "S"
+                                        : (k < 2 * perJeBatchCount / 3) ? "E"
+                                        : (k % 2 == 0 ? "S" : "E"));
+                        // 2. 其它字段（测试可适当简化）
                         map.put("userJeSourceName", "应付款");
                         map.put("type", type);
-                        // jeBatchName规则
-                        map.put("jeBatchName", "AP" + oucode + time2StrCust("yyyyMMdd") + "-" + pk_voucher + "-" + map.get("pk_detail"));
+                        map.put("jeBatchName", jeBatchName);
                         map.put("jeHeaderName", type + "凭证");
                         map.put("transactionNum", "TXN" + rand.nextInt(100000));
                         map.put("currencyCode", "CNY");
@@ -93,13 +88,29 @@ public class VoucherDataGenerator {
                         map.put("reference28", "REF28-" + rand.nextInt(100));
                         map.put("reference29", "REF29-" + rand.nextInt(100));
                         map.put("reference30", "CHARGE");
+                        // 分组用字段
+                        map.put("orgL1AndOuCode", orgL1AndOuCode);
 
                         all.add(map);
+                        totalThisClass++;
                     }
                 }
+            }
+            // 补足总数
+            while (totalThisClass < perClassCount) {
+                Map<String, Object> m = new HashMap<>();
+                m.put("orgl1", orgl1);
+                m.put("oucode", oucode);
+                m.put("type", types[totalThisClass % types.length]);
+                m.put("orgL1AndOuCode", orgL1AndOuCode);
+                m.put("pk_voucher", String.format("%07d", rand.nextInt(10000000)));
+                m.put("pk_detail", String.format("%08d", rand.nextInt(100000000)));
+                m.put("processFlag", "S");
+                m.put("jeBatchName", "AP" + oucode + time2StrCust("yyyyMMdd") + "-" + rand.nextInt(1000000) + "-" + rand.nextInt(10000000));
+                all.add(m);
+                totalThisClass++;
             }
         }
         return all;
     }
 }
-

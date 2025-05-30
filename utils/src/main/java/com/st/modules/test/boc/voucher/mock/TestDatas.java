@@ -1,4 +1,4 @@
-package com.st.modules.test.boc.voucher;
+package com.st.modules.test.boc.voucher.mock;
 
 import java.util.*;
 import java.util.stream.Collectors;

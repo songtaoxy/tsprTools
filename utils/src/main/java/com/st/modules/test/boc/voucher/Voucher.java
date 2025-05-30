@@ -4,10 +4,11 @@ package com.st.modules.test.boc.voucher;
 
     import com.st.modules.config.DynamicAppConfig;
     import com.st.modules.constant.FileConst;
-    import com.st.modules.constant.deprecated.ModulesConst;
     import com.st.modules.enums.ModulesEnum;
     import com.st.modules.file.clean.FileCleanupManager;
     import com.st.modules.serialNumber.DailySystemSerialNoGenerator;
+    import com.st.modules.test.boc.voucher.mock.VoucherDataGenerator1;
+    import com.st.modules.test.boc.voucher.mock.VoucherDataGenerator2;
     import com.st.modules.time.TimeUtils;
     import lombok.SneakyThrows;
     import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,8 @@ public class Voucher {
             baseDatas.put("serialnumber", serialnumber);
 
 
-            List<Map<String, Object>> allTestData = VoucherDataGenerator.generateTestData();
+            List<Map<String, Object>> allTestData = VoucherDataGenerator1.generateTestData();
+            allTestData= VoucherDataGenerator.generateTestData(3,1000);
 
 
             // 2, convert: list<map> -> list<BO>

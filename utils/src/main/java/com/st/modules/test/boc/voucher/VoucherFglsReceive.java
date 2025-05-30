@@ -171,7 +171,7 @@ public class VoucherFglsReceive {
 //                        .glDocAccountingDate(parts[43])
 //                        .glJeHeaderId(parts[44])
 //                        .glJeLineNum(parts[45])
-                        .voucherCode(parts[3].split("-")[2])
+                        .voucherCode(parts[3].split("-")[1])
                         .build();
 
 
