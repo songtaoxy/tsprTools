@@ -52,24 +52,26 @@ public class TarUtils {
         }
     }
 
-    // 递归添加文件/目录到 tar
-    private static void addFileToTar(TarArchiveOutputStream taos, File file, String entryName) throws IOException {
+    // 递归添加文件/目录到 tar 包
+    public static void addFileToTar(TarArchiveOutputStream taos, File file, String entryName) throws IOException {
         if (file.isFile()) {
-            TarArchiveEntry entry = new TarArchiveEntry(file, entryName);
-            taos.putArchiveEntry(entry);
-
             try (FileInputStream fis = new FileInputStream(file)) {
+                // 明确指定 entry 大小
+                TarArchiveEntry entry = new TarArchiveEntry(file, entryName);
+                entry.setSize(file.length()); // 显式设置大小
+                taos.putArchiveEntry(entry);
+
                 byte[] buffer = new byte[4096];
                 int n;
                 while ((n = fis.read(buffer)) != -1) {
                     taos.write(buffer, 0, n);
                 }
+                taos.closeArchiveEntry();
             }
-            taos.closeArchiveEntry();
         } else if (file.isDirectory()) {
-            // 添加目录 entry
             if (!entryName.endsWith("/")) entryName += "/";
-            taos.putArchiveEntry(new TarArchiveEntry(file, entryName));
+            TarArchiveEntry entry = new TarArchiveEntry(file, entryName);
+            taos.putArchiveEntry(entry);
             taos.closeArchiveEntry();
 
             File[] children = file.listFiles();
