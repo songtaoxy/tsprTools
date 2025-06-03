@@ -125,19 +125,25 @@ public class TarUtils {
                 GzipCompressorInputStream gis = new GzipCompressorInputStream(bis);
                 TarArchiveInputStream tis = new TarArchiveInputStream(gis)
         ) {
-            ArchiveEntry entry;
-            while ((entry = tis.getNextEntry()) != null) {
-                String entryName = entry.getName();
-                File entryFile = new File(destDir, entryName);
+            TarArchiveEntry entry;
+            while ((entry = tis.getNextTarEntry()) != null) {
+                File entryFile = new File(destDir, entry.getName());
+
+                // 防止 Zip Slip 攻击
+                if (!entryFile.getCanonicalPath().startsWith(dest.getCanonicalPath())) {
+                    throw new IOException("非法entry: " + entry.getName());
+                }
+
                 if (entry.isDirectory()) {
                     entryFile.mkdirs();
                 } else {
                     File parent = entryFile.getParentFile();
                     if (!parent.exists()) parent.mkdirs();
+
                     try (OutputStream os = new FileOutputStream(entryFile)) {
                         byte[] buffer = new byte[4096];
                         int len;
-                        while ((len = tis.read(buffer)) != -1) {
+                        while ((len = tis.read(buffer)) > 0) {
                             os.write(buffer, 0, len);
                         }
                     }
