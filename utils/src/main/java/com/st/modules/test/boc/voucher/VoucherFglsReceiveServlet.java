@@ -1,7 +1,12 @@
 package com.st.modules.test.boc.voucher;
 
+import com.st.modules.config.DynamicAppConfig;
 import com.st.modules.constant.FileConst;
 import com.st.modules.enums.StatusVoucherEnum;
+import com.st.modules.file.FileRenameUtils;
+import com.st.modules.file.clean.FileCleanupManager;
+import com.st.modules.file.ftp.FtpDownLoadUtils;
+import com.st.modules.file.ftp.FtpUtils;
 import com.st.modules.file.tar.TarUtils;
 import lombok.SneakyThrows;
 
@@ -10,31 +15,42 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class VoucherFglsReceive {
+public class VoucherFglsReceiveServlet {
 
     @SneakyThrows
     public static void main(String[] args) {
-
+        String fglsFptDir = DynamicAppConfig.get("ftp.remotepath");
+//        String fglsFptDir = FileConst.fglsDistributeDir;
         String fglsReceiveDir = FileConst.fglsReceiveDir;
-//        FtpUtils.batchDownload("remoteDir", fglsReceiveDir, f -> f.getName().endsWith(".tar. gz"));
+
+
+        FtpDownLoadUtils.batchDownload(fglsFptDir, fglsReceiveDir, f -> f.getName().endsWith(".tar.gz"));
 
         // 1. 列出所有tar.gz文件
         List<File> tgzFiles = listAllTarGzFiles(fglsReceiveDir);
 
         // 2. 并行处理
         tgzFiles.parallelStream().forEach(file -> {
-            handleAndUpdateDbs(file);
+            handleAndUpdateDbs(file,fglsFptDir);
         });
     }
 
-    private static void handleAndUpdateDbs(File file) {
-        String txtFileName = file.getName().replace("tar.gz", "txt");
+    @SneakyThrows
+    private static void handleAndUpdateDbs(File file, String fglsFtpDir) {
+
+        // ftp path
+        String name = file.getName();
+        String ftpPath = fglsFtpDir + name;
+
+        // build txt path
+        String localAbsolutePathTar = file.getAbsolutePath();
         String tarDir = file.getParent();
+        String txtFileName = name.replace("tar.gz", "txt");
+        String localAbsolutePathText = tarDir + File.separator + txtFileName;
 
         // 2.1 解压，获得txt
-//        File txt = untarGzToTxt(file);
-        TarUtils.extractTarGz(file.getAbsolutePath(),tarDir);
-        File txt = new File(tarDir + File.separator + txtFileName);
+        TarUtils.extractTarGz(localAbsolutePathTar,tarDir);
+        File txt = new File(localAbsolutePathText);
 
         // 2.2 读取txt，封装list
         List<VoucherTransmitBO> lines = parseTxtToList(txt);
@@ -58,6 +74,21 @@ public class VoucherFglsReceive {
             }
             updateVoucherStatusToIssued(voucherCode,status);
         }
+
+        // backup: ftp
+        FtpUtils.renameRemoteFile(ftpPath, ftpPath + ".bak");
+
+        // backup: local. 原地重命名
+        String bakPost =  "."+UUID.randomUUID()+".bak";
+        String tarBakName = name + bakPost;
+        String textBakName = txtFileName + bakPost;
+        FileRenameUtils.rename(localAbsolutePathTar, tarBakName);
+        FileRenameUtils.rename(localAbsolutePathText, textBakName );
+
+        // 延迟清理
+        FileCleanupManager.register(tarDir + tarBakName);
+        FileCleanupManager.register(tarDir +textBakName);
+
     }
 
     public static List<File> listAllTarGzFiles(String dir) {
@@ -184,9 +215,12 @@ public class VoucherFglsReceive {
         return list;
     }
 
-    public static void updateVoucherStatusToIssued(String voucherCode,String status) {
+    public static boolean updateVoucherStatusToIssued(String voucherCode,String status) {
+        boolean flag = false;
         // 推荐使用JDBC、MyBatis等持久层实现
         String sql = "UPDATE gl_voucher SET free9= '"+ status+ "' WHERE pk_voucher = '" + voucherCode+"'";
         // 执行sql...
+        flag=true;
+        return flag;
     }
 }
