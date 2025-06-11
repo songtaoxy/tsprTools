@@ -1,4 +1,4 @@
-package com.st.modules.test.boc.voucher.test;
+package com.st.modules.test.boc.voucher.testx;
 
 import lombok.*;
 
