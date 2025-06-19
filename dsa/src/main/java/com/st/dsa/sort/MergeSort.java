@@ -2,52 +2,87 @@ package com.st.dsa.sort;
 
 import java.util.Arrays;
 
+/**
+ * 归并排序
+ *
+ * @param arr 输入的整数数组
+ * @return 返回排序后的整数数组
+ */
 public class MergeSort {
 
-        public static void merge(int[] a, int low, int mid, int high) {
-            int[] temp = new int[high - low + 1];
-            int i = low;// 左指针
-            int j = mid + 1;// 右指针
-            int k = 0;
-            // 把较小的数先移到新数组中
-            while (i <= mid && j <= high) {
-                if (a[i] < a[j]) {
-                    temp[k++] = a[i++];
-                } else {
-                    temp[k++] = a[j++];
-                }
-            }
-            // 把左边剩余的数移入数组
-            while (i <= mid) {
-                temp[k++] = a[i++];
-            }
-            // 把右边边剩余的数移入数组
-            while (j <= high) {
-                temp[k++] = a[j++];
-            }
-            // 把新数组中的数覆盖nums数组
-            for (int k2 = 0; k2 < temp.length; k2++) {
-                a[k2 + low] = temp[k2];
-            }
+    public static int[] mergeSort(int[] arr) {
+        if (arr == null || arr.length <= 1) {
+            return arr;  // 如果数组为空或长度为1，直接返回
+        }
+        mergeSort(arr, 0, arr.length - 1);  // 对整个数组进行排序
+        return arr;
+    }
+
+    private static void mergeSort(int[] arr, int leftStart, int rightEnd) {
+        if (leftStart >= rightEnd) {
+            return;  // 如果子数组只有一个元素，已经排序好
         }
 
-        public static void mergeSort(int[] a, int low, int high) {
-            int mid = (low + high) / 2;
-            if (low < high) {
-                // 左边
-                mergeSort(a, low, mid);
-                // 右边
-                mergeSort(a, mid + 1, high);
-                // 左右归并
-                merge(a, low, mid, high);
-                System.out.println(Arrays.toString(a));
-            }
+        int middle = (leftStart + rightEnd) / 2;
 
+        // 递归排序左右两部分
+        mergeSort(arr, leftStart, middle);  // 对左半部分排序
+        mergeSort(arr, middle + 1, rightEnd);  // 对右半部分排序
+
+        // 合并已排序的两部分
+        mergeHalves(arr, leftStart, middle, rightEnd);
+    }
+
+    /**
+     * 合并两个已排序的子数组
+     *
+     * @param arr 输入的数组
+     * @param leftStart 左部分的起始索引
+     * @param middle 中间索引
+     * @param rightEnd 右部分的结束索引
+     */
+    private static void mergeHalves(int[] arr, int leftStart, int middle, int rightEnd) {
+        // 左右子数组的大小
+        int leftSize = middle - leftStart + 1;
+        int rightSize = rightEnd - middle;
+
+        // 创建临时数组来存储左右子数组
+        int[] left = new int[leftSize];
+        int[] right = new int[rightSize];
+
+        // 将左右子数组填充
+        System.arraycopy(arr, leftStart, left, 0, leftSize);
+        System.arraycopy(arr, middle + 1, right, 0, rightSize);
+
+        int leftIndex = 0, rightIndex = 0, mergedIndex = leftStart;
+
+        // 合并过程
+        while (leftIndex < leftSize && rightIndex < rightSize) {
+            if (left[leftIndex] <= right[rightIndex]) {
+                arr[mergedIndex] = left[leftIndex];
+                leftIndex++;
+            } else {
+                arr[mergedIndex] = right[rightIndex];
+                rightIndex++;
+            }
+            mergedIndex++;
         }
 
-        public static void main(String[] args) {
-            int a[] = { 51, 46, 20, 18, 65, 97, 82, 30, 77, 50 };
-            mergeSort(a, 0, a.length - 1);
-            System.out.println("排序结果：" + Arrays.toString(a));
+        // 如果左部分还有剩余元素，复制到原数组
+        while (leftIndex < leftSize) {
+            arr[mergedIndex++] = left[leftIndex++];
+        }
+
+        // 如果右部分还有剩余元素，复制到原数组
+        while (rightIndex < rightSize) {
+            arr[mergedIndex++] = right[rightIndex++];
         }
     }
+
+    // 测试代码
+    public static void main(String[] args) {
+        int[] arr = {5, 2, 9, 1, 5, 6};
+        int[] sortedArr = mergeSort(arr);
+        System.out.println("Sorted array: " + Arrays.toString(sortedArr));
+    }
+}

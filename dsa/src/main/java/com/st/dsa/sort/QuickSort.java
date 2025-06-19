@@ -4,8 +4,7 @@ public class QuickSort {
 
 
     /**
-     * 快速排序
-     *
+     * 快速排序/左右双指针;
      * 参数说明:
      *     a -- 待排序的数组
      *     l -- left  数组的左边界(例如，从起始位置开始排序，则l=0)
@@ -20,18 +19,25 @@ public class QuickSort {
             i = l;
             j = r;
             povit = a[i]; // 基准值
+
             while (i < j) {
+
                 while(i < j && a[j] > povit)
                     j--; // 从右向左找第一个小于x的数
-                if(i < j)
-                    a[i++] = a[j];
+                if(i < j){
+                    a[i] = a[j];
+                    i++;
+                }
+
                 while(i < j && a[i] < povit)
                     i++; // 从左向右找第一个大于x的数
-                if(i < j)
-                    a[j--] = a[i];
+                if(i < j){
+                    a[j] = a[i];
+                    j--;
+                }
             }
-            a[i] = povit;
 
+            a[i] = povit;
             print(a);
             System.out.print("l=" + (l + 1) + "h=" + (r + 1) + "povit=" + povit + "\n");
 
