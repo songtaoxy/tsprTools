@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,6 +35,24 @@ class SqlUtilsTest {
         // 空列表时：输出: (NULL)
         String emptyClause = SqlUtils.buildInClause(Collections.emptyList(), User::getId);
         log.info(emptyClause);
+
+
+        // 入参List<T> 是 List<String>或List<Integer> 等
+        List<String> names = Arrays.asList("Alice", "Bob", "O'Neil");
+        // 使用 identity; 输出: ('Alice', 'Bob', 'O''Neil')
+        String sqlIn = SqlUtils.buildInClause(names, Function.identity());
+        log.info(sqlIn);
+        // 或 lambda 写法; 输出: ('Alice', 'Bob', 'O''Neil')
+        String sqlIn2 = SqlUtils.buildInClause(names, s -> s);
+        log.info(sqlIn2);
+
+        List<Integer> age = Arrays.asList(2, 3, 4);
+        String sqlInAge = SqlUtils.buildInClause(age, Function.identity());
+        // 输出:  (2, 3, 4)
+        log.info(sqlInAge);
+
+
+
     }
 }
 
