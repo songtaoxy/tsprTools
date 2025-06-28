@@ -99,6 +99,7 @@ public class Response<R> {
     }
 
     public static <T> Response<T> fail(String msg, T result) {
+
         return build(StatCode.FAIL.getCode(), msg, result);
     }
 
