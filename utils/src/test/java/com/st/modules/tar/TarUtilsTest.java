@@ -59,11 +59,7 @@ class TarUtilsTest {
 
         String tarGzPath = fglsDistributeFile+"AP_GL_AAAAAA123456789_20250528_001.tar.gz";
         String destDir = fglsReceiveFile;
-        try {
-            TarUtils.extractTarGz(tarGzPath, destDir);
-            System.out.println("解压完成！");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        TarUtils.extractTarGz(tarGzPath, destDir);
+        System.out.println("解压完成！");
     }
 }
