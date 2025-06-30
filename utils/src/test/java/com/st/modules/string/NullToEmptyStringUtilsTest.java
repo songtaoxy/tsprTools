@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +37,36 @@ class NullToEmptyStringUtilsTest {
         Assertions.assertEquals("", bo3.getEmail());
         Assertions.assertEquals("", bo3.getPhone());
 
+    }
+
+    @Test
+    void convertNullValuesToEmpty() {
+
+
+        Map<String, String> map1 = new HashMap<>();
+        map1.put("name", null);
+        map1.put("email", "user1@example.com");
+
+        Map<String, String> map2 = new HashMap<>();
+        map2.put("name", "Alice");
+        map2.put("email", null);
+
+        Map<String, String> map3 = new HashMap<>();
+        map3.put("name", null);
+        map3.put("email", null);
+
+        List<Map<String, String>> list = Arrays.asList(map1, map2, map3);
+
+        NullToEmptyStringUtils.convertNullValuesToEmpty(list);
+
+        Assertions.assertEquals("", map1.get("name"));
+        Assertions.assertEquals("user1@example.com", map1.get("email"));
+
+        Assertions.assertEquals("Alice", map2.get("name"));
+        Assertions.assertEquals("", map2.get("email"));
+
+        Assertions.assertEquals("", map3.get("name"));
+        Assertions.assertEquals("", map3.get("email"));
     }
 
     @AllArgsConstructor

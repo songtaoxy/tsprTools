@@ -2,6 +2,7 @@ package com.st.modules.string;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <pre>
@@ -45,6 +46,27 @@ public class NullToEmptyStringUtils {
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException("处理字段出错: " + field.getName(), e);
                     }
+                }
+            }
+        }
+    }
+
+
+    /**
+     * <pre>
+     *     对 List<Map<String, String>> 中所有 map：
+     *     如果某个 key 的值为 null，则设为 ""（空字符串）
+     * </pre>
+     */
+    public static void convertNullValuesToEmpty(List<Map<String, String>> list) {
+        if (list == null || list.isEmpty()) return;
+
+        for (Map<String, String> map : list) {
+            if (map == null) continue;
+
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                if (entry.getValue() == null) {
+                    map.put(entry.getKey(), "");
                 }
             }
         }
