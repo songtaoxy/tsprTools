@@ -6,6 +6,14 @@ import java.time.format.DateTimeFormatter;
 /**
  * <pre>
  *     time: 即涵盖date, 也涵盖time
+ *     - yyyy/MM/dd HH:mm:ss.SSS
+ *     - 年: y
+ *     - 月: M
+ *     - 日: d
+ *     - 时: H
+ *     - 分: m
+ *     - 秒: s
+ *     - 毫秒: S
  * </pre>
  */
 public class TimeUtils {
