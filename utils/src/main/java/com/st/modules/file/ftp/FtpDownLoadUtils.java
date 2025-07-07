@@ -7,6 +7,10 @@ import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -333,6 +337,65 @@ public class FtpDownLoadUtils {
             }
         }
         return successCount;
+    }
+
+
+    /**
+     * <pre>
+     *     - 相关说明, see {@code com.st.modules.file.ftp.FtpDownLoadUtils#batchDownload(java.lang.String, java.lang.String, java.util.function.Predicate)}
+     *     - 扩展点: 功能与batchDownload相同; 只是返回的不是int, 而是文件列表
+     * </pre>
+     * @param remoteDir
+     * @param localDir
+     * @param filter
+     * @return
+     */
+    public static  Map<String, List<String>>  batchDownloadExt(String remoteDir, String localDir, Predicate<FTPFile> filter) {
+        Map<String, List<String>> fileMap = new HashMap<String, List<String>>();
+
+        List<String> successList = new ArrayList<>();
+        List<String> failList = new ArrayList<>();
+
+
+
+        FTPClient ftpClient = null;
+        int successCount = 0;
+        try {
+            ftpClient = FTPClientFactory.getFtpClient();
+            ftpClient.changeWorkingDirectory(remoteDir);
+            FTPFile[] files = ftpClient.listFiles();
+
+            File localDirFile = new File(localDir);
+            if (!localDirFile.exists()) localDirFile.mkdirs();
+
+            for (FTPFile f : files) {
+                String fileName = f.getName();
+
+                if (!f.isFile()) continue;
+                if (!filter.test(f)) continue;
+                File localFile = new File(localDir, f.getName());
+                try (OutputStream out = new BufferedOutputStream(new FileOutputStream(localFile))) {
+                    boolean ok = ftpClient.retrieveFile(f.getName(), out);
+                    if (ok) {
+                        System.out.println("下载成功：" + fileName);
+                        successList.add(fileName);
+                        successCount++;
+                    } else {
+                        System.out.println("下载失败：" + fileName);
+                        failList.add(fileName);
+                    }
+                }
+            }
+            fileMap.put("successList", successList);
+            fileMap.put("failList", failList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (ftpClient != null && ftpClient.isConnected()) {
+                try { ftpClient.logout(); ftpClient.disconnect(); } catch (Exception ignored) {}
+            }
+        }
+        return fileMap;
     }
 
     /**
