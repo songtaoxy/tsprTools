@@ -227,6 +227,11 @@ public class ThreadPoolUtils {
      * - 运维诊断	JVisualVM、JConsole 中查看线程栈时快速识别线程来源
      * - 性能监控	将不同类型线程分类统计
      * </pre>
+     * <p></p>
+     * 后续待扩展
+     * <pre>
+     * - 支持设置线程是否为守护线程、优先级等附加参数
+     * </pre>
      */
     private static class NamedThreadFactory implements ThreadFactory {
         private final String prefix;
