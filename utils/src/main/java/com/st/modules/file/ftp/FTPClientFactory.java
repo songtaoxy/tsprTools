@@ -23,7 +23,17 @@ public class FTPClientFactory {
     }
 
 
-    // 获取FTP客户端连接（自动登录与目录切换）
+    /**
+     * <pre>
+     *     - 获取FTP客户端连接（自动登录与目录切换）
+     *     - 使用 Apache Commons Net 库实现底层通信；
+     *     - 基于 FTP 协议的文件存在性检查; 默认使用 FTP 协议，如需支持 FTPS（FTP over SSL）请改用 FTPSClient
+     *     - 当前模式: 主动模式
+     *     - 待优化: 使用被动模式，解决部分网络环境下连接问题;ftpClient.enterLocalPassiveMode() 可以解决部分防火墙阻断问题
+     * </pre>
+     * @return
+     * @throws IOException
+     */
     public static FTPClient getFtpClient() throws IOException {
         FTPClient ftpClient = new FTPClient();
         ftpClient.connect(server, port);
