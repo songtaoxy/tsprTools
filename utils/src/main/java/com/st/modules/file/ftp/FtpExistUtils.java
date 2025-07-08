@@ -65,11 +65,7 @@ public class FtpExistUtils {
                 }
                 return false;
             } finally {
-                // 关闭连接并注销
-                if (ftpClient.isConnected()) {
-                    ftpClient.logout();
-                    ftpClient.disconnect();
-                }
+                FtpClientExitUtils.closeQuietly(ftpClient);
             }
         }
 
@@ -93,10 +89,7 @@ public class FtpExistUtils {
             // changeWorkingDirectory 会尝试切换目录，成功返回 true，失败返回 false
             return ftpClient.changeWorkingDirectory(remoteDir);
         } finally {
-            if (ftpClient.isConnected()) {
-                ftpClient.logout();
-                ftpClient.disconnect();
-            }
+            FtpClientExitUtils.closeQuietly(ftpClient);
         }
     }
 
@@ -121,5 +114,6 @@ public class FtpExistUtils {
             }
             return path.substring(lastSlash + 1);
         }
+
     }
 
