@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * - 支持任务超时控制
  * - 支持 invokeAll 批量提交
  * - 使用默认线程池参数; 同时支持自定义线程池参数（核心线程数、最大线程数、队列大小、存活时间）
+ * - 只要前缀prefi相同, 则得到的线程池是同一个线程池; 因此, 同一个模块, 前缀一致, 好跟踪
  * </pre>
  *
  * <p></p>

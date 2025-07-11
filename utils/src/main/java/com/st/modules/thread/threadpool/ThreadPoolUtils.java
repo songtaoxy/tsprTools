@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 概述
  * <pre>
  * - 通用线程池工具类，用于按需创建和复用线程池实例
+ *  * - 只要前缀prefi相同, 则得到的线程池是同一个线程池; 因此, 同一个模块, 前缀一致, 好跟踪
  * </pre>
  * <p></p>
  * 功能
