@@ -1,0 +1,19 @@
+ftp:
+  clients:
+    ftpA:
+      protocol: sftp
+      host: 127.0.0.1
+      port: 22
+      username: songtao
+      password: styj822763
+      paths:
+        upload: /Users/songtao/ftp/upload/
+        backup: /Users/songtao/ftp/upload/
+    ftpB:
+      protocol: sftp
+      host: 127.0.0.1
+      port: 22
+      username: songtao
+      password: styj822763
+      paths:
+        report: /Users/songtao/ftp/report/x
