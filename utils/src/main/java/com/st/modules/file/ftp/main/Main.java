@@ -2,9 +2,9 @@ package com.st.modules.file.ftp.main;
 
 import com.st.modules.file.classpath.ClassPathResourcesUtils;
 import com.st.modules.file.ftp.client.base.GenericClosableFtpClient;
-import com.st.modules.file.ftp.config.FtpClientConfig;
-import com.st.modules.file.ftp.config.FtpConfigRegistry;
-import com.st.modules.file.ftp.config.FtpYamlLoader;
+import com.st.modules.file.ftp.config.base.FtpClientConfig;
+import com.st.modules.file.ftp.config.base.FtpConfigRegistry;
+import com.st.modules.file.ftp.config.manul.FtpYamlLoader;
 import com.st.modules.file.ftp.constant.constant.FilePathConst;
 import com.st.modules.file.ftp.constant.constant.FtpClientKeys;
 import com.st.modules.file.ftp.constant.constant.FtpPathKeys;

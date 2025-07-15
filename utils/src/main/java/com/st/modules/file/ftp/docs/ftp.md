@@ -353,6 +353,8 @@ FtpYamlLoader --> FtpClientConfig
 
 # 功能清单
 
+## 概述
+
 上传、下载、文件是否存在、目录是否存在
 
 创建文件
@@ -400,6 +402,204 @@ and
 | 安全资源释放 | `FtpCloser` 提供统一关闭方法                      |
 | 多协议适配   | 基于 `ClosableFtpClient` 抽象，屏蔽 FTP/SFTP 差异 |
 | 流关闭       | IOCloser 工具（补充）支持流安全关闭               |
+
+## 支持多个ftp配置
+
+src/main/resources/ftp/ftp-config.yaml
+
+```yaml
+
+ftp:
+  clients:
+    ftpA:
+      protocol: sftp
+      host: 127.0.0.1
+      port: 22
+      username: songtao
+      password: styj822763
+      paths:
+        upload: /Users/songtao/ftp/upload/
+        backup: /Users/songtao/ftp/upload/
+    ftpB:
+      protocol: sftp
+      host: 127.0.0.1
+      port: 22
+      username: songtao
+      password: styj822763
+      paths:
+        report: /Users/songtao/ftp/report/x
+```
+
+## 同时支持加载自定义配置文件, 及springboot的application.yaml配置
+
+### 概述
+
+- 如果是springboot项目
+  - 自动加载: application.yaml中有对应的ftp配置, 则会自动加载. fpt的格式规范如上
+  - 不想使用springboot的配置, 则可手动加载自己的配置
+- 如果不是Springboot项目, 在项目启动类加载、初始化即可. 
+  - 参考下面的章节: “何时加载配置进行初始化? 以及在哪里加载初始化?”
+
+
+
+```yaml
+$ tree ../config 
+../config
+├── base // 公共的
+│   ├── FtpClientConfig.java
+│   └── FtpConfigRegistry.java
+├── manul // 手动加载配置文件
+│   └── FtpYamlLoader.java
+└── springboot // springboot项目, 自动加载配置
+    ├── FtpConfigBootstrap.java
+    ├── FtpProperties.java
+    └── FtpPropertiesInitializer.java
+
+4 directories, 6 files
+
+
+```
+
+
+
+### springboot自动加载
+
+#### 前置条件
+
+- application.yaml有ftp配置, 格式如下: 
+
+```yaml
+
+ftp:
+  clients:
+    ftpA:
+      protocol: sftp
+      host: 127.0.0.1
+      port: 22
+      username: songtao
+      password: styj822763
+      paths:
+        upload: /Users/songtao/ftp/upload/
+        backup: /Users/songtao/ftp/upload/
+    ftpB:
+      protocol: sftp
+      host: 127.0.0.1
+      port: 22
+      username: songtao
+      password: styj822763
+      paths:
+        report: /Users/songtao/ftp/report/x
+```
+
+#### 是否需要额外操作? 不需要
+
+Spring Boot 启动类中，无需任何操作，自动初始化
+
+```java
+@SpringBootApplication
+public class YourApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(YourApplication.class, args);
+    }
+}
+```
+
+#### 自动加载原理分析
+
+| 组件                       | 作用                                                         |
+| -------------------------- | ------------------------------------------------------------ |
+| `FtpProperties`            | 使用 `@ConfigurationProperties` 绑定 `application.yaml` 配置 |
+| `FtpPropertiesInitializer` | 中转桥梁，将配置注入静态类                                   |
+| `FtpConfigBootstrap`       | 静态注册与判断，供非 Spring 环境调用                         |
+
+下面我们来**详细解析说明**这两句话的原理、触发机制与本质含义：
+
+------
+
+##### 一、`@Component 被扫描注册为 Bean`
+
+###### 含义
+
+当你在类上加了 `@Component`，Spring 会自动把它识别为一个 Bean 并加入容器。
+
+###### 背后发生了什么？
+
+1. Spring Boot 启动时，`@SpringBootApplication` 含有 `@ComponentScan` 注解，会扫描当前包及子包下所有带 `@Component` 的类。
+2. Spring 扫描到 `FtpPropertiesInitializer` 这个类有 `@Component`，就自动将其注册为 Bean。
+3. 实例化该类时，会调用其构造器，完成 Bean 创建。
+
+###### 使用构造器，完成 Bean 创建说明
+
+`FtpPropertiesInitializer` 注册为bean时, 必然会调用该类的唯一构造器, 进而触发ftp配置的注入.  具体分析, 见当前文档的章节分析: “Springboot将组件注册为bean-构造器及其说明”
+
+```java
+@Component
+public class FtpPropertiesInitializer {
+
+    public FtpPropertiesInitializer(FtpProperties properties) {
+        FtpConfigBootstrap.setFtpProperties(properties);
+        FtpConfigBootstrap.initConfig();
+    }
+}
+```
+
+
+
+##### 二、Spring 容器会自动查找构造器参数 `FtpProperties`，并注入该 Bean
+
+###### 含义
+
+如果一个类（如 `FtpPropertiesInitializer`）构造器参数是某个类型（如 `FtpProperties`），Spring 会尝试找到这个类型对应的 Bean 并注入。
+
+###### 背后发生了什么？
+
+1. Spring 发现要实例化 `FtpPropertiesInitializer`，而它构造器需要 `FtpProperties`。
+
+2. Spring 会在其 **IoC 容器中查找是否已有 `FtpProperties` 的 Bean**。
+
+3. `FtpProperties` 被声明为：
+
+   ```java
+   @Component
+   @ConfigurationProperties(prefix = "ftp")
+   public class FtpProperties { ... }
+   ```
+
+   所以它本身也是 Bean，Spring 会先实例化它，再注入到构造器中。
+
+4. 然后构造器执行：
+
+   ```java
+   public FtpPropertiesInitializer(FtpProperties properties) {
+       FtpConfigBootstrap.setFtpProperties(properties);
+       ...
+   }
+   ```
+
+   此时 Spring 自动将已初始化好的配置类注入进去。
+
+------
+
+##### 三、核心机制归纳
+
+| 过程阶段              | Spring 行为                                         |
+| --------------------- | --------------------------------------------------- |
+| 类上标注 `@Component` | 被 Spring 扫描并注册为 Bean                         |
+| 构造器有参数          | Spring 识别需要依赖注入                             |
+| Spring 寻找依赖       | 根据类型在容器中找对应 Bean，自动注入（若无则报错） |
+| 构造器被调用          | 构造器执行，参数已由容器传入（如 `FtpProperties`）  |
+
+------
+
+##### 四、结论：这两句话是 Spring 自动装配机制的核心体现
+
+这种机制使你**不需要手动 new 对象**，也不需要管理依赖关系，Spring 会自动完成：
+
+- Bean 的创建
+- Bean 的注入
+- Bean 的初始化
+
+如需我再补充构造器注入、字段注入、`@Bean` 注册等对比与原理说明，可继续说明。
 
 # 注意事项与建议
 
@@ -1509,9 +1709,9 @@ package com.st.modules.file.ftp.main;
 
 import com.st.modules.file.classpath.ClassPathResourcesUtils;
 import com.st.modules.file.ftp.client.base.GenericClosableFtpClient;
-import com.st.modules.file.ftp.config.FtpClientConfig;
-import com.st.modules.file.ftp.config.FtpConfigRegistry;
-import com.st.modules.file.ftp.config.FtpYamlLoader;
+import com.st.modules.file.ftp.config.base.FtpClientConfig;
+import com.st.modules.file.ftp.config.base.FtpConfigRegistry;
+import com.st.modules.file.ftp.config.manul.FtpYamlLoader;
 import com.st.modules.file.ftp.constant.constant.FilePathConst;
 import com.st.modules.file.ftp.constant.constant.FtpClientKeys;
 import com.st.modules.file.ftp.constant.constant.FtpPathKeys;
@@ -1525,79 +1725,79 @@ import java.util.Map;
 
 public class Main {
 
-    /**
-     * 测试基本用法.
-     *
-     * <p></p>
-     * 关闭资源(IO, ftp连接等)方式
-     * <pre>
-     *  - 手动关闭
-     *  - try with resouce 关闭
-     * </pre>
-     * @param args
-     * @throws IOException
-     */
-    @SneakyThrows
-    public static void main(String[] args) throws IOException {
-        Map<String, FtpClientConfig> configs = FtpYamlLoader.loadFromClasspath(FilePathConst.FTP_CONFIG_PATH_DEV);
-        FtpConfigRegistry.init(configs);
+  /**
+   * 测试基本用法.
+   *
+   * <p></p>
+   * 关闭资源(IO, ftp连接等)方式
+   * <pre>
+   *  - 手动关闭
+   *  - try with resouce 关闭
+   * </pre>
+   * @param args
+   * @throws IOException
+   */
+  @SneakyThrows
+  public static void main(String[] args) throws IOException {
+    Map<String, FtpClientConfig> configs = FtpYamlLoader.loadFromClasspath(FilePathConst.FTP_CONFIG_PATH_DEV);
+    FtpConfigRegistry.init(configs);
 
-        //test case: 自动关闭 try with resource自动关闭
-        useWithTry(FtpClientKeys.FTP_A, FtpPathKeys.UPLOAD);
-        //test case: 手动关闭
-        useWithManualClose(FtpClientKeys.FTP_A, FtpPathKeys.UPLOAD);
+    //test case: 自动关闭 try with resource自动关闭
+    useWithTry(FtpClientKeys.FTP_A, FtpPathKeys.UPLOAD);
+    //test case: 手动关闭
+    useWithManualClose(FtpClientKeys.FTP_A, FtpPathKeys.UPLOAD);
+  }
+
+  /**
+   * <pre>
+   *  - 使用try with resources 关闭
+   * </pre>
+   * @param clientKey
+   * @param pathKey
+   * @throws IOException
+   */
+  @SneakyThrows
+  private static void useWithTry(String clientKey, String pathKey) throws IOException {
+    String path = FtpConfigRegistry.getPath(clientKey, pathKey);
+
+    // 使用try with resources 关闭
+    try (
+            GenericClosableFtpClient client = FtpClientProvider.connect(clientKey);
+            InputStream input = ClassPathResourcesUtils.getClasspathFile("ftp/test/local.txt");
+            OutputStream output = new FileOutputStream("copy-try.txt")
+    ) {
+      client.upload(path, "file-try.txt", input);
+      client.download(path, "file-try.txt", output);
     }
+  }
 
-    /**
-     * <pre>
-     *  - 使用try with resources 关闭
-     * </pre>
-     * @param clientKey
-     * @param pathKey
-     * @throws IOException
-     */
-    @SneakyThrows
-    private static void useWithTry(String clientKey, String pathKey) throws IOException {
-        String path = FtpConfigRegistry.getPath(clientKey, pathKey);
+  /**
+   * <pre>
+   * - 手动关闭
+   * </pre>
+   * @param clientKey
+   * @param pathKey
+   * @throws IOException
+   */
+  @SneakyThrows
+  private static void useWithManualClose(String clientKey, String pathKey) throws IOException {
+    String path = FtpConfigRegistry.getPath(clientKey, pathKey);
+    GenericClosableFtpClient client = null;
+    InputStream input = null;
+    OutputStream output = null;
 
-        // 使用try with resources 关闭
-        try (
-                GenericClosableFtpClient client = FtpClientProvider.connect(clientKey);
-                InputStream input = ClassPathResourcesUtils.getClasspathFile("ftp/test/local.txt");
-                OutputStream output = new FileOutputStream("copy-try.txt")
-        ) {
-            client.upload(path, "file-try.txt", input);
-            client.download(path, "file-try.txt", output);
-        }
+    try {
+      client = FtpClientProvider.connect(clientKey);
+      input = ClassPathResourcesUtils.getClasspathFile("ftp/test/local.txt");
+      output = new FileOutputStream("copy-manual.txt");
+
+      client.upload(path, "file-manual.txt", input);
+      client.download(path, "file-manual.txt", output);
+    } finally { //手动关闭
+      IOCloser.closeAll(input, output);
+      FtpCloser.closeQuietly(client);
     }
-
-    /**
-     * <pre>
-     * - 手动关闭
-     * </pre>
-     * @param clientKey
-     * @param pathKey
-     * @throws IOException
-     */
-    @SneakyThrows
-    private static void useWithManualClose(String clientKey, String pathKey) throws IOException {
-        String path = FtpConfigRegistry.getPath(clientKey, pathKey);
-        GenericClosableFtpClient client = null;
-        InputStream input = null;
-        OutputStream output = null;
-
-        try {
-            client = FtpClientProvider.connect(clientKey);
-            input = ClassPathResourcesUtils.getClasspathFile("ftp/test/local.txt");
-            output = new FileOutputStream("copy-manual.txt");
-
-            client.upload(path, "file-manual.txt", input);
-            client.download(path, "file-manual.txt", output);
-        } finally { //手动关闭
-            IOCloser.closeAll(input,output);
-            FtpCloser.closeQuietly(client);
-        }
-    }
+  }
 }
 
 ```
@@ -1710,5 +1910,185 @@ public enum FtpProtocolType {
 
 是否需要我补充使用枚举重构调用代码的最佳实践？
 
+# Springboot将组件注册为bean-构造器及其说明
 
+## 实例化时, 一定会使用构造器吗
 
+Spring 扫描到某个类有 @Component，就自动将其注册为 Bean。 实例化该类时，会调用其构造器，完成 Bean 创建; --》实例化时, 一定会使用构造器吗?
+
+是的，在 **Spring 实例化 Bean 的过程中**，一定会调用构造器，因为构造器是 Java 中创建对象的唯一方式之一。
+
+------
+
+### 一、必须使用构造器的原因
+
+- Java 中每一个对象的创建，都必须通过构造器（不管是否显示声明）；
+- Spring 也是基于 Java 语言规范进行对象创建的，Bean 的实例化本质上就是调用构造器；
+- 即使你没有显式写构造方法，Java 编译器也会自动生成一个无参构造器。
+
+------
+
+### 二、Spring 使用构造器的几种方式
+
+#### 1. 无参构造器（默认使用）
+
+```java
+@Component
+public class MyBean {
+    public MyBean() {
+        System.out.println("无参构造器");
+    }
+}
+```
+
+Spring 默认使用无参构造器创建对象。
+
+#### 2. 有参构造器（推荐：构造器注入）
+
+```java
+@Component
+public class MyBean {
+    private final Dependency dep;
+
+    public MyBean(Dependency dep) {
+        this.dep = dep;
+    }
+}
+```
+
+只要容器中有 `Dependency`，Spring 会识别并注入它。此即“构造器注入”。
+
+#### 3. 多构造器（通过 `@Autowired` 指定）
+
+```java
+@Component
+public class MyBean {
+
+    @Autowired
+    public MyBean(Dependency dep) { ... }
+
+    public MyBean() { ... }
+}
+```
+
+Spring 会优先使用 `@Autowired` 标注的构造器。
+
+------
+
+### 三、结论：构造器是必经之路
+
+| 场景               | Spring 会做什么                    |
+| ------------------ | ---------------------------------- |
+| 无参构造器         | 自动调用                           |
+| 单个有参构造器     | 自动识别依赖注入                   |
+| 多构造器（有标注） | 调用标注 `@Autowired` 的那个构造器 |
+| 多构造器（无标注） | 报错（无法确定调用哪个）           |
+
+------
+
+### 四、扩展：是否只用构造器注入？
+
+构造器注入 vs 字段注入：
+
+| 方式        | 特点与建议                                         |
+| ----------- | -------------------------------------------------- |
+| 构造器注入  | 推荐方式，强依赖显式，适合不可变依赖，便于单元测试 |
+| 字段注入    | 简单但可测试性差，Spring 外部环境下不易注入        |
+| Setter 注入 | 适合可选依赖，或懒加载依赖                         |
+
+------
+
+是否需要我展示 Spring 调用构造器过程的源码逻辑（如反射调用过程）？或者列举常见构造器注入失败的原因？
+
+## 使用的是哪个构造器?
+
+Spring 在创建 Bean 实例时，如果发现该类存在多个构造器或是带参数的构造器，会根据以下优先级来决定使用哪一个构造器：
+
+------
+
+### 一、构造器选择的优先级规则（自 Spring 4.3 起）
+
+#### **1. 如果只有一个构造器（无论是否有参数）**
+
+- Spring 默认使用它，不需要 `@Autowired`
+
+```java
+@Component
+public class MyBean {
+    public MyBean(MyDependency dep) {
+        ...
+    }
+}
+```
+
+**结论**：只有一个构造器时，Spring 自动选择它并注入参数。
+
+------
+
+#### **2. 如果有多个构造器**
+
+Spring 会遵循以下策略：
+
+| 情况                                           | Spring 选择哪个构造器                                |
+| ---------------------------------------------- | ---------------------------------------------------- |
+| 有一个构造器加了 `@Autowired`                  | 选择这个构造器                                       |
+| 有多个构造器都加了 `@Autowired(required=true)` | 报错，无法确定使用哪一个                             |
+| 没有 `@Autowired`，但其中一个构造器参数最多    | 尝试使用参数最多的构造器，但必须容器中能找到全部依赖 |
+
+**建议**：有多个构造器时应显式标注 `@Autowired` 避免歧义。
+
+------
+
+### 二、示例：多个构造器时的情况
+
+```java
+@Component
+public class FtpPropertiesInitializer {
+
+    public FtpPropertiesInitializer() {
+        System.out.println("默认无参构造器");
+    }
+
+    @Autowired
+    public FtpPropertiesInitializer(FtpProperties properties) {
+        System.out.println("构造器注入 FtpProperties");
+    }
+}
+```
+
+**结果**：Spring 会优先使用带 `@Autowired` 注解的构造器，即注入 `FtpProperties` 的那个。
+
+------
+
+### 三、你当前使用场景分析
+
+在你定义的 `FtpPropertiesInitializer` 中：
+
+```java
+@Component
+public class FtpPropertiesInitializer {
+
+    public FtpPropertiesInitializer(FtpProperties properties) {
+        FtpConfigBootstrap.setFtpProperties(properties);
+        FtpConfigBootstrap.initConfig();
+    }
+}
+```
+
+- 你只有一个构造器，且构造器有参数
+- Spring 会自动识别这个构造器，并尝试注入 `FtpProperties`（已通过 `@ConfigurationProperties + @Component` 注册）
+- 所以，不需要 `@Autowired`，也不会调用无参构造器
+
+------
+
+### 四、结论（关键点）
+
+| 问题                            | 回答                                       |
+| ------------------------------- | ------------------------------------------ |
+| Spring 实例化时是否调用构造器？ | 是，一定会                                 |
+| 使用哪个构造器？                | 默认使用唯一构造器，或加了 `@Autowired` 的 |
+| 多构造器时是否有歧义？          | 有，需用 `@Autowired` 明确标注             |
+
+------
+
+如需我展示 Spring 中解析构造器调用的源码入口（如 `ConstructorResolver` 逻辑），也可进一步深入。是否需要？

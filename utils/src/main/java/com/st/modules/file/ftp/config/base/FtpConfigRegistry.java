@@ -1,4 +1,4 @@
-package com.st.modules.file.ftp.config;
+package com.st.modules.file.ftp.config.base;
 
 import java.util.HashMap;
 import java.util.Map;
