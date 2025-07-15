@@ -70,8 +70,8 @@ public class Main {
                 InputStream input = ClassPathResourcesUtils.getClasspathFile("ftp/test/local.txt");
                 OutputStream output = new FileOutputStream("copy-try.txt")
         ) {
-            client.upload(path, "file-try.txt", input);
-            client.download(path, "file-try.txt", output);
+//            client.upload(path, "file-try.txt", input);
+//            client.download(path, "file-try.txt", output);
         }
     }
 
@@ -95,8 +95,8 @@ public class Main {
             input = ClassPathResourcesUtils.getClasspathFile("ftp/test/local.txt");
             output = new FileOutputStream("copy-manual.txt");
 
-            client.upload(path, "file-manual.txt", input);
-            client.download(path, "file-manual.txt", output);
+//            client.upload(path, "file-manual.txt", input);
+//            client.download(path, "file-manual.txt", output);
         } finally { //手动关闭
             IOCloser.closeAll(input,output);
             FtpCloser.closeQuietly(client);
