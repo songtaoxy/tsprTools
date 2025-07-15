@@ -1,3 +1,180 @@
+# 用法
+
+## 概述
+
+- 用法一, 手动加载配置: 不依赖spring boot, 根据jvm入参, 加载对应的yaml并解析, 然后可获取各ftp客户端, 然后进行操作
+- 用法二, Spring boot自动使用application.yaml的ftp配置: 依赖Spring boot; spring boot启动即可, 无需其他操作, 加载application.yaml中ftp对应的配置, 并解析, 然后可获取各ftp客户端, 然后进行操作
+
+## 用法一, 手动加载配置
+
+### jvm
+
+```java
+-DappEnv=dev
+```
+
+### ftp的yaml配置/路径
+
+utils/src/main/resources/ftp/ftp-config.yaml
+
+该路径, 是com.st.modules.file.ftp.config.manul.env.DynamicFtpConfigManager#load中拼接得到的
+
+### ftp的yaml配置/内容
+
+```yaml
+ftp:
+  clients:
+    ftpA:
+      protocol: sftp
+      host: 127.0.0.1
+      port: 22
+      username: songtao
+      password: styj822763
+      paths:
+        upload: /Users/songtao/ftp/upload/
+        backup: /Users/songtao/ftp/upload/
+    ftpB:
+      protocol: sftp
+      host: 127.0.0.1
+      port: 22
+      username: songtao
+      password: styj822763
+      paths:
+        report: /Users/songtao/ftp/report/x
+```
+
+### 启动入口处触发加载, 获取client或其他配置信息
+
+在启动入口的地方, 触发配置的获取及加载 
+
+```java
+  public static void main(String[] args) throws Exception {
+      // 在启动入口的地方, 触发配置的获取及加载 
+      // 启动即加载配置文件并注册监听器
+       // 静态块中已调用 load()，无需手动初始化
+      DynamicFtpConfigManager.getAll();
+    }
+```
+
+简单使用: 任何地方, 都可以进行如下操作
+
+```java
+// 获取配置（可选，用于获取路径）
+String clientKey = "ftpA";
+String uploadPath = FtpConfigRegistry.getPath(clientKey, "upload");
+
+// 获取 client 并使用
+try (GenericClosableFtpClient client = FtpClientProvider.connect(clientKey)) {
+    client.upload(uploadPath, "data.txt", input);
+}
+
+```
+
+使用
+
+```java
+package com.st.modules.file.ftp.example;
+
+import com.st.modules.file.ftp.client.base.GenericClosableFtpClient;
+import com.st.modules.file.ftp.config.base.FtpClientConfig;
+import com.st.modules.file.ftp.config.manul.env.DynamicFtpConfigManager;
+import com.st.modules.file.ftp.provider.FtpClientProvider;
+
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+public class FtpClientUsageExample {
+  
+  public static void example() throws Exception {
+        
+       // 获取配置或配置的详情字段
+        String clientKey = "ftpA"; // 或 "sftpB"
+        FtpClientConfig config = DynamicFtpConfigManager.get(clientKey);
+        String remotePath = config.getPaths().get("upload");
+
+        // 相关路径及流等数据准备: 
+        // classpath 文件：ftp/test/local.txt
+        InputStream localInput = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("ftp/test/local.txt");
+        // 输出文件：当前目录 copy.txt
+        OutputStream localOutput = new FileOutputStream("copy.txt");
+
+         
+        // 获取client, 进行业务操作
+        // 自动关闭, 使用try with resource
+        try (GenericClosableFtpClient client = FtpClientProvider.connect(clientKey)) {
+            client.upload(remotePath, "remote.txt", localInput);
+            client.download(remotePath, "remote.txt", localOutput);
+        }
+    }
+}
+
+```
+
+## 用法二, Spring boot自动使用application.yaml的ftp配置
+
+不同点:
+
+- 不需要jvm传参数, 因为从application.yml获取ftp的配置项
+- 不需要在在启动入口的地方手动触发   DynamicFtpConfigManager.getAll();
+  - 其加载是自动框架自动触发: 
+  - com.st.modules.file.ftp.config.springboot.FtpPropertiesInitializer#FtpPropertiesInitializer
+
+相同点
+
+- application.yml中ftp配置, 和上述配置文件格式及内容一致
+
+- 获取config, config/path, client及操作等
+
+
+
+简单使用: 任何地方, 都可以进行如下操作
+
+```java
+// 获取配置（可选，用于获取路径）
+String clientKey = "ftpA";
+String uploadPath = FtpConfigRegistry.getPath(clientKey, "upload");
+
+// 获取 client 并使用
+try (GenericClosableFtpClient client = FtpClientProvider.connect(clientKey)) {
+    client.upload(uploadPath, "data.txt", input);
+}
+```
+
+或
+
+```java
+public static void example() throws Exception {
+        
+       // 获取配置或配置的详情字段
+        String clientKey = "ftpA"; // 或 "sftpB"
+        FtpClientConfig config = DynamicFtpConfigManager.get(clientKey);
+        String remotePath = config.getPaths().get("upload");
+
+        // 相关路径及流等数据准备: 
+        // classpath 文件：ftp/test/local.txt
+        InputStream localInput = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("ftp/test/local.txt");
+        // 输出文件：当前目录 copy.txt
+        OutputStream localOutput = new FileOutputStream("copy.txt");
+
+         
+        // 获取client, 进行业务操作
+        // 自动关闭, 使用try with resource
+        try (GenericClosableFtpClient client = FtpClientProvider.connect(clientKey)) {
+            client.upload(remotePath, "remote.txt", localInput);
+            client.download(remotePath, "remote.txt", localOutput);
+        }
+```
+
+## 对外接口清单
+
+- 获取 FtpClientConfig config = DynamicFtpConfigManager.get(clientKey);
+  - 之后,可以获取config的各个属性
+- 获取GenericClosableFtpClient client = FtpClientProvider.connect(clientKey)
+  - 之后, 使用client的各个功能
+
 # 目录结构
 
 ## 概述
@@ -601,6 +778,20 @@ public class FtpPropertiesInitializer {
 
 如需我再补充构造器注入、字段注入、`@Bean` 注册等对比与原理说明，可继续说明。
 
+## 根据jvm的入参, 自动获取某个环境匹配的文件
+
+-DappEnv=dev
+
+DynamicFtpConfigManager会自动拼装配置文件
+
+- 适用范围: 手动加载配置
+
+## 实时监控配置文件
+
+DynamicFtpConfigManager中的监控
+
+- 适用范围: 手动加载配置
+
 # 注意事项与建议
 
 1. **工具类 IOCloser 支持完整资源关闭**，设计合理；
@@ -617,6 +808,94 @@ public class FtpPropertiesInitializer {
 | 流管理     | 所有 `InputStream` / `OutputStream` 强制调用方关闭     |
 | 配置隔离   | 不建议将多个 path 配置混在一个 map，可用嵌套结构       |
 | 单元测试   | 可考虑使用 `mock-ftp-server`、`embedded-sftp` 模拟测试 |
+
+# DynamicFtpConfigManager
+
+## 启动时, 一定会加载DynamicFtpConfigManager吗?
+
+不会。Java 中的 `DynamicFtpConfigManager` 是一个**普通工具类**，其 `static` 块只会在**首次被主动使用时**才触发加载，不会在应用启动时自动执行，除非它被明确引用。
+
+------
+
+### 一、何时会触发 `static` 块执行？
+
+Java 触发类加载的时机（静态代码块会随之执行）：
+
+| 情况                                                       | 是否触发加载 |
+| ---------------------------------------------------------- | ------------ |
+| 主动调用类的静态方法（如 `DynamicFtpConfigManager.get()`） | 会触发       |
+| 主动访问类的静态变量                                       | 会触发       |
+| `Class.forName("...")`                                     | 会触发       |
+| 被其他类引用但未调用                                       | 不会触发     |
+| Spring 扫描/注入但类未作为 Bean 使用                       | 不会触发     |
+| 项目启动但未调用该类                                       | 不会触发     |
+
+------
+
+### 二、示例
+
+```java
+public class MainApp {
+    public static void main(String[] args) {
+        // 不会触发 DynamicFtpConfigManager 的 static 块
+    }
+}
+```
+
+但：
+
+```java
+public class MainApp {
+    public static void main(String[] args) {
+        DynamicFtpConfigManager.get("ftpA"); // 此时触发类加载 + static 执行
+    }
+}
+```
+
+------
+
+###  三、如何保证启动时加载？
+
+若你希望在**服务启动阶段就立即初始化并监听配置文件**，有三种方式：
+
+#### 1. 显式调用（推荐，最灵活）
+
+```java
+// 在你自己的 Bootstrap 类或 SpringBoot 启动逻辑中
+DynamicFtpConfigManager.getAll();
+```
+
+#### 2. Spring 容器中注册一个初始化 Bean
+
+```java
+@Component
+public class FtpConfigBootstrap implements CommandLineRunner {
+    @Override
+    public void run(String... args) {
+        DynamicFtpConfigManager.getAll();
+    }
+}
+```
+
+#### 3. 单例初始化器类中引用它（触发类加载）
+
+```java
+public class SystemInit {
+    static {
+        DynamicFtpConfigManager.getAll(); // 仅为了触发 static 块
+    }
+}
+```
+
+------
+
+### 四、总结
+
+- `DynamicFtpConfigManager` 不会自动执行，除非显式引用
+- 要确保服务启动即加载配置，可在初始化流程中**显式调用 `getAll()` 或 `get(...)`**
+- 这是符合 Java 类加载机制设计的行为，确保性能和延迟加载能力
+
+是否需要我提供一个 Spring Boot 项目中自动初始化 `DynamicFtpConfigManager` 的最佳实践写法？
 
 # 何时加载配置进行初始化? 以及在哪里加载初始化?
 
@@ -2092,3 +2371,13 @@ public class FtpPropertiesInitializer {
 ------
 
 如需我展示 Spring 中解析构造器调用的源码入口（如 `ConstructorResolver` 逻辑），也可进一步深入。是否需要？
+
+
+
+# 扩展
+
+扩展支持：
+
+- 多环境热切换（`switchEnv`）
+- 按需连接、懒加载 client
+- 销毁与重建（`refreshClient()`）机制？

@@ -46,7 +46,15 @@ import java.util.Map;
 public class FtpYamlLoader {
 
     /**
-     * 从输入流中加载 YAML 格式的 FTP 配置。
+     * <pre>
+     *  - 从输入流中加载 YAML 格式的 FTP 配置。
+     *  - 该方法专用于从输入流（如 classpath 或外部文件）中读取 YAML 配置，避免写死文件名
+     *  -- 流从哪里获取? 比如, 将从classpath获取资源, 转成流, 然后作为参数传入;
+     *  -- 写死文件名进行解耦: 获取流, 传入流
+     * </pre>
+     *
+     *
+     *
      * <pre>
      * - 手动加载配置: classpath: ftp/ftp-config-dev.yml
      * - 依赖: SnakeYAML. 见maven/pom中
@@ -124,6 +132,13 @@ public class FtpYamlLoader {
         return result;
     }
 
+    /**
+     * <pre>
+     * - 使用 castMap 方法做类型安全转换，便于维护；
+     * </pre>
+     * @param obj
+     * @return
+     */
     @SuppressWarnings("unchecked")
     private static Map<String, Object> castMap(Object obj) {
         if (!(obj instanceof Map)) {

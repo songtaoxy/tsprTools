@@ -5,6 +5,7 @@ import com.st.modules.file.ftp.client.base.GenericClosableFtpClient;
 import com.st.modules.file.ftp.config.base.FtpClientConfig;
 import com.st.modules.file.ftp.config.base.FtpConfigRegistry;
 import com.st.modules.file.ftp.config.manul.FtpYamlLoader;
+import com.st.modules.file.ftp.config.manul.env.DynamicFtpConfigManager;
 import com.st.modules.file.ftp.constant.constant.FilePathConst;
 import com.st.modules.file.ftp.constant.constant.FtpClientKeys;
 import com.st.modules.file.ftp.constant.constant.FtpPathKeys;
@@ -19,7 +20,17 @@ import java.util.Map;
 public class Main {
 
     /**
-     * 测试基本用法.
+     * <pre>测试基本用法.具体ref doc/ftp.md</pre>
+     *
+     * <p></p>
+     * 核心接口
+     * <pre>
+     * - 获取 FtpClientConfig config = DynamicFtpConfigManager.get(clientKey);
+     * - - 之后,可以获取config的各个属性
+     * <p></p>
+     * - 获取GenericClosableFtpClient client = FtpClientProvider.connect(clientKey)
+     * - - 之后, 使用client的各个功能
+     * </pre>
      *
      * <p></p>
      * 关闭资源(IO, ftp连接等)方式
@@ -32,8 +43,8 @@ public class Main {
      */
     @SneakyThrows
     public static void main(String[] args) throws IOException {
-        Map<String, FtpClientConfig> configs = FtpYamlLoader.loadFromClasspath(FilePathConst.FTP_CONFIG_PATH_DEV);
-        FtpConfigRegistry.init(configs);
+        // 手动触发, 加载配置
+        DynamicFtpConfigManager.getAll();
 
         //test case: 自动关闭 try with resource自动关闭
         useWithTry(FtpClientKeys.FTP_A, FtpPathKeys.UPLOAD);
