@@ -3,9 +3,16 @@ package com.st.modules.file.ftp.client.sftp;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.Session;
 import com.st.modules.file.ftp.client.base.GenericClosableFtpClient;
+import org.apache.commons.net.ftp.FTPFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
 
 public class JschSftpClient extends GenericClosableFtpClient {
     private final ChannelSftp sftp;
@@ -21,22 +28,10 @@ public class JschSftpClient extends GenericClosableFtpClient {
         return "sftp";
     }
 
-    @Override
-    public void upload(String remoteDir, String fileName, InputStream input) throws Exception {
-        SftpHelper.ensureRecursiveDirectory(sftp, remoteDir);
-        sftp.cd(remoteDir);
-        sftp.put(input, fileName);
-    }
 
     @Override
-    public void download(String remoteDir, String fileName, OutputStream output) throws Exception {
-        sftp.cd(remoteDir);
-        sftp.get(fileName, output);
-    }
-
-    @Override
-    public boolean fileExists(String remoteDir, String fileName) {
-        return SftpHelper.fileExists(sftp, remoteDir + "/" + fileName);
+    public boolean fileExists(String filePath) {
+        return SftpHelper.fileExists(sftp, filePath);
     }
 
     @Override
@@ -47,6 +42,41 @@ public class JschSftpClient extends GenericClosableFtpClient {
     @Override
     public void createDirectory(String remoteDir) throws Exception {
         SftpHelper.createDirectoryIfNotExists(sftp, remoteDir);
+    }
+
+    @Override
+    public int batchUploadFiles(List<File> files, String remoteDir) {
+        return 0;
+    }
+
+    @Override
+    public boolean uploadString(String filename, String content) {
+        return false;
+    }
+
+    @Override
+    public boolean uploadStream(String filename, InputStream in) {
+        return false;
+    }
+
+    @Override
+    public int uploadDirectoryWithStructure(File localDir, String remoteDir) {
+        return 0;
+    }
+
+    @Override
+    public boolean renameRemoteFile(String oldPath, String newPath) throws IOException {
+        return false;
+    }
+
+    @Override
+    public void moveFileToDirectory(String sourcePath, String targetDir) throws IOException {
+
+    }
+
+    @Override
+    public Map<String, List<String>> batchDownload(String remoteDir, String localDir, Predicate<FTPFile> filter) {
+        return Collections.emptyMap();
     }
 
     @Override

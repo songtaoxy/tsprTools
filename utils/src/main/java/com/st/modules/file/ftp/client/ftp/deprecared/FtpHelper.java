@@ -1,21 +1,22 @@
-package com.st.modules.file.ftp.client.ftp;
+package com.st.modules.file.ftp.client.ftp.deprecared;
 
+import com.st.modules.file.ftp.client.ftp.helpers.FtpExistHelper;
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.IOException;
 
+/**
+
+ */
 public final class FtpHelper {
     private FtpHelper() {}
 
-    public static boolean fileExists(FTPClient ftp, String dir, String fileName) throws IOException {
-        if (!ftp.changeWorkingDirectory(dir)) return false;
-        FTPFile[] files = ftp.listFiles(fileName);
-        return files != null && files.length > 0;
+    public static boolean fileExists(FTPClient ftp, String filePath) throws IOException {
+        return FtpExistHelper.fileExists(ftp, filePath);
     }
 
     public static boolean directoryExists(FTPClient ftp, String dir) throws IOException {
-        return ftp.changeWorkingDirectory(dir);
+        return FtpExistHelper.directoryExists(ftp, dir);
     }
 
     public static void createDirectoryIfNotExists(FTPClient ftp, String dir) throws IOException {
