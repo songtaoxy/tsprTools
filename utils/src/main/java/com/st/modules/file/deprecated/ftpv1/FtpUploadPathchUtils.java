@@ -1,4 +1,4 @@
-package com.st.modules.file.ftpv1;
+package com.st.modules.file.deprecated.ftpv1;
 
 import lombok.SneakyThrows;
 import org.apache.commons.net.ftp.FTPClient;
@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.List;
 
-import static com.st.modules.file.ftpv1.FTPClientFactory.getFtpClient;
+import static com.st.modules.file.deprecated.ftpv1.FTPClientFactory.getFtpClient;
 
 public class FtpUploadPathchUtils {
 

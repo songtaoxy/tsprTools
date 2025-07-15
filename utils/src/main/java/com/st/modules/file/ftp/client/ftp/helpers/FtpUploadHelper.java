@@ -1,6 +1,5 @@
 package com.st.modules.file.ftp.client.ftp.helpers;
 
-import com.st.modules.file.ftp.client.ftp.deprecared.FTPClientFactory;
 import lombok.SneakyThrows;
 import org.apache.commons.net.ftp.FTPClient;
 
@@ -11,7 +10,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static com.st.modules.file.ftpv1.FTPClientFactory.getFtpClient;
+import static com.st.modules.file.deprecated.ftpv1.FTPClientFactory.getFtpClient;
 
 public class FtpUploadHelper {
 

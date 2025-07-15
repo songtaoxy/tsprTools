@@ -16,7 +16,7 @@ package com.st.modules.test.boc.voucher;
     import java.util.*;
     import java.util.stream.Collectors;
 
-    import static com.st.modules.file.ftpv1.FtpUploadPathchUtils.uploadSingleFileWithRemotePath;
+    import static com.st.modules.file.deprecated.ftpv1.FtpUploadPathchUtils.uploadSingleFileWithRemotePath;
 
 @Slf4j
 public class Voucher {

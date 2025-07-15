@@ -5,8 +5,8 @@ import com.st.modules.constant.FileConst;
 import com.st.modules.enums.StatusVoucherEnum;
 import com.st.modules.file.FileRenameUtils;
 import com.st.modules.file.clean.FileCleanupManager;
-import com.st.modules.file.ftpv1.FtpDownLoadUtils;
-import com.st.modules.file.ftpv1.FtpUtils;
+import com.st.modules.file.deprecated.ftpv1.FtpDownLoadUtils;
+import com.st.modules.file.deprecated.ftpv1.FtpUtils;
 import com.st.modules.file.tar.TarUtils;
 import lombok.SneakyThrows;
 

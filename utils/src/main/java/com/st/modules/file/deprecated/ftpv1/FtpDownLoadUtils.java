@@ -1,4 +1,4 @@
-package com.st.modules.file.ftpv1;
+package com.st.modules.file.deprecated.ftpv1;
 
 
 
