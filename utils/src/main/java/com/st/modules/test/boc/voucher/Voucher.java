@@ -8,7 +8,6 @@ package com.st.modules.test.boc.voucher;
     import com.st.modules.file.clean.FileCleanupManager;
     import com.st.modules.serialNumber.DailySystemSerialNoGenerator;
     import com.st.modules.test.boc.voucher.mock.VoucherDataGenerator1;
-    import com.st.modules.test.boc.voucher.mock.VoucherDataGenerator2;
     import com.st.modules.time.TimeUtils;
     import lombok.SneakyThrows;
     import lombok.extern.slf4j.Slf4j;
@@ -17,7 +16,7 @@ package com.st.modules.test.boc.voucher;
     import java.util.*;
     import java.util.stream.Collectors;
 
-    import static com.st.modules.file.ftp.FtpUploadPathchUtils.uploadSingleFileWithRemotePath;
+    import static com.st.modules.file.ftpv1.FtpUploadPathchUtils.uploadSingleFileWithRemotePath;
 
 @Slf4j
 public class Voucher {

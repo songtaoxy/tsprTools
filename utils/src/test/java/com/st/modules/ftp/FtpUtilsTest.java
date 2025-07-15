@@ -1,6 +1,6 @@
 package com.st.modules.ftp;
 
-import com.st.modules.file.ftp.FtpDownLoadUtils;
+import com.st.modules.file.ftpv1.FtpDownLoadUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
