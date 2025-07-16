@@ -3,7 +3,6 @@ package com.st.modules.file.ftp.client.ftp;
 import com.st.modules.file.ftp.client.base.GenericClosableFtpClient;
 import com.st.modules.file.ftp.client.ftp.deprecared.FtpHelper;
 import com.st.modules.file.ftp.client.ftp.helpers.*;
-import com.st.modules.file.ftp.config.base.FtpConfigRegistry;
 import lombok.SneakyThrows;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -11,8 +10,6 @@ import org.apache.commons.net.ftp.FTPFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -33,10 +30,10 @@ import java.util.function.Predicate;
  * </pre>
  */
 public class ApacheFtpClient extends GenericClosableFtpClient {
-    private final FTPClient ftp;
+    private final FTPClient ftpClient;
 
     public ApacheFtpClient(FTPClient ftp) {
-        this.ftp = ftp;
+        this.ftpClient = ftp;
     }
 
     @Override
@@ -47,69 +44,90 @@ public class ApacheFtpClient extends GenericClosableFtpClient {
 
     @Override
     public boolean fileExists(String filePath) throws IOException {
-        return FtpExistHelper.fileExists(ftp, filePath);
+        return FtpExistHelper.fileExists(ftpClient, filePath);
     }
 
 
     @Override
     public boolean directoryExists(String remoteDir) throws IOException {
-        return FtpExistHelper.directoryExists(ftp, remoteDir);
+        return FtpExistHelper.directoryExists(ftpClient, remoteDir);
     }
 
     @SneakyThrows
     @Override
-    public void createDirectory(String remoteDir) throws IOException {
-        FtpHelper.createDirectoryIfNotExists(ftp, remoteDir);
-        FtpMakeDirHelper.makeRemoteDirs(ftp, remoteDir);
+    public void makeDirRecursively(String remoteDir) throws IOException {
+//        FtpHelper.createDirectoryIfNotExists(ftpClient, remoteDir);
+        FtpMakeDirHelper.makeRemoteDirs(ftpClient, remoteDir);
     }
 
 
     @Override
     public int batchUploadFiles(List<File> files, String remoteDir) {
-        return FtpUploadHelper.batchUploadFiles(ftp, files, remoteDir);
+        return FtpUploadHelper.batchUploadFiles(ftpClient, files, remoteDir);
+    }
+
+    // ===========================
+    // upload
+    // ===========================
+    @Override
+    public boolean uploadStream( String dirPath, String filename, InputStream in) {
+         return FtpUploadHelper.uploadStream(ftpClient, dirPath, filename, in);
+
+    }
+    @Override
+    public boolean uploadText(String path, String filename, String content) {
+        return FtpUploadHelper.uploadText(ftpClient,path,filename,content);
     }
 
     @Override
-    public boolean uploadString( String filename, String content) {
-        return FtpUploadHelper.uploadString(ftp, filename, content);
+    public boolean uploadBytes(String path, String filename, byte[] data) {
+        return FtpUploadHelper.uploadBytes(ftpClient,path,filename,data);
     }
 
     @Override
-    public boolean uploadStream( String filename, InputStream in) {
-         return FtpUploadHelper.uploadStream(ftp, filename, in);
+    public boolean uploadFile(String path, String filename, File file) {
+        return FtpUploadHelper.uploadFile(ftpClient,path,filename,file);
+    }
 
+    @Override
+    public boolean uploadPath(String path, String filename, String localFilePath) {
+        return FtpUploadHelper.uploadPath(ftpClient,path,filename,localFilePath);
     }
 
     @Override
     public int uploadDirectoryWithStructure(File localDir, String remoteDir) {
-        return FtpUploadHelper.uploadDirectoryWithStructure(ftp, localDir, remoteDir);
+        return FtpUploadHelper.uploadDirectoryWithStructure(ftpClient, localDir, remoteDir);
     }
 
+
+    // ===========================
+    // rename
+    // ===========================
     @Override
     public boolean renameRemoteFile(String oldPath, String newPath) throws IOException {
-        return FtpRenameHelper.renameRemoteFile(ftp, oldPath, newPath);
+        return FtpRenameHelper.renameRemoteFile(ftpClient, oldPath, newPath);
     }
 
 
     @Override
     public void moveFileToDirectory(String sourcePath, String targetDir) throws IOException {
-        FtpMoveHelper.moveFileToDirectory(ftp, sourcePath,targetDir);
+        FtpMoveHelper.moveFileToDirectory(ftpClient, sourcePath,targetDir);
     }
 
     @Override
     public Map<String, List<String>> batchDownload(String remoteDir, String localDir, Predicate<FTPFile> filter) {
-        return FtpDownLoadHelper.batchDownload(ftp, remoteDir, localDir, filter);
+        return FtpDownLoadHelper.batchDownload(ftpClient, remoteDir, localDir, filter);
     }
 
 
     @Override
     public void disconnect() {
-        if (ftp.isConnected()) {
+        if (ftpClient.isConnected()) {
             try {
-                ftp.logout();
+                ftpClient.logout();
             } catch (IOException ignored) {}
             try {
-                ftp.disconnect();
+                ftpClient.disconnect();
             } catch (IOException ignored) {}
         }
     }

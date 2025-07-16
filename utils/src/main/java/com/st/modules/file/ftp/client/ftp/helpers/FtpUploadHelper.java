@@ -1,21 +1,17 @@
 package com.st.modules.file.ftp.client.ftp.helpers;
 
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static com.st.modules.file.deprecated.ftpv1.FTPClientFactory.getFtpClient;
 
+@Slf4j
 public class FtpUploadHelper {
-
-
-
 
 
     /**
@@ -86,33 +82,135 @@ public class FtpUploadHelper {
     }
 
 
-    // 上传字符串内容为文件（如txt、csv等）
-    public static boolean uploadString(FTPClient ftpClient, String filename, String content) {
-        try {
-//            FTPClient ftpClient = FTPClientFactory.getFtpClient();
-            InputStream input = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
-            boolean done = ftpClient.storeFile(filename, input);
-            return done;
+
+    /**
+     * 上传输入流内容为 FTP 文件（自动创建目录 + 关闭流 + 异常上抛）
+     *
+     * <p></p>
+     * 设计
+     * <pre>
+     * - 如果 path 不存在，自动递归创建远程目录
+     * - 异常时记录日志，并将异常重新抛出
+     * - 使用 try-with-resources 自动关闭流
+     * </pre>
+     *
+     * <p></p>
+     * Usage
+     * <pre>
+     *  {@code
+     *  public class FtpUploadExample {
+     *     public static void main(String[] args) {
+     *         String clientKey = "ftpA"; // 对应配置文件中的 key
+     *         String path = "/upload/subdir"; // 目标路径（不存在将自动创建）
+     *         String filename = "hello.txt";  // 上传文件名
+     *         String content = "Hello FTP! 上传示例内容";
+     *
+     *         try (GenericClosableFtpClient client = FtpClientProvider.connect(clientKey);
+     *              InputStream input = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8))) {
+     *
+     *             boolean success = FtpHelper.uploadStream(client, path, filename, input);
+     *             if (success) {
+     *                 System.out.println("上传成功");
+     *             }
+     *
+     *         } catch (Exception e) {
+     *             System.err.println("上传失败: " + e.getMessage());
+     *             e.printStackTrace();
+     *         }
+     *     }
+     * }
+     *  }
+     * </pre>
+     *
+     * @param client   已建立连接的 FTP 客户端
+     * @param path     FTP 远程目录路径，如 /upload/sub
+     * @param filename 文件名，如 test.txt
+     * @param input    输入流（上传源），方法内部自动关闭
+     * @return 上传成功返回 true，否则抛出异常
+     * @throws RuntimeException 上传或目录创建失败时抛出异常
+     */
+    public static boolean uploadStream(FTPClient client, String path, String filename, InputStream input) {
+        try (InputStream in = input) {
+            // 检查并递归创建目录
+           FtpMakeDirHelper.makeRemoteDirs(client,path);
+
+            // 执行上传
+            boolean success = client.storeFile(path + "/" + filename, in);
+
+            if (!success) {
+                throw new RuntimeException("FTP上传失败: " + path + "/" + filename);
+            }
+            return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            log.error("FTP上传失败, path={}, filename={}", path, filename, e);
+            throw new RuntimeException("FTP上传异常: " + path + "/" + filename, e);
         }
     }
 
+    /**
+     * 上传字符串内容为 FTP 文件
+     *
+     * @param client   已建立连接的 FTPClient 实例
+     * @param path     远程目录路径，如 /upload
+     * @param filename 上传后保存的文件名，如 test.txt
+     * @param content  要上传的文本内容
+     * @return 上传是否成功
+     */
+    public static boolean uploadText(FTPClient client, String path, String filename, String content) {
+        byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
+        return uploadBytes(client, path, filename, bytes);
+    }
 
-    // 上传输入流
-    public static boolean uploadStream(FTPClient ftpClient, String filename, InputStream in) {
-        try {
-//            FTPClient ftpClient = FTPClientFactory.getFtpClient();
-            InputStream input = in ;
-            boolean done = ftpClient.storeFile(filename, input);
-            return done;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+    /**
+     * 上传字节数组为 FTP 文件
+     *
+     * @param client   已建立连接的 FTPClient 实例
+     * @param path     远程目录路径，如 /upload
+     * @param filename 上传后保存的文件名，如 test.txt
+     * @param data     要上传的字节数据
+     * @return 上传是否成功
+     */
+    public static boolean uploadBytes(FTPClient client, String path, String filename, byte[] data) {
+        try (InputStream in = new ByteArrayInputStream(data)) {
+            return uploadStream(client, path, filename, in);
+        } catch (IOException e) {
+            throw new RuntimeException("上传字节数组失败: " + path + "/" + filename, e);
         }
     }
 
+    /**
+     * 上传本地文件对象为 FTP 文件
+     *
+     * @param client   已建立连接的 FTPClient 实例
+     * @param path     远程目录路径，如 /upload
+     * @param filename 上传后保存的文件名，如 test.txt
+     * @param file     本地文件对象
+     * @return 上传是否成功
+     */
+    public static boolean uploadFile(FTPClient client, String path, String filename, File file) {
+        if (file == null || !file.exists()) {
+            throw new IllegalArgumentException("本地文件不存在: " + file);
+        }
+        try (InputStream in = new FileInputStream(file)) {
+            return uploadStream(client, path, filename, in);
+        } catch (IOException e) {
+            throw new RuntimeException("上传本地文件失败: " + path + "/" + filename, e);
+        }
+    }
+
+    /**
+     * 上传本地路径文件为 FTP 文件
+     *
+     * @param client        已建立连接的 FTPClient 实例
+     * @param path          远程目录路径，如 /upload
+     * @param filename      上传后保存的文件名，如 test.txt
+     * @param localFilePath 本地文件路径
+     * @return 上传是否成功
+     */
+    public static boolean uploadPath(FTPClient client, String path, String filename, String localFilePath) {
+        File file = new File(localFilePath);
+        return uploadFile(client, path, filename, file);
+    }
 
 
 

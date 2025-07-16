@@ -1,12 +1,10 @@
 package com.st.modules.file.ftp.client.base;
 
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -47,7 +45,7 @@ public abstract class GenericClosableFtpClient implements AutoCloseable{
      * 递归创建远程目录
      * @param remoteDir 远程目录
      */
-    public abstract void createDirectory(String remoteDir) throws Exception;
+    public abstract void makeDirRecursively(String remoteDir) throws Exception;
 
 
     /**
@@ -59,8 +57,11 @@ public abstract class GenericClosableFtpClient implements AutoCloseable{
     public abstract int batchUploadFiles(List<File> files, String remoteDir);
 
 
-    public abstract boolean uploadString(String filename, String content);
-    public abstract boolean uploadStream(String filename, InputStream in);
+    public abstract boolean uploadStream( String dirPath, String filename, InputStream in);
+    public abstract boolean uploadText(String path, String filename, String content);
+    public abstract boolean uploadBytes( String path, String filename, byte[] data);
+    public abstract boolean uploadFile(String path, String filename, File file);
+    public abstract boolean uploadPath(String path, String filename, String localFilePath);
 
 
         /**

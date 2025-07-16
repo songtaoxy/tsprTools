@@ -40,8 +40,8 @@ public class JschSftpClient extends GenericClosableFtpClient {
     }
 
     @Override
-    public void createDirectory(String remoteDir) throws Exception {
-        SftpHelper.createDirectoryIfNotExists(sftp, remoteDir);
+    public void makeDirRecursively(String remoteDir) throws Exception {
+       SftpHelper.createDirectoryIfNotExists(sftp, remoteDir);
     }
 
     @Override
@@ -49,13 +49,29 @@ public class JschSftpClient extends GenericClosableFtpClient {
         return 0;
     }
 
+
     @Override
-    public boolean uploadString(String filename, String content) {
+    public boolean uploadStream(String dirPath, String filename, InputStream in) {
         return false;
     }
 
     @Override
-    public boolean uploadStream(String filename, InputStream in) {
+    public boolean uploadText(String path, String filename, String content) {
+        return false;
+    }
+
+    @Override
+    public boolean uploadBytes(String path, String filename, byte[] data) {
+        return false;
+    }
+
+    @Override
+    public boolean uploadFile(String path, String filename, File file) {
+        return false;
+    }
+
+    @Override
+    public boolean uploadPath(String path, String filename, String localFilePath) {
         return false;
     }
 

@@ -6,6 +6,17 @@ import org.apache.commons.net.ftp.FTPClient;
 public class FtpMakeDirHelper {
 
     /**
+     * <pre>
+     * {@code
+     * // 使用try with resource 自动关闭
+     * try (GenericClosableFtpClient client = FtpClientProvider.connect("ftpA")) {
+     *     boolean ok = FtpDirectoryHelper.ensureDirectory(client, "/upload/test/path");
+     *     if (ok) {
+     *         client.upload("/upload/test/path", "hello.txt", inputStream);
+     *     }
+     * }
+     * }
+     * </pre>
      * 递归创建 FTP 远程目录（完整路径）
      * 如果某级目录已存在，则跳过创建，继续下一级
      * @param fullRemotePath 远程完整目录路径，如 "/a/b/c"
@@ -13,7 +24,7 @@ public class FtpMakeDirHelper {
      */
     public static void makeRemoteDirs(FTPClient ftpClient, String fullRemotePath) throws Exception {
 //        FTPClient ftpClient = FTPClientFactory.getFtpClient();
-        try {
+//        try {
             ftpClient.enterLocalPassiveMode(); // 推荐开启
             String[] dirs = fullRemotePath.split("/");
             String currentPath = "";
@@ -29,9 +40,9 @@ public class FtpMakeDirHelper {
                     }
                 }
             }
-        } finally {
+       /* } finally {
             ftpClient.disconnect();
-        }
+        }*/
     }
 
 
