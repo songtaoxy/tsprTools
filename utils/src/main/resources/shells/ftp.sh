@@ -199,14 +199,7 @@ function download_file_with_fallback() {
     return
   fi
 
-  log "FTP 失败，尝试 SFTP"
-  sftp_download_file "$FILE"
-  if [ -f "$LOCAL_DIR1/$FILE" ]; then
-    log "SFTP 成功：$FILE"
-    sftp_remote_backup "$FILE"
-    return
-  fi
-
+  log "FTP 失败，尝试 LFTP"
   if command -v lftp >/dev/null 2>&1; then
     log "SFTP 失败，尝试 lftp"
     lftp_download_file "$FILE"
@@ -219,6 +212,16 @@ function download_file_with_fallback() {
   else
     log "SFTP 失败，lftp 不存在，放弃：$FILE"
   fi
+
+
+    log "LFTP 失败，尝试 SFTP"
+    sftp_download_file "$FILE"
+    if [ -f "$LOCAL_DIR1/$FILE" ]; then
+      log "SFTP 成功：$FILE"
+      sftp_remote_backup "$FILE"
+      return
+    fi
+
 }
 
 # 
