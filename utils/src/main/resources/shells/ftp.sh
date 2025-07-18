@@ -105,8 +105,8 @@ EOF
 #  -c 表示续传；-n 为并发线程数（视情况调整）
 function lftp_download_file() {
   local FILE=$1
-  log "lftp 下载 $FILE（支持断点续传）"
-  lftp -u "$REMOTE_USER","$REMOTE_PASS" -p $REMOTE_FTP_PORT $REMOTE_HOST <<EOF >> "$LOG_FILE" 2>&1
+  log "lftp 下载 $FILE ,支持断点续传"
+  lftp -u "$REMOTE_USER","$REMOTE_PASS" -p $REMOTE_SFTP_PORT $REMOTE_HOST <<EOF >> "$LOG_FILE" 2>&1
 set ftp:ssl-allow no
 cd $REMOTE_DIR
 lcd $LOCAL_DIR1
@@ -199,9 +199,18 @@ function download_file_with_fallback() {
     return
   fi
 
-  log "FTP 失败，尝试 LFTP"
+
+   log "FTP 失败，尝试 SFTP"
+    sftp_download_file "$FILE"
+    if [ -f "$LOCAL_DIR1/$FILE" ]; then
+      log "SFTP 成功：$FILE"
+      sftp_remote_backup "$FILE"
+      return
+    fi
+
+
+  log "SFTP 失败，尝试 LFTP"
   if command -v lftp >/dev/null 2>&1; then
-    log "SFTP 失败，尝试 lftp"
     lftp_download_file "$FILE"
     if [ -f "$LOCAL_DIR1/$FILE" ]; then
       log "lftp 成功：$FILE"
@@ -214,13 +223,7 @@ function download_file_with_fallback() {
   fi
 
 
-    log "LFTP 失败，尝试 SFTP"
-    sftp_download_file "$FILE"
-    if [ -f "$LOCAL_DIR1/$FILE" ]; then
-      log "SFTP 成功：$FILE"
-      sftp_remote_backup "$FILE"
-      return
-    fi
+
 
 }
 
