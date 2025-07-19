@@ -20,6 +20,7 @@ dot=$(formater -l "$line_len" -cs -)
 
 # 在开头添加颜色定义
 RED='\033[0;31m'
+#RED='\033[0;32m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
@@ -38,23 +39,23 @@ log_file_changes() {
     echo "[DEBUG] 切换到仓库目录: $repo_dir" >> "$log_file"
 
     # 确保进入仓库目录
-    cd "$repo_dir" || { echo "[ERROR] 无法进入目录: $repo_dir" >> "$log_file"; return 1; }
+    cd "$repo_dir" || { echo -e  "${RED}[ERROR] 无法进入目录: $repo_dir ${NC}" >> "$log_file"; return 1; }
 
     # 检查当前目录是否是 Git 仓库
     if ! git rev-parse --git-dir >/dev/null 2>&1; then
-        echo "[ERROR] 当前目录不是 Git 仓库: $(pwd)" >> "$log_file"
+        echo -e "${RED}[ERROR] 当前目录不是 Git 仓库: $(pwd) ${NC}" >> "$log_file"
         return 1
     fi
 
     # 检查仓库是否有提交历史
     if ! git rev-list -n 1 --all >/dev/null 2>&1; then
-        echo "[ERROR] 仓库没有提交历史" >> "$log_file"
+        echo -e "${RED}[ERROR] 仓库没有提交历史 ${NC}" >> "$log_file"
         return 1
     fi
 
     # 检查 HEAD 引用是否有效
     if ! git rev-parse --verify "HEAD" >/dev/null 2>&1; then
-        echo "[ERROR] HEAD 引用无效" >> "$log_file"
+        echo  -e "${RED}[ERROR] HEAD 引用无效 ${NC}" >> "$log_file"
         return 1
     fi
 
@@ -129,7 +130,7 @@ check_untracked_files() {
 
     # 检查仓库是否有提交历史
     if ! git rev-parse --verify "HEAD" >/dev/null 2>&1; then
-        echo "[ERROR] HEAD 引用无效，仓库可能没有提交历史。" >> "$log_file"
+        echo -e "${RED}[ERROR] HEAD 引用无效，仓库可能没有提交历史。 ${NC}" >> "$log_file"
         return 1
     fi
 
@@ -171,7 +172,7 @@ check_uncommitted_files() {
 
     # 检查仓库是否有提交历史
     if ! git rev-parse --verify "HEAD" >/dev/null 2>&1; then
-        echo "[ERROR] HEAD 引用无效，仓库可能没有提交历史。" >> "$log_file"
+        echo  -e "${RED}[ERROR] HEAD 引用无效，仓库可能没有提交历史。 ${NC}" >> "$log_file"
         return 1
     fi
 
@@ -183,13 +184,17 @@ check_uncommitted_files() {
 
         # 先 fetch 远程更新
         git fetch origin >> "$log_file" 2>&1
+        if [[ $? -ne 0 ]]; then
+            echo  -e "${RED}[ERROR] git fetch ${origin} 失败，可能无法连接远程仓库。 ${NC}" >> "$log_file"
+            return 1
+        fi
 
         # 尝试 merge
         local current_branch=$(git rev-parse --abbrev-ref HEAD)
         git merge "origin/$current_branch" >> "$log_file" 2>&1
 
         if [[ $? -ne 0 ]]; then
-            echo "[ERROR] 合并冲突，请手动解决冲突。" >> "$log_file"
+            echo  -e "${RED}[ERROR] 合并冲突，请手动解决冲突。 ${NC}" >> "$log_file"
             echo "冲突文件：" >> "$log_file"
             git diff --name-only --diff-filter=U >> "$log_file"
             return 1
@@ -201,7 +206,7 @@ check_uncommitted_files() {
             git push origin HEAD >> "$log_file" 2>&1
 
             if [[ $? -ne 0 ]]; then
-                echo "[ERROR] 推送失败。" >> "$log_file"
+                echo  -e "${RED}[ERROR] 推送失败，可能无法连接远程仓库。 ${NC}" >> "$log_file"
                 return 1
             else
                 echo "[INFO] 推送成功。" >> "$log_file"
@@ -223,7 +228,7 @@ check_branch_status() {
 
     # 检查仓库是否有提交历史
     if ! git rev-parse --verify "HEAD" >/dev/null 2>&1; then
-        echo "[ERROR] HEAD 引用无效，仓库可能没有提交历史。" >> "$log_file"
+        echo  -e "${RED}[ERROR] HEAD 引用无效，仓库可能没有提交历史。 ${NC}" >> "$log_file"
         return 1
     fi
 
@@ -232,6 +237,12 @@ check_branch_status() {
 
     # 获取本地、远程和基准提交的哈希值
     git fetch origin >> "$log_file" 2>&1
+    if [[ $? -ne 0 ]]; then
+        echo -e  "${RED}[ERROR] git fetch ${origin} 失败，可能无法连接远程仓库。 ${NC}" >> "$log_file"
+        return 1
+    fi
+
+
     local local_hash=$(git rev-parse "$local_branch")
     local remote_hash=$(git rev-parse "origin/$local_branch" 2>/dev/null)
     local base_hash=$(git merge-base "$local_branch" "origin/$local_branch" 2>/dev/null)
@@ -270,7 +281,7 @@ handle_remote_update() {
 
     # 检查仓库是否有提交历史
     if ! git rev-parse --verify "HEAD" >/dev/null 2>&1; then
-        echo "[ERROR] HEAD 引用无效，仓库可能没有提交历史。" >> "$log_file"
+        echo  -e "${RED}[ERROR] HEAD 引用无效，仓库可能没有提交历史。 ${NC}" >> "$log_file"
         return 1
     fi
 
@@ -279,6 +290,12 @@ handle_remote_update() {
 
     # 执行 fetch 和 merge
     git fetch origin "$current_branch" >> "$log_file" 2>&1
+    if [[ $? -ne 0 ]]; then
+        echo  -e "${RED}[ERROR] fetch ${origin} 失败，无法连接远程。 ${NC}" >> "$log_file"
+        return 1
+    fi
+
+
     git merge origin/"$current_branch" >> "$log_file" 2>&1
 
     if [[ $? -ne 0 ]]; then
@@ -305,7 +322,7 @@ handle_local_commit() {
 
     # 检查仓库是否有提交历史
     if ! git rev-parse --verify "HEAD" >/dev/null 2>&1; then
-        echo "[ERROR] HEAD 引用无效，仓库可能没有提交历史。" >> "$log_file"
+        echo  -e "${RED}[ERROR] HEAD 引用无效，仓库可能没有提交历史。 ${NC}" >> "$log_file"
         return 1
     fi
 
@@ -315,7 +332,7 @@ handle_local_commit() {
     git push origin HEAD >> "$log_file" 2>&1
 
     if [[ $? -ne 0 ]]; then
-        echo "推送失败。" >> "$log_file"
+        echo  -e "${RED}[ERROR] 推送失败，可能无法连接远程仓库。 ${NC}" >> "$log_file"
         return 1
     else
         echo "推送成功。" >> "$log_file"
@@ -336,7 +353,7 @@ handle_both_updates() {
 
     # 检查仓库是否有提交历史
     if ! git rev-parse --verify "HEAD" >/dev/null 2>&1; then
-        echo "[ERROR] HEAD 引用无效，仓库可能没有提交历史。" >> "$log_file"
+        echo  -e "${RED}[ERROR] HEAD 引用无效，仓库可能没有提交历史。 ${NC}" >> "$log_file"
         return 1
     fi
 
@@ -345,6 +362,11 @@ handle_both_updates() {
 
     # 执行 fetch 和 merge
     git fetch origin "$current_branch" >> "$log_file" 2>&1
+     if [[ $? -ne 0 ]]; then
+            echo  -e "${RED}[ERROR] fetch ${origin} 失败，无法连接远程。 ${NC}" >> "$log_file"
+            return 1
+        fi
+
     git merge origin/"$current_branch" >> "$log_file" 2>&1
 
     if [[ $? -ne 0 ]]; then
@@ -360,7 +382,7 @@ handle_both_updates() {
 
         git push origin HEAD >> "$log_file" 2>&1
         if [[ $? -ne 0 ]]; then
-            echo "推送失败。" >> "$log_file"
+            echo  -e "${RED} [ERROR] 推送失败，可能无法连接远程仓库。${NC}" >> "$log_file"
             return 1
         else
             echo "推送成功。" >> "$log_file"
@@ -408,17 +430,24 @@ process_repo() {
     # echo                    >> "$log_file"
     # echo "场景: 未跟踪文件" >> "$log_file"
     check_untracked_files "$repo_dir" "$log_file"
+    [[ $? -ne 0 ]] && echo "[ERROR] check_uncommitted_files 失败" >> "$log_file" && return 1
+
+
 
     # 检查已跟踪但未提交的文件
     # echo                    >> "$log_file"
     # echo "场景: 已跟踪但未提交" >> "$log_file"
     check_uncommitted_files "$repo_dir" "$log_file"
+    [[ $? -ne 0 ]] && echo "[ERROR] check_uncommitted_files 失败" >> "$log_file" && return 1
+
 
     # 检查分支状态
     # echo                    >> "$log_file"
     # echo "场景: 分析状态" >> "$log_file"
     check_branch_status "$repo_dir" "$log_file"
     local status=$?
+    [[ "$status" -gt 3 ]] && return 1  # 非法状态直接失败
+
 
     echo                    >> "$log_file"
     case $status in
@@ -428,14 +457,20 @@ process_repo() {
         1)
             echo "场景: 本地分支落后于远程分支，正在更新..." >> "$log_file"
             handle_remote_update "$repo_dir" "$log_file"
+            [[ $? -ne 0 ]] && echo "[ERROR] check_uncommitted_files 失败" >> "$log_file" && return 1
+
             ;;
         2)
             echo "场景: 本地分支领先于远程分支，正在推送..." >> "$log_file"
             handle_local_commit "$repo_dir" "$log_file"
+            [[ $? -ne 0 ]] && echo "[ERROR] check_uncommitted_files 失败" >> "$log_file" && return 1
+
             ;;
         3)
             echo "场景: 本地与远程分支已分叉，正在合并..." >> "$log_file"
             handle_both_updates "$repo_dir" "$log_file"
+            [[ $? -ne 0 ]] && echo "[ERROR] check_uncommitted_files 失败" >> "$log_file" && return 1
+
             ;;
         *)
             echo "场景: 未知状态。" >> "$log_file"
@@ -458,6 +493,7 @@ process_repos() {
 
     # 创建临时文件用于存储主线程日志
     local main_log=$(mktemp)
+    echo                   "Summary"
     echo                >> "$main_log"
     echo "主线程日志：" >> "$main_log"
     # echo "----------------------------------------" >> "$main_log"
@@ -518,17 +554,17 @@ process_repos() {
         repo_name=$(echo "$line" | cut -d: -f1)
         exit_code=$(echo "$line" | cut -d: -f2)
         if [[ "$exit_code" -ne 0 ]]; then
-            echo -e "${RED}[ERROR] 仓库 $repo_name 处理失败，退出码: $exit_code${NC}" | tee -a "$main_log"
+            echo -e "${RED}[ERROR] 仓库 $repo_name 处理失败，退出码: $exit_code ${NC}" | tee -a "$main_log"
             failed=1
         else
-            echo -e "${GREEN}[OK] 仓库 $repo_name 处理成功。${NC}" | tee -a "$main_log"
+            echo -e "${GREEN}[OK] 仓库 $repo_name 处理成功。 ${NC}" | tee -a "$main_log"
         fi
     done < "$status_file"
     rm -f "$status_file"
 
     # 可选中止行为
     if [[ "$failed" -ne 0 ]]; then
-        echo -e "${RED}[FATAL] 有仓库处理失败，终止后续操作。${NC}" | tee -a "$main_log"
+        echo -e "${RED}[FATAL] 有仓库处理失败，终止后续操作。 ${NC}" | tee -a "$main_log"
         cat "$main_log"
         rm -f "$main_log"
         exit 1
@@ -558,11 +594,11 @@ process_repos() {
 
 
 
-# stop obsidian 
+# stop obsidian
 echo "同步文件前关闭相关程序,防止文件占用导致同步失败!"
 ${HOME}/stsh/psswitch/stop_process obsidian
-echo 
-echo 
+echo
+echo
 
 # 示例调用
 cost_start=$(date +%s)
@@ -598,16 +634,16 @@ sub_repos["Java-manual-bravo1988"]="git@github.com:songtaoxy/Java-manual-bravo19
 
 
 log -l info $duble_line
-# log "$(formater -l ${line_len} -cs '-')" 
+# log "$(formater -l ${line_len} -cs '-')"
 printf "%-21s %s %-s\n" "Repository List" ": " "Base Repository && All Domains Repository."
 log -l info $duble_line
 printf "%-21s %s %-s\n" "${base_repos_dir}" ": " "${base_repos[$base_repos_dir]}"
-log "$(formater -l ${line_len} -cs '.')" 
+log "$(formater -l ${line_len} -cs '.')"
 for k in ${!sub_repos[@]}; do
   # k_format_1=$(echo $k | sed 's/.\(.*\)/\1/' | sed 's/\(.*\)./\1/')
   printf "%-21s %s %-s\n" "${k}" ": " "${sub_repos[$k]}"
 done
-# log "$(formater -l ${line_len} -cs '-')" 
+# log "$(formater -l ${line_len} -cs '-')"
 
 
 
@@ -635,20 +671,20 @@ process_repos sub_repos "$sub_repos_dir"
 cost_end=$(date +%s)
 cost=$((${cost_end}-${cost_start}))
 t_end=$(date '+%Y-%m-%d %H:%M:%S')
-log "$(formater -l ${line_len} -cs '.')" 
-echo 
-log "$(formater -l ${line_len} -cl "cost" -cr "${cost} seconds")" 
-log "$(formater -l ${line_len} -cl "Start at" -cr "${t_start}")" 
-log "$(formater -l ${line_len} -cl "End at" -cr "${t_end}")" 
+log "$(formater -l ${line_len} -cs '.')"
+echo
+log "$(formater -l ${line_len} -cl "cost" -cr "${cost} seconds")"
+log "$(formater -l ${line_len} -cl "Start at" -cr "${t_start}")"
+log "$(formater -l ${line_len} -cl "End at" -cr "${t_end}")"
 
 # --------------------------------------
-# statics: end flag 
+# statics: end flag
 # --------------------------------------
 echo
 duble_line=$(formater -l "$line_len" -cs =)
 log -l info $duble_line
 
 # #################################
-# 操作完之后, 启动 obsidian 
+# 操作完之后, 启动 obsidian
 # #################################
 ${HOME}/stsh/psswitch/start obsidian
