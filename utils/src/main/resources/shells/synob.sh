@@ -467,6 +467,11 @@ process_repos() {
     # 记录总开始时间
     local total_start_time=$(date +%s)
 
+
+    # 创建状态临时文件
+    local status_file=$(mktemp)
+
+
     # 并行处理每个仓库
     PIDS+=("主线程的进程: $$")
     for repo_name in "${!repos[@]}"; do
@@ -477,11 +482,12 @@ process_repos() {
             # echo "开始处理仓库: $repo_name" >> "$log_file"
             process_repo "$repo_name" "$repo_url" "$base_dir" "$log_file"
             # echo "结束处理仓库: $repo_name" >> "$log_file"
+            echo "$repo_name:$?" >> "$status_file"
+
         } &
         local repo_pid=$!
 
         PIDS+=("处理仓库${repo_name}的进程: $repo_pid")
-
         # 将日志文件路径保存到主日志中
         # echo "处理仓库${repo_name}的进程: $repo_pid" >> "$main_log"
         echo "仓库${repo_name}临时日志文件: $log_file" >> "$main_log"
@@ -503,6 +509,32 @@ process_repos() {
     echo "所有仓库处理总耗时: $total_duration 秒" >> "$main_log"
     # echo "----------------------------------------" >> "$main_log"
     log -l info $single_line >> "$main_log"
+
+    # 状态汇总
+    local failed=0
+    echo >> "$main_log"
+    echo "任务执行状态汇总：" >> "$main_log"
+    while read -r line; do
+        repo_name=$(echo "$line" | cut -d: -f1)
+        exit_code=$(echo "$line" | cut -d: -f2)
+        if [[ "$exit_code" -ne 0 ]]; then
+            echo -e "${RED}[ERROR] 仓库 $repo_name 处理失败，退出码: $exit_code${NC}" | tee -a "$main_log"
+            failed=1
+        else
+            echo -e "${GREEN}[OK] 仓库 $repo_name 处理成功。${NC}" | tee -a "$main_log"
+        fi
+    done < "$status_file"
+    rm -f "$status_file"
+
+    # 可选中止行为
+    if [[ "$failed" -ne 0 ]]; then
+        echo -e "${RED}[FATAL] 有仓库处理失败，终止后续操作。${NC}" | tee -a "$main_log"
+        cat "$main_log"
+        rm -f "$main_log"
+        exit 1
+    fi
+
+
 
     # 汇总所有日志
     # echo              >> "$main_log"
