@@ -105,3 +105,6 @@ buildNumber.properties
 # system
 *.DS_Strore
 **/.DS_Strore
+
+# node modules
+**/node_modules/**
