@@ -3,9 +3,6 @@ package com.st.modules.test.boc.voucher;
 import com.st.modules.constant.FileConst;
 import com.st.modules.file.FileCreateUtils;
 import com.st.modules.file.tar.TarUtils;
-import com.st.modules.serialNumber.DailySystemSerialNoGenerator;
-import com.st.modules.time.TimeUtils;
-import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -131,7 +128,7 @@ public class VoucherUtils {
     }
 
 
-    @NotNull
+
     public static File compressWithTargz(File tempFile,Map<String, String> baseDatas) throws IOException {
 
         Map<String, String> filePathMap = buildFilePath(baseDatas);
@@ -142,7 +139,7 @@ public class VoucherUtils {
         return tempFileTarGz;
     }
 
-    @NotNull
+
     public static File wirteTxtFile(String tempFilePath, List<String> formattedAll) throws IOException {
             File tempFile = FileCreateUtils.createFileOverwrite(tempFilePath);
         System.out.println(tempFile.getAbsolutePath());

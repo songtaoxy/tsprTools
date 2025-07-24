@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * <li>记录请求耗时的拦截器. 请求耗时功能, 已经有更好方案, ref
  * {@code com.st.tools.springbootweb.filter.BaseFilter#doFilterInternal(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain)}</li>
+ * <pre>
+ *     类似于spring提供的org.springframework.web.filter.CommonsRequestLoggingFilter
+ * </pre>
  *
  */
 @Slf4j
