@@ -66,13 +66,22 @@ public class OrchestratorService {
             futures.add(future);
         }
 
-        // 使用 allOf 统一收集任务完成后回调
+        // 使用 allOf 统一收集任务完成后回调; 此步不阻塞主线程.
         CompletableFuture
                 .allOf(futures.toArray(new CompletableFuture[0]))
                 .thenRunAsync(() -> {
                     System.out.println(">>> 所有任务完成，按 taskId 输出结果：");
                     finalResultMap.forEach((k, v) -> System.out.println(k + " -> " + v));
                 }, executor);
+
+         // 使用 allOf 统一收集任务完成后回调; 此步阻塞主线程.
+       /* CompletableFuture
+                .allOf(futures.toArray(new CompletableFuture[0]))
+                .thenRunAsync(() -> {
+                    System.out.println(">>> 所有任务完成，按 taskId 输出结果：");
+                    finalResultMap.forEach((k, v) -> System.out.println(k + " -> " + v));
+                }, executor)
+                .join();*/
     }
 
     /**
