@@ -1,10 +1,10 @@
-package com.st.modules.file.local;
+package com.st.modules.file.local.v1;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
-import static com.st.modules.file.local.FileDeleteUitls.delete;
+import static com.st.modules.file.local.v1.FileDeleteUitls.delete;
 
 /**
  * @author: st

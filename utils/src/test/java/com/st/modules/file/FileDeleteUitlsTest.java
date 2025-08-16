@@ -1,6 +1,6 @@
 package com.st.modules.file;
 
-import com.st.modules.file.local.FileDeleteUitls;
+import com.st.modules.file.local.v1.FileDeleteUitls;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

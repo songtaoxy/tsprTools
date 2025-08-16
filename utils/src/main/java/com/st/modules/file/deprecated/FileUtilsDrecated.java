@@ -7,7 +7,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static com.st.modules.file.local.FileDeleteUitls.delete;
+import static com.st.modules.file.local.v1.FileDeleteUitls.delete;
 
 /**
  * @author: st
@@ -371,7 +371,7 @@ public class FileUtilsDrecated {
 	 *
 	 * <li>获取文件或目录(整个目录)的大小</li>
 	 * <pre>
-	 *  deprecated, alternative ref {@code com.st.modules.file.local.FileInfoUtils#getFileInfo(java.lang.String)}
+	 *  deprecated, alternative ref {@code com.st.modules.file.local.v1.FileInfoUtils#getFileInfo(java.lang.String)}
 	 * </pre>
 	 * @param file
 	 * @return 文件大小:单位 bytes
@@ -410,7 +410,7 @@ public class FileUtilsDrecated {
 	 *
 	 * <li>单位转换: 人容易识别的单位 如: M,G, ...</li>
 	 * <pre>
-	 * 已经过期, 更好的: {@code com.st.modules.file.local.FileInfoUtils#humanReadableSize(long)}
+	 * 已经过期, 更好的: {@code com.st.modules.file.local.v1.FileInfoUtils#humanReadableSize(long)}
 	 * </pre>
 	 *
 	 * @param file

@@ -2,7 +2,7 @@ package com.st.modules.file.wp.mogo;
 
 
 
-import com.st.modules.file.local.FileTypeEnum;
+import com.st.modules.file.local.v1.FileTypeEnum;
 import com.st.modules.json.jackson.JacksonUtils;
 
 import java.util.List;

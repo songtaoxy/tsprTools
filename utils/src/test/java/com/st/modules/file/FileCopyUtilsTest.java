@@ -1,6 +1,6 @@
 package com.st.modules.file;
 
-import com.st.modules.file.local.FileCopyUtils;
+import com.st.modules.file.local.v1.FileCopyUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
