@@ -1,7 +1,7 @@
 package com.st.modules.test.boc.voucher;
 
 import com.st.modules.constant.FileConst;
-import com.st.modules.file.FileCreateUtils;
+import com.st.modules.file.local.FileCreateUtils;
 import com.st.modules.file.tar.TarUtils;
 import lombok.extern.slf4j.Slf4j;
 

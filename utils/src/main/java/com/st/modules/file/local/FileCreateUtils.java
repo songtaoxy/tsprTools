@@ -1,13 +1,10 @@
-package com.st.modules.file;
+package com.st.modules.file.local;
 
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
 
-import static com.st.modules.file.FileDeleteUitls.delete;
+import static com.st.modules.file.local.FileDeleteUitls.delete;
 
 /**
  * @author: st

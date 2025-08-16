@@ -1,12 +1,11 @@
 package com.st.modules.tar;
 
-import com.st.modules.file.FileCreateUtils;
+import com.st.modules.file.local.FileCreateUtils;
 import com.st.modules.file.tar.TarUtils;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.IOException;
 
 import static com.st.modules.constant.FileConst.*;
 

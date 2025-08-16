@@ -1,4 +1,4 @@
-package com.st.modules.file;
+package com.st.modules.file.local;
 
 
 import java.io.File;
@@ -17,15 +17,15 @@ import java.util.List;
  * </pre>
  *
  * <pre>
- * 功能:搜索功能, ref {@code com.st.modules.file.FileInfoUtils#searchByKeyword(java.lang.String, java.lang.String)}
+ * 功能:搜索功能, ref {@code com.st.modules.file.local.FileInfoUtils#searchByKeyword(java.lang.String, java.lang.String)}
  * </pre>
  *
  *
  * 二, 用法
  * <pre>
  * {@code
- * // com.st.modules.file.FileInfoUtils#getFileInfo(java.lang.String)
- * // com.st.modules.file.FileInfoUtils#getFileInfoInternal(java.io.File)
+ * // com.st.modules.file.local.FileInfoUtils#getFileInfo(java.lang.String)
+ * // com.st.modules.file.local.FileInfoUtils#getFileInfoInternal(java.io.File)
  * public static void main(String[] args) {
  *         try {
  *             String path = "/tmp"; // 文件或目录

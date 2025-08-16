@@ -1,7 +1,7 @@
 package com.st.modules.file.clean;
 
 import com.st.modules.constant.FileConst;
-import com.st.modules.file.FileCreateUtils;
+import com.st.modules.file.local.FileCreateUtils;
 
 import java.io.File;
 import java.io.IOException;
