@@ -1,5 +1,6 @@
 package com.st.modules.host;
 
+import com.st.modules.net.host.HostInfoUtils;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
