@@ -14,6 +14,47 @@ public class HostInfoUtils {
         }
     }
 
+    /**
+     * <pre>
+     * - 遍历网卡获取真实 IP
+     * - 如果机器有多个网卡（如服务器），推荐通过 NetworkInterface 获取非回环地址（非 127.0.0.1）。
+     * </pre>
+     *
+     * 注意
+     * <pre>
+     *  - 在 Linux 或容器环境中，InetAddress.getLocalHost() 可能返回 127.0.0.1。
+     *  - 服务器可能有多张网卡，需要根据业务选择正确的 IP。
+     *  - 如果只想获取外网 IP，需要通过调用外部接口
+     * </pre>
+     *
+     * 扩展
+     * <pre>
+     * - 一个支持多网卡优先级策略的版本（比如优先 eth0，否则 wlan0，否则 fallback localhost）
+     * </pre>
+     * @return
+     */
+    public static String getLocalIp() {
+        try {
+            Enumeration<NetworkInterface> nics = NetworkInterface.getNetworkInterfaces();
+            while (nics.hasMoreElements()) {
+                NetworkInterface nic = nics.nextElement();
+                Enumeration<InetAddress> addrs = nic.getInetAddresses();
+                while (addrs.hasMoreElements()) {
+                    InetAddress addr = addrs.nextElement();
+                    if (!addr.isLoopbackAddress() && addr.getHostAddress().indexOf(":") == -1) {
+                        return addr.getHostAddress();
+                    }
+                }
+            }
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (Exception e) {
+            throw new RuntimeException("无法获取本机IP", e);
+        }
+    }
+
+
+
+
     // 获取jvm所在主机所在所有内网IPv4地址（不包含127.0.0.1等回环地址）
     public static List<String> getAllIPv4() {
         List<String> ips = new ArrayList<>();
