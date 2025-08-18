@@ -1,4 +1,4 @@
-package com.st.modules.host;
+package com.st.modules.net.host;
 
 import org.junit.jupiter.api.Test;
 import java.util.List;
