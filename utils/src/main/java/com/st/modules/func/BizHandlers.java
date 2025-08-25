@@ -11,7 +11,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Data
-public class BizHandlers {
+public class
+BizHandlers {
 
     public static final Map<String, Function<String,String>> pathHandlerMap;
 
@@ -19,6 +20,7 @@ public class BizHandlers {
          Map<String, Function<String, String>> pathMap = new HashMap<>();
          pathMap.put(BizEnum.FGLS.getCode(), PathBuilder::buildPath4Fgls);
          pathHandlerMap = Collections.unmodifiableMap(pathMap);
+         System.out.println("");
      }
 
 
