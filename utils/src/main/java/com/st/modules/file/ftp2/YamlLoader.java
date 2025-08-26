@@ -28,6 +28,8 @@ public class YamlLoader {
     public static Map<String, Object> loadFromClasspath(String resource) {
         try (InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource)) {
             if (in == null) throw new RuntimeException("Classpath resource not found " + resource);
+            // 指定字符集,即使 Locale 或 file.encoding 不是 UTF-8，SnakeYAML 也能稳定解析
+            // Object obj = new Yaml(new SafeConstructor()).load(new InputStreamReader(autoClose, StandardCharsets.UTF_8));
             Object obj = new Yaml(new SafeConstructor()).load(in);
             if (obj == null) return new LinkedHashMap<String, Object>();
             if (!(obj instanceof Map)) throw new RuntimeException("Root must be a map: " + resource);

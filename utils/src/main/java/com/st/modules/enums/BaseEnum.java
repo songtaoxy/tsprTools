@@ -20,5 +20,4 @@ public interface BaseEnum {
 //    LocalDateTime getCreatedTime(); // 创建时间
 //
 //    LocalDateTime getUpdatedTime(); // 更新时间
-
 }
