@@ -20,7 +20,8 @@ import java.util.Map;
  * - list 或 map 为空时，返回 false
  * - 支持泛型，但要求 List 元素类型与 Map key 类型一致
  */
-public class ListIsOrNotContainsMapKey {
+public class
+ListIsOrNotContainsMapKey {
     /**
      * 判断 map 的所有 key 是否都在 list 中
      *
