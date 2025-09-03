@@ -1,5 +1,7 @@
 package com.st.modules.enums;
 
+import com.st.modules.enums.v1.BaseEnum;
+import com.st.modules.enums.v2.EnumUtils;
 import com.st.modules.json.jackson.JacksonUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 class EnumUtilsTest {
 

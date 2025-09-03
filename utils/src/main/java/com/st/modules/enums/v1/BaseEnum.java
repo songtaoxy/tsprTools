@@ -1,6 +1,4 @@
-package com.st.modules.enums;
-
-import java.time.LocalDateTime;
+package com.st.modules.enums.v1;
 
 // 定义一个接口或抽象类来统一属性
 public interface BaseEnum {

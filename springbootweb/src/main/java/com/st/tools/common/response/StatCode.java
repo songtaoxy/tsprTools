@@ -1,7 +1,7 @@
 package com.st.tools.common.response;
 
-import com.st.modules.enums.BaseEnum;
-import com.st.modules.enums.EnumUtils;
+import com.st.modules.enums.v1.BaseEnum;
+import com.st.modules.enums.v2.EnumUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

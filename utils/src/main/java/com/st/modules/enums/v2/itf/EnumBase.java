@@ -1,7 +1,6 @@
-package com.st.modules.enums.itf;
+package com.st.modules.enums.v2.itf;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <pre>

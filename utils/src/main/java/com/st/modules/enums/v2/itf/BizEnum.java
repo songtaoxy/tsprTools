@@ -1,4 +1,4 @@
-package com.st.modules.enums.itf;
+package com.st.modules.enums.v2.itf;
 
 /**
  * 概述:

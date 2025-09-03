@@ -1,5 +1,6 @@
-package com.st.modules.enums;
+package com.st.modules.enums.v1;
 
+import com.st.modules.enums.v2.EnumUtils;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 

@@ -2,7 +2,7 @@ package com.st.modules.test.boc.voucher;
 
 import com.st.modules.config.DynamicAppConfig;
 import com.st.modules.constant.FileConst;
-import com.st.modules.enums.StatusVoucherEnum;
+import com.st.modules.enums.v1.StatusVoucherEnum;
 import com.st.modules.file.local.v1.FileRenameUtils;
 import com.st.modules.file.clean.FileCleanupManager;
 import com.st.modules.file.deprecated.ftpv1.FtpDownLoadUtils;

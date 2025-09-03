@@ -4,7 +4,7 @@ package com.st.modules.test.boc.voucher;
 
     import com.st.modules.config.DynamicAppConfig;
     import com.st.modules.constant.FileConst;
-    import com.st.modules.enums.ModulesEnum;
+    import com.st.modules.enums.v1.ModulesEnum;
     import com.st.modules.file.clean.FileCleanupManager;
     import com.st.modules.serialNumber.DailySystemSerialNoGenerator;
     import com.st.modules.test.boc.voucher.mock.VoucherDataGenerator1;

@@ -1,6 +1,7 @@
-package com.st.modules.enums;
+package com.st.modules.enums.v1;
 
 
+import com.st.modules.enums.v2.EnumUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

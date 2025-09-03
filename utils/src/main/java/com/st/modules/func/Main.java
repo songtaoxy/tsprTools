@@ -1,6 +1,6 @@
 package com.st.modules.func;
 
-import com.st.modules.enums.BizEnum;
+import com.st.modules.enums.v1.BizEnum;
 
 import java.util.function.Function;
 

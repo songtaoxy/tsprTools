@@ -1,4 +1,6 @@
-package com.st.modules.enums;
+package com.st.modules.enums.v2;
+
+import com.st.modules.enums.v1.BaseEnum;
 
 import java.util.Arrays;
 import java.util.Map;
