@@ -1,7 +1,5 @@
-package com.st.modules.thread.framework;
+package com.st.modules.thread.framework.v1;
 
-import com.st.modules.thread.threadpool.CallableThreadPoolUtils;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 

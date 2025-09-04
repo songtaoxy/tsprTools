@@ -1,4 +1,4 @@
-package com.st.modules.thread.framework;
+package com.st.modules.thread.framework.v1;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.SneakyThrows;
