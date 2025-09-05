@@ -1,6 +1,6 @@
 package com.st.tools.common.response;
 
-import com.st.modules.json.jackson.JacksonUtils;
+import com.st.modules.json.jackson.JacksonUtils_V1;
 import com.st.tools.common.i18n.I18nUtil;
 import com.st.tools.common.utils.bean.SpringContextUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -106,7 +106,7 @@ public class Response<R> {
 
     public static <T> String format(Response<T> response) {
         String resStr = null;
-        resStr = JacksonUtils.toPrettyJson(response);
+        resStr = JacksonUtils_V1.toPrettyJson(response);
         return resStr;
     }
 

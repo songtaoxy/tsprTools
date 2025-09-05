@@ -2,6 +2,7 @@ package com.st.tools.modules.demo.model.vo;
 
 
 import com.st.modules.json.jackson.JacksonUtils;
+import com.st.modules.json.jackson.JacksonUtils_V1;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;

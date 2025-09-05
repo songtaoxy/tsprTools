@@ -5,8 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+//import io.swagger.annotations.ApiModel;
+//import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -15,7 +16,8 @@ import lombok.Data;
  * @TableName user2
  */
 
-@ApiModel(description="用户对象user")
+//@ApiModel(description="用户对象user")
+@OpenAPIDefinition
 @TableName(value ="user2")
 @Data
 public class User2 implements Serializable {
@@ -29,7 +31,7 @@ public class User2 implements Serializable {
     /**
      * 姓名
      */
-    @ApiModelProperty(value="用户名",name="username")
+//    @ApiModelProperty(value="用户名",name="username")
     private String name;
 
     /**

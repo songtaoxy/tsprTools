@@ -3,7 +3,7 @@ package com.st.practice.file;
 import com.st.biz.cmbc.FilesInput;
 import com.st.biz.cmbc.enums.BillTypeEnum;
 
-import com.st.modules.json.jackson.JacksonUtils;
+import com.st.modules.json.jackson.JacksonUtils_V1;
 import com.st.modules.log.LogBody;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -68,7 +68,7 @@ public class FileUtils {
 
         // optional log
         logBody.setInfos_obj(filesInput);
-        System.out.println(JacksonUtils.toPrettyJson(logBody));
+        System.out.println(JacksonUtils_V1.toPrettyJson(logBody));
 
 
         return filesInput;

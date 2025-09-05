@@ -1,6 +1,5 @@
-package com.st.utils.bytes;
+package com.st.modules.bytes;
 
-import com.st.modules.bytes.ByteUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

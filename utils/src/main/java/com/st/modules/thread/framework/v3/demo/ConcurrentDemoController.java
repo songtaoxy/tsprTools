@@ -4,9 +4,7 @@ import com.st.modules.thread.framework.v3.OrchestratorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
+
 import java.util.*;
 
 /**
@@ -37,7 +35,7 @@ public class ConcurrentDemoController {
     @GetMapping("/agg")
     public ResponseEntity<List<String>> aggregate(
             @RequestParam("names") List<String> names,
-            @RequestParam(value = "timeoutMs", defaultValue = "500") @Min(1) long timeoutMs) {
+            @RequestParam(value = "timeoutMs", defaultValue = "500")  long timeoutMs) {
         List<String> out = orchestrator.aggregate(names, timeoutMs);
         return ResponseEntity.ok(out);
     }
@@ -48,8 +46,8 @@ public class ConcurrentDemoController {
      */
     @GetMapping("/any")
     public ResponseEntity<Map<String, Object>> any(
-            @RequestParam("key") @NotBlank String key,
-            @RequestParam(value = "timeoutMs", defaultValue = "150") @Min(1) long timeoutMs) {
+            @RequestParam("key")  String key,
+            @RequestParam(value = "timeoutMs", defaultValue = "150")  long timeoutMs) {
         String data = orchestrator.fastReplica(key, timeoutMs);
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("key", key);
@@ -62,7 +60,7 @@ public class ConcurrentDemoController {
      * 示例：POST /api/task  {"name":"job-1","waitMs":120}
      */
     @PostMapping("/task")
-    public ResponseEntity<Map<String, Object>> submitTask(@Valid @RequestBody SubmitTaskRequest req) {
+    public ResponseEntity<Map<String, Object>> submitTask(@RequestBody SubmitTaskRequest req) {
         long wait = req.waitMs != null ? req.waitMs : 120L;
         Map<String, Object> result = orchestrator.submitWithTicket(req.name, wait);
         return ResponseEntity.ok(result);
@@ -84,10 +82,10 @@ public class ConcurrentDemoController {
     /* ---------- 请求体 DTO ---------- */
 
     public static class SubmitTaskRequest {
-        @NotBlank
+
         public String name;
 
-        @Min(1)
+
         public Long waitMs;
 
         public SubmitTaskRequest() {}

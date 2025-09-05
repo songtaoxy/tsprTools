@@ -32,9 +32,23 @@ spring:
 #    useGlobalDataSourceStat: true
 #    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 #
-
-
-
+  data:
+    redis:
+      client-type: lettuce
+  redis:
+    host: localhost
+    port: 6379
+    # Redis 6+ 启用 ACL 才需要 username；否则删掉该行
+    username: default
+    database: 0
+    timeout: 2s
+    ssl: false
+    lettuce:
+      pool:
+        max-active: 16
+        max-idle: 8
+        min-idle: 0
+        max-wait: 2s
 
 
 #    schema:
@@ -54,3 +68,22 @@ log:
     - password
     - idCard
     - phone
+
+# ---------------------
+# 集成Prometheus Grafana
+# Actuator + Micrometer 的管理与指标配置
+# ---------------------
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: never
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true

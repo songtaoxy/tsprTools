@@ -29,7 +29,7 @@ public class HashMapTreeifyDemo {
     System.out.println(map);
   }
 
-  @Data
+
   @NoArgsConstructor
   @AllArgsConstructor
   static class Key {

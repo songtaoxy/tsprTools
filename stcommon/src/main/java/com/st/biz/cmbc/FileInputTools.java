@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.st.biz.cmbc.enums.FileTypeEnum;
 import com.st.modules.json.jackson.JacksonUtils;
+import com.st.modules.json.jackson.JacksonUtils_V1;
 import com.st.modules.log.LogBody;
 
 
@@ -149,7 +150,7 @@ public class FileInputTools {
 
 		// optional log
 		logBody.setInfos_obj(js);
-		String format = JacksonUtils.toPrettyJson(logBody);
+		String format = JacksonUtils_V1.toPrettyJson(logBody);
 		System.out.println(format);
 
 		return filesInput;

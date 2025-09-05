@@ -1,6 +1,6 @@
 package com.st.tools.common.filter;
 
-import com.st.modules.json.jackson.JacksonUtils;
+import com.st.modules.json.jackson.JacksonUtils_V1;
 import com.st.tools.common.i18n.I18nUtil;
 import com.st.tools.common.utils.bean.SpringContextUtils;
 import com.st.tools.common.utils.log.LogHelper;
@@ -86,11 +86,11 @@ public class BaseFilter extends OncePerRequestFilter {
                     "\n当前线程请求与返回结束后, 线程结束, 清空MDC数据." +
                     "\n 清空前,MDC:" +
                     "\n========================\n" +
-                    JacksonUtils.toPrettyJson(copyOfContextMap) +
+                    JacksonUtils_V1.toPrettyJson(copyOfContextMap) +
                     "," +
                     "\n清空后,MDC:" +
                     "\n========================\n[" +
-                    JacksonUtils.toPrettyJson(copyOfContextMap_after);
+                    JacksonUtils_V1.toPrettyJson(copyOfContextMap_after);
             log.info(mdx_msg);
 
             log.info("basefilter Ending....");

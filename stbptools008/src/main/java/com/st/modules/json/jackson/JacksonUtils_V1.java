@@ -1,14 +1,9 @@
 package com.st.modules.json.jackson;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.jsonschema.JsonSchema;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.flipkart.zjsonpatch.JsonDiff;
@@ -16,10 +11,9 @@ import com.flipkart.zjsonpatch.JsonPatch;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class JacksonUtils {
+public class JacksonUtils_V1 {
 
     private static ObjectMapper mapper;
 
@@ -42,7 +36,7 @@ public class JacksonUtils {
 
     /** 注入自定义 ObjectMapper */
     public static void setMapper(ObjectMapper custom) {
-        JacksonUtils.mapper = custom;
+        JacksonUtils_V1.mapper = custom;
     }
 
     /** 注册扩展模块（如自定义序列化器） */

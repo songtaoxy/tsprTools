@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,10 +26,10 @@ public class JacksonUtilsTest {
     @Test
     public void testToJsonAndFromJson() {
         User user = new User("Alice", 30, LocalDate.of(1993, 4, 1));
-        String json = JacksonUtils.toJson(user);
+        String json = JacksonUtils_V1.toJson(user);
         assertTrue(json.contains("alice") || json.contains("Alice"));
 
-        User parsed = JacksonUtils.fromJson(json, User.class);
+        User parsed = JacksonUtils_V1.fromJson(json, User.class);
         assertEquals("Alice", parsed.name);
         assertEquals(30, parsed.age);
         assertEquals(LocalDate.of(1993, 4, 1), parsed.birthday);
@@ -39,12 +38,12 @@ public class JacksonUtilsTest {
     @Test
     public void testToJsonNodeAndParse() {
         User user = new User("Bob", 25, LocalDate.of(1999, 1, 1));
-        JsonNode node = JacksonUtils.toJsonNode(user);
+        JsonNode node = JacksonUtils_V1.toJsonNode(user);
         assertEquals("Bob", node.get("name").asText());
         assertEquals(25, node.get("age").asInt());
 
-        String json = JacksonUtils.toJson(user);
-        JsonNode parsed = JacksonUtils.parse(json);
+        String json = JacksonUtils_V1.toJson(user);
+        JsonNode parsed = JacksonUtils_V1.parse(json);
         assertEquals("Bob", parsed.get("name").asText());
     }
 
@@ -53,29 +52,29 @@ public class JacksonUtilsTest {
         User u1 = new User("Alice", 30, LocalDate.of(1993, 4, 1));
         User u2 = new User("Alice", 31, LocalDate.of(1993, 4, 1));
 
-        JsonNode patch = JacksonUtils.diff(u1, u2);
+        JsonNode patch = JacksonUtils_V1.diff(u1, u2);
         assertTrue(patch.toString().contains("/age"));
 
-        JsonNode original = JacksonUtils.toJsonNode(u1);
-        JsonNode updated = JacksonUtils.applyPatch(original, patch);
+        JsonNode original = JacksonUtils_V1.toJsonNode(u1);
+        JsonNode updated = JacksonUtils_V1.applyPatch(original, patch);
         assertEquals(31, updated.get("age").asInt());
     }
 
     @Test
     public void testNamingStrategySnakeCase() {
-        JacksonUtils.setNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE);
+        JacksonUtils_V1.setNamingStrategy(com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE);
 
         class CamelUser {
             public String userName = "Tom";
         }
 
-        String json = JacksonUtils.toJson(new CamelUser());
+        String json = JacksonUtils_V1.toJson(new CamelUser());
         assertTrue(json.contains("user_name"));
     }
 
     @Test
     public void testJsonSchemaGeneration() {
-        JsonNode schema = JacksonUtils.generateSchema(User.class);
+        JsonNode schema = JacksonUtils_V1.generateSchema(User.class);
         assertNotNull(schema.get("properties"));
         assertTrue(schema.toPrettyString().contains("name"));
     }
@@ -83,7 +82,7 @@ public class JacksonUtilsTest {
     @Test
     public void testPrettyPrint() {
         User user = new User("Alice", 30, LocalDate.of(1993, 4, 1));
-        String pretty = JacksonUtils.toPrettyJson(user);
+        String pretty = JacksonUtils_V1.toPrettyJson(user);
         assertTrue(pretty.contains("\n"));
     }
 }

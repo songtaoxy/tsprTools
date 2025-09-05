@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 /**
  * @author jim
  */
-@SuppressWarnings("unused")
+
 public class LambdaDemo {
 
     public void methodReference() {

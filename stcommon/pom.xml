@@ -39,7 +39,7 @@
             <groupId>com.st.tools</groupId>
             <artifactId>stbptools008</artifactId>
             <version>v20231114</version>
-            <scope>test</scope>
+<!--            <scope>test</scope>-->
         </dependency>
     </dependencies>
 

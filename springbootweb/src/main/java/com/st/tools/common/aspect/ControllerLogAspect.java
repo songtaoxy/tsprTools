@@ -1,7 +1,7 @@
 package com.st.tools.common.aspect;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.st.modules.json.jackson.JacksonUtils;
+import com.st.modules.json.jackson.JacksonUtils_V1;
 import com.st.tools.common.response.Response;
 import com.st.tools.common.response.Result;
 import com.st.tools.common.utils.log.NoLogParams;
@@ -85,7 +85,7 @@ public class ControllerLogAspect {
                         }
                     })
                     .collect(Collectors.joining(", "));
-            log.info("{}➡️ {}, {}#{} 请求参数如下: {} [{}]", doubleLine,path, className, methodName,doubleLine, JacksonUtils.toPrettyJson(Result.build(argsStr)));
+            log.info("{}➡️ {}, {}#{} 请求参数如下: {} [{}]", doubleLine,path, className, methodName,doubleLine, JacksonUtils_V1.toPrettyJson(Result.build(argsStr)));
         }
 
         Object result;
@@ -100,7 +100,7 @@ public class ControllerLogAspect {
             String start_time = MDC.get("START_TIME");
             long duration = System.currentTimeMillis() - Long.parseLong(start_time);
 
-            log.info("{}⬅️ {}, {}#{}, 耗时:{}ms, 返回信息如下: {} [{}]", doubleLine,path, className, methodName,String.valueOf(duration),doubleLine, JacksonUtils.toPrettyJson(JacksonUtils.fromJson(resultStr,Response.class)));
+            log.info("{}⬅️ {}, {}#{}, 耗时:{}ms, 返回信息如下: {} [{}]", doubleLine,path, className, methodName,String.valueOf(duration),doubleLine, JacksonUtils_V1.toPrettyJson(JacksonUtils_V1.fromJson(resultStr,Response.class)));
 
             return result;
         } catch (Throwable e) {

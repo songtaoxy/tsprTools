@@ -6,12 +6,11 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 //import com.st.utils.json.gson.GsonUtils;
 import com.st.modules.json.jackson.JacksonUtils;
+import com.st.modules.json.jackson.JacksonUtils_V1;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
@@ -58,8 +57,8 @@ public class LogUtils {
     builder.setPrettyPrinting();
     Gson gson = builder.create();*/
 
-    JsonObject parse = JacksonUtils.fromJson(jsonStr, JsonObject.class);
-    String prettyJsonStr = JacksonUtils.toPrettyJson(parse);
+    JsonObject parse = JacksonUtils_V1.fromJson(jsonStr, JsonObject.class);
+    String prettyJsonStr = JacksonUtils_V1.toPrettyJson(parse);
 
     // ========================
     // output
@@ -119,9 +118,9 @@ public class LogUtils {
 
     String prettyJsonStr;
     if (ObjectUtil.equals("1", flag)) {
-      prettyJsonStr = JacksonUtils.toPrettyJson(jsonObject1);
+      prettyJsonStr = JacksonUtils_V1.toPrettyJson(jsonObject1);
     } else {
-      prettyJsonStr = JacksonUtils.toPrettyJson(jsonObject);
+      prettyJsonStr = JacksonUtils_V1.toPrettyJson(jsonObject);
     }
 
     // ========================
@@ -261,7 +260,7 @@ public class LogUtils {
 //      JsonObject jsonObject = GsonUtils.buildGJS();
       ObjectNode jsonObject = JacksonUtils.createObjectNode();
       jsonObject.put("result", "null,blank,or optional");
-      details = JacksonUtils.toPrettyJson(jsonObject);
+      details = JacksonUtils_V1.toPrettyJson(jsonObject);
     } else {
       details = details_content;
     }

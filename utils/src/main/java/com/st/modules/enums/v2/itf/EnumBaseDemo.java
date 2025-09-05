@@ -1,6 +1,5 @@
 package com.st.modules.enums.v2.itf;
 
-import com.st.modules.enums.itf.BizEnum;
 
 public class EnumBaseDemo {
 
