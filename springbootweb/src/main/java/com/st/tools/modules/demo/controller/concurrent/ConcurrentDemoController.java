@@ -1,5 +1,6 @@
-package com.st.modules.thread.framework.v3.demo;
+package com.st.tools.modules.demo.controller.concurrent;
 
+import com.st.tools.common.response.Response;
 import com.st.modules.thread.framework.v3.OrchestratorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,11 +34,11 @@ public class ConcurrentDemoController {
      * 示例：GET /api/agg?names=a&names=b&timeoutMs=500
      */
     @GetMapping("/agg")
-    public ResponseEntity<List<String>> aggregate(
+    public Response<List<String>> aggregate(
             @RequestParam("names") List<String> names,
             @RequestParam(value = "timeoutMs", defaultValue = "500")  long timeoutMs) {
         List<String> out = orchestrator.aggregate(names, timeoutMs);
-        return ResponseEntity.ok(out);
+        return Response.ok(out);
     }
 
     /**

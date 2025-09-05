@@ -69,6 +69,48 @@ log:
     - idCard
     - phone
 
+
+# ================================
+# 线程池配置 test1
+# ================================
+st:
+  concurrent:
+    biz:
+      pool-name: biz-pool
+      core: 8
+      max: 32
+      queue: 256
+      bulkhead-permits: 0
+      rate-limit-enabled: true
+      rate-limit-qps: 300
+      rate-burst: 600
+      breaker-enabled: true
+      breaker-failure-threshold: 5
+      breaker-open-millis: 2000
+      breaker-half-open-permits: 2
+      shutdown-wait-seconds: 20
+
+# ================================
+# 线程池配置 test2
+# ================================
+best:
+  concurrent:
+    pool-name: biz
+    core: 8
+    max: 32
+    queue: 256
+    keep-alive-seconds: 60
+    bulkhead-permits: 0
+    rate-limit-enabled: true
+    rate-limit-qps: 300
+    rate-burst: 600
+    breaker-enabled: true
+    breaker-failure-threshold: 5
+    breaker-open-millis: 2000
+    breaker-half-open-permits: 2
+
+
+
 # ---------------------
 # 集成Prometheus Grafana
 # Actuator + Micrometer 的管理与指标配置
