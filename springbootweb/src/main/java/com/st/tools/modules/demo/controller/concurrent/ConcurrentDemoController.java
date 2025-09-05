@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.util.*;
 
 /**
@@ -68,6 +70,34 @@ public class ConcurrentDemoController {
     }
 
     /**
+     * <pre>
+     *     - 场景: 多任务并发执行 → Controller 只等 waitMs；
+     *     能等到就同步返回；等不到就立刻返回票据。
+     *     后台继续跑到“全局软截止时间（soft deadline）”，
+     *     到点还没完成的子任务一律用 fallback 收尾，整单不标记失败
+     * </pre>
+     *
+     * <pre>
+     *     具体说明:
+     *     - 每个子任务都有自己的超时 + fallback（有损）；
+     *     - 还设置一个全局软截止：到点不失败，而是把未完成的子任务直接置为 fallback，并完成整单；
+     *     - Controller 同步窗口 waitMs 内没拿到结果 ⇒ 立即返回票据，后台按上面规则收尾；
+     *     - 进度/失败明细通过 Ticket + SSE（沿用你前面已经接的 TicketStore/Redis 版）。
+     * </pre>
+     * @param req
+     * @return
+     */
+    @PostMapping("/multi-smart-soft")
+    public ResponseEntity<Map<String,Object>> multiSmartSoft(@RequestBody MultiSmartReq req) {
+        long wait   = req.waitMs != null ? req.waitMs : 120L;   // 同步窗口
+        long stepTO = req.perTaskTimeoutMs != null ? req.perTaskTimeoutMs : 150L; // 子任务超时（到点fallback）
+        long soft   = req.globalSoftMs != null ? req.globalSoftMs : 400L; // 全局软截止（不失败）
+        Map<String,Object> res = orchestrator.multiSmartAggregateSoftNoFail(req.names, wait, stepTO, soft);
+        return ResponseEntity.ok(res);
+    }
+
+
+    /**
      * 查询票据：若后台已完成，返回最终数据；否则返回 "PROCESSING"
      * 示例：GET /api/task/{id}
      */
@@ -96,4 +126,17 @@ public class ConcurrentDemoController {
         public void setName(String name) { this.name = name; }
         public void setWaitMs(Long waitMs) { this.waitMs = waitMs; }
     }
+
+    public static class MultiSmartReq {
+        @NotEmpty
+        public List<String> names;
+        @Min(1)  public Long waitMs;
+        @Min(1)  public Long perTaskTimeoutMs;
+        @Min(1)  public Long globalSoftMs;
+        // getters/setters 省略
+    }
+
+
 }
+
+
