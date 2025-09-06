@@ -98,6 +98,24 @@ public class ConcurrentDemoController {
 
 
     /**
+     * <pre>
+     *     多个任务，controller等待一段时间，完成则同步返回；
+     *     否则异步返回；全局超时 不失败；
+     *     对于任意子任务，真的失败则占位，没有失败则不受全局超时控制，继续执行直到结束
+     * </pre>
+     * @param req
+     * @return
+     */
+    @PostMapping("/multi-smart-open")
+    public ResponseEntity<Map<String,Object>> multiSmartOpen(@RequestBody MultiSmartReq req) {
+        long wait   = req.waitMs != null ? req.waitMs : 120L;     // 同步窗口
+        Long stepTO = req.perTaskTimeoutMs;                       // 可为 null：表示不设子任务超时
+        Map<String,Object> res = orchestrator.multiSmartAggregateOpenEnded(req.names, wait, stepTO);
+        return ResponseEntity.ok(res);
+    }
+
+
+    /**
      * 查询票据：若后台已完成，返回最终数据；否则返回 "PROCESSING"
      * 示例：GET /api/task/{id}
      */
