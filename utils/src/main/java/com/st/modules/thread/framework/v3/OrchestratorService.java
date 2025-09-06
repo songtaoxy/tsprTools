@@ -320,7 +320,8 @@ public  class OrchestratorService {
 
             });
 
-            innerCfs.add(inner); resultCfs.add(result);
+            innerCfs.add(inner);
+            resultCfs.add(result);
         }
 
         // 3) 汇总完成：所有子任务（真实或 fallback）完成即得到最终结果
