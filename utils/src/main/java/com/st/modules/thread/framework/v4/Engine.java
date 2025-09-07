@@ -100,7 +100,13 @@ public final class Engine {
                                            final boolean cancelOnTimeout){
         final CompletableFuture<T> cf = new CompletableFuture<T>();
         final Future<T> f;
-        try { f = submit(new Callable<T>() { public T call() throws Exception { return supplier.get(); }}); }
+        try {
+            f = submit(new Callable<T>() {
+                public T call() throws Exception {
+                    return supplier.get();
+                }
+            });
+        }
         catch (RejectedExecutionException rex){ completeWithFallback(cf, fallback, rex); return cf; }
 
         executor.execute(new Runnable() {

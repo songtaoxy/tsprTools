@@ -30,7 +30,7 @@ public final class BizContextFilter extends OncePerRequestFilter {
         if (user != null) MDC.put("user", user);
 
         BizContext ctx = new BizContext(taskId, traceId, tenant, user);
-        try (BizContextHolder.Scope __ = BizContextHolder.with(ctx)) {
+        try (BizContextHolder.Scope scope = BizContextHolder.with(ctx)) {
             chain.doFilter(req, res);
         } finally {
             BizContextHolder.clear();

@@ -19,7 +19,9 @@ public final class TaskWrappers {
                     public void run() {
                         Map<String,String> old = MDC.getCopyOfContextMap();
                         if (parentMdc != null) MDC.setContextMap(parentMdc); else MDC.clear();
-                        try (BizContextHolder.Scope __ = BizContextHolder.with(parentCtx)) {
+                        // try ( … ) { … } 是 try-with-resources 语法；块结束会自动调用 close()
+                        // 核心是 try-with-resources + AutoCloseable Scope
+                        try (BizContextHolder.Scope scope = BizContextHolder.with(parentCtx)) {
                             // 清除可能遗留的中断标志，避免跨任务泄漏
                             Thread.interrupted();
                             r.run();
@@ -37,7 +39,9 @@ public final class TaskWrappers {
                     public T call() throws Exception {
                         Map<String,String> old = MDC.getCopyOfContextMap();
                         if (parentMdc != null) MDC.setContextMap(parentMdc); else MDC.clear();
-                        try (BizContextHolder.Scope __ = BizContextHolder.with(parentCtx)) {
+                        // try ( … ) { … } 是 try-with-resources 语法；块结束会自动调用 close()
+                        // 核心是 try-with-resources + AutoCloseable Scope
+                        try (BizContextHolder.Scope scope = BizContextHolder.with(parentCtx)) {
                             Thread.interrupted();
                             return c.call();
                         } finally {

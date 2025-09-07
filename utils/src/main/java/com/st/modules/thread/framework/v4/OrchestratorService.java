@@ -91,7 +91,25 @@ public class OrchestratorService {
             }
         });
 
-        // 尝试在等待窗口内同步返回
+
+        // try 成功：窗口内齐活 → finalizeOnce(SYNC/SUCCESS, items)；
+        // catch Timeout：窗口外 → 不终态，仅回 PROCESSING，后台 whenComplete 再终态；
+        // catch Exec/Interrupted：极端兜底 → finalizeOnce(SYNC/SUCCESS, empty)，避免整体失败（InterruptedException 要保留中断位）
+
+        // ─────────────────────────────────────────────────────────────────────────────
+        // 同步窗口内“抢终态”的核心分支说明
+        // try：       场景=【开放式-同步窗口成功】
+        // catch T/O： 场景=【开放式-异步票据（窗口太短，先回态）】
+        // catch E/I： 场景=【极端兜底（有损成功 + 空结果，不让整体失败）】
+        // 共同约束：所有能产生“终态”的路径都必须通过 finalizeOnce(...)，以确保幂等与不抖动。
+        // ─────────────────────────────────────────────────────────────────────────────
+
+        // ① try 成功：开放式-同步窗口成功
+        // - 在 waitMs 内拿齐 combined 的结果 → 本分支尝试“抢终态”。
+        // - finalizeOnce(...) 里把票据定格为 SYNC/SUCCESS，并写入 items（data）。
+        // - 若本分支没抢到（first=false），说明其他路径已收尾（like whenComplete/软截止），
+        //   则直接返回票据快照，避免状态反转。
+        //   尝试在等待窗口内同步返回
         try {
             List<ResultItem> data = combined.get(waitMs, TimeUnit.MILLISECONDS);
             boolean first = finalizeOnce(finalized, ticket, () -> {
@@ -105,10 +123,21 @@ public class OrchestratorService {
             return ok;
         } catch (TimeoutException te) {
             // 返回进行中快照（后台继续）
+            // ② catch TimeoutException：开放式-异步票据（窗口太短）
+            // - 含义：在 waitMs 内“还没齐”，但并非错误；后台仍会继续跑到完成。
+            // - 处理：此处【不做 finalizeOnce】、不产“终态”，仅返回 PROCESSING 快照（ASYNC）。
+            // - 之后：combined.whenComplete(...) 会在后台自然完成后统一收尾为 ASYNC/SUCCESS，
+            //         前端通过轮询/SSE 获得最终结果。
             Map<String, Object> processing = baseResponse(ticket);
             processing.put("status", Ticket.Status.PROCESSING.name());
             return processing;
         } catch (ExecutionException | InterruptedException e) {
+            // 中断位设回去（interrupt()），是“保留中断语义”的习惯写法
+            // ③ catch ExecutionException / InterruptedException：极端兜底
+            // - 正常“有损模式”下，子任务异常已在各自 handle 中转为 FALLBACK，理论不应走到这里。
+            // - 若仍到此（编排/线程中断等极端情况），保持“全局不失败”的契约：
+            //   用 finalizeOnce(...) 把票据定格为 SYNC/SUCCESS + 空 items，避免把内部异常抛给调用方。
+            // - 注意：InterruptedException 时恢复中断位以保留语义；ExecutionException 不必设中断位。
             Thread.currentThread().interrupt();
             // 理论不常见：兜底为有损成功 + 空结果
             finalizeOnce(finalized, ticket, () -> {
@@ -121,6 +150,29 @@ public class OrchestratorService {
             ok.put("data", Collections.emptyList());
             return ok;
         }
+
+
+// ── 可选：更严谨的异常拆分写法（推荐替换上面的合并 catch） ─────────────
+//} catch (InterruptedException ie) {
+//    // 线程被打断：保留中断语义 + 兜底不失败
+//    Thread.currentThread().interrupt();
+//    finalizeOnce(finalized, ticket, () -> {
+//        ticket.mode = Ticket.Mode.SYNC; ticket.status = Ticket.Status.SUCCESS;
+//        ticket.data.clear(); ticket.data.put("items", java.util.Collections.emptyList());
+//    });
+//    Map<String,Object> ok = baseResponse(ticket);
+//    ok.put("data", java.util.Collections.emptyList());
+//    return ok;
+//} catch (ExecutionException ee) {
+//    // 执行异常（极少见）：同样走“有损成功”兜底，避免对外失败
+//    finalizeOnce(finalized, ticket, () -> {
+//        ticket.mode = Ticket.Mode.SYNC; ticket.status = Ticket.Status.SUCCESS;
+//        ticket.data.clear(); ticket.data.put("items", java.util.Collections.emptyList());
+//    });
+//    Map<String,Object> ok = baseResponse(ticket);
+//    ok.put("data", java.util.Collections.emptyList());
+//    return ok;
+//}
     }
 
     /**
@@ -470,7 +522,13 @@ public class OrchestratorService {
     // ====================  工具方法  ======================
     // =====================================================
 
-    /** 幂等收尾：只允许一个分支真正落地（设置 ticket → 聚合 → save/publish） */
+    /**
+     * - 幂等收尾：只允许一个分支真正落地（设置 ticket → 聚合 → save/publish）
+     * <pre>
+     *     - 用 CAS 保证只有一个分支能做最终收尾
+     * </pre>
+     *
+     * */
     private boolean finalizeOnce(AtomicBoolean flag, Ticket t, Runnable finisher) {
         if (flag.compareAndSet(false, true)) {
             try {
