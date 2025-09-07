@@ -36,6 +36,9 @@ public final class BizContext implements Serializable {
     // 元信息
     public final long createdAt = System.currentTimeMillis();
     private final AtomicLong lastUpdatedAt = new AtomicLong(createdAt);
+    private final java.util.concurrent.ConcurrentMap<String, SubtaskContext> subtasks =
+            new java.util.concurrent.ConcurrentHashMap<>();
+
 
     public BizContext(String taskId, String traceId, String tenantId, String userId) {
         this.taskId=taskId; this.traceId=traceId; this.tenantId=tenantId; this.userId=userId;
@@ -54,5 +57,46 @@ public final class BizContext implements Serializable {
     public long lastUpdatedAt(){ return lastUpdatedAt.get(); }
     public Instant lastUpdatedInstant(){ return Instant.ofEpochMilli(lastUpdatedAt.get()); }
     private void touch(){ lastUpdatedAt.set(System.currentTimeMillis()); }
+
+
+
+
+    /** 取/建某个子任务的上下文（同名同份；不同名彼此隔离） */
+    public SubtaskContext sub(String name) {
+        return subtasks.computeIfAbsent(name, SubtaskContext::new);
+    }
+
+    /** 可选：快照查看 */
+    public java.util.Map<String, java.util.Map<String,Object>> viewSubs() {
+        java.util.Map<String, java.util.Map<String,Object>> m = new java.util.HashMap<>();
+        subtasks.forEach((k,v) -> m.put(k, v.view()));
+        return java.util.Collections.unmodifiableMap(m);
+    }
+
+    /** 每个子任务的隔离上下文 */
+    public static final class SubtaskContext {
+        public final String name;
+        private final java.util.concurrent.ConcurrentMap<String,Object> attrs = new java.util.concurrent.ConcurrentHashMap<>();
+        // 常用字段可以提供专用原子引用，读写更顺手
+        private final java.util.concurrent.atomic.AtomicReference<String> path = new java.util.concurrent.atomic.AtomicReference<>();
+
+        SubtaskContext(String name){ this.name = name; }
+
+        // 通用 KV
+        public SubtaskContext put(String key, Object val){ if (val==null) attrs.remove(key); else attrs.put(key,val); return this; }
+        @SuppressWarnings("unchecked")
+        public <T> T get(String key){ return (T) attrs.get(key); }
+        public java.util.Map<String,Object> view(){ return java.util.Collections.unmodifiableMap(attrs); }
+
+        // 针对“路径”的便捷 API
+        public SubtaskContext setPath(String p){ path.set(p); attrs.put("path", p); return this; }
+        public String getPath(){ return path.get(); }
+        public SubtaskContext updatePath(java.util.function.UnaryOperator<String> fn){
+            String next = fn.apply(path.get());
+            path.set(next); attrs.put("path", next); return this;
+        }
+    }
+
+
 }
 
