@@ -4,6 +4,7 @@ package com.st.modules.thread.framework.v4;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.*;
 
 /** 企业级轻量并发引擎（JDK8）：见类注释顶部的功能列表 */
@@ -77,19 +78,18 @@ public final class Engine {
         cf.whenComplete(new BiConsumer<T, Throwable>() {
             public void accept(T v, Throwable e){ if (e==null) out.complete(v); else out.completeExceptionally(e); }
         });
-        scheduler.schedule(new Runnable() {
-            public void run(){ if (!out.isDone()) out.completeExceptionally(new TimeoutException("engine.withTimeout")); }
-        }, timeout, unit);
+
+        final Runnable onTimeout = wrapRunnable(() -> {
+            if (!out.isDone()) out.completeExceptionally(new TimeoutException("engine.withTimeout"));
+        });
+        scheduler.schedule(onTimeout, timeout, unit);
+
         return out;
     }
 
     private <T> Future<T> submit(Callable<T> c){ return executor.submit(taskWrapper.wrap(c)); }
 
-    private static <T> void completeWithFallback(CompletableFuture<T> cf, Supplier<T> fb, Throwable cause){
-        if (cf.isDone()) return;
-        try { cf.complete(fb==null?null:fb.get()); }
-        catch (Throwable ex){ if (cause!=null) ex.addSuppressed(cause); cf.completeExceptionally(ex); }
-    }
+
 
     /* ============== 单任务 ============== */
 
@@ -99,51 +99,67 @@ public final class Engine {
                                            final Supplier<T> fallback,
                                            final boolean cancelOnTimeout){
         final CompletableFuture<T> cf = new CompletableFuture<T>();
+
+        // 1) 包装“业务调用”成 Callable（在调用 wrap* 的这一刻捕获父线程 MDC/BizContext）
+        final Callable<T> bizCall = wrapCallable(() -> supplier.get());
+
         final Future<T> f;
         try {
-            f = submit(new Callable<T>() {
-                public T call() throws Exception {
-                    return supplier.get();
-                }
-            });
+            f = submit(bizCall); // 提交已包装的 Callable 到线程池
+        } catch (RejectedExecutionException rex) {
+            // 被拒绝：在当前线程执行“已包装”的 fallback
+            completeWithFallbackWrapped(cf, fallback, rex);
+            return cf;
         }
-        catch (RejectedExecutionException rex){ completeWithFallback(cf, fallback, rex); return cf; }
 
-        executor.execute(new Runnable() {
-            public void run() {
-                try { cf.complete(f.get()); }
-                catch (CancellationException e){ completeWithFallback(cf, fallback, e); }
-                catch (InterruptedException e){ Thread.currentThread().interrupt(); completeWithFallback(cf, fallback, e); }
-                catch (ExecutionException e){ completeWithFallback(cf, fallback, e.getCause()); }
+        // 2) 另起一个“完成者”Runnable：阻塞等待 f.get() 并把结果写入 cf（同样要包）
+        final Runnable completer = wrapRunnable(() -> {
+            try {
+                cf.complete(f.get());
+            } catch (CancellationException e) {
+                completeWithFallbackWrapped(cf, fallback, e);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                completeWithFallbackWrapped(cf, fallback, e);
+            } catch (ExecutionException e) {
+                completeWithFallbackWrapped(cf, fallback, e.getCause());
             }
         });
-        if (timeout>0) {
-            scheduler.schedule(new Runnable() {
-                public void run(){
-                    if (cf.isDone()) return;
-                    if (cancelOnTimeout) f.cancel(true);
-                    completeWithFallback(cf, fallback, new TimeoutException("engine.supply timeout"));
-                }
-            }, timeout, unit);
+        executor.execute(completer);
+
+
+        // 3) 超时调度：回调与 fallback 也要包（否则调度线程丢上下文）
+        if (timeout > 0) {
+            final Runnable onTimeout = wrapRunnable(() -> {
+                if (cf.isDone()) return;
+                if (cancelOnTimeout) f.cancel(true);  // 可中断业务线程
+                completeWithFallbackWrapped(cf, fallback, new TimeoutException("engine.supply timeout"));
+            });
+            scheduler.schedule(onTimeout, timeout, unit);
         }
+
+
         return cf;
     }
 
     /** 无超时的有损单任务：失败 → fallback */
     public <T> CompletableFuture<T> supplyNoTimeout(final Supplier<T> supplier, final Supplier<T> fallback){
         final CompletableFuture<T> cf = new CompletableFuture<T>();
-        final Future<T> f;
-        try { f = submit(new Callable<T>() { public T call() throws Exception { return supplier.get(); }}); }
-        catch (RejectedExecutionException rex){ completeWithFallback(cf, fallback, rex); return cf; }
 
-        executor.execute(new Runnable() {
-            public void run() {
+        final Callable<T> bizCall = wrapCallable(() -> supplier.get());
+
+        final Future<T> f;
+        try { f = submit(bizCall); }
+        catch (RejectedExecutionException rex){ completeWithFallbackWrapped(cf, fallback, rex); return cf; }
+
+        final Runnable completer = wrapRunnable(() ->  {
                 try { cf.complete(f.get()); }
-                catch (CancellationException e){ completeWithFallback(cf, fallback, e); }
-                catch (InterruptedException e){ Thread.currentThread().interrupt(); completeWithFallback(cf, fallback, e); }
-                catch (ExecutionException e){ completeWithFallback(cf, fallback, e.getCause()); }
-            }
-        });
+                catch (CancellationException e){ completeWithFallbackWrapped(cf, fallback, e); }
+                catch (InterruptedException e){ Thread.currentThread().interrupt(); completeWithFallbackWrapped(cf, fallback, e); }
+                catch (ExecutionException e){ completeWithFallbackWrapped(cf, fallback, e.getCause()); }
+            });
+        executor.execute(completer);
+
         return cf;
     }
 
@@ -152,28 +168,32 @@ public final class Engine {
                                                    final long timeout, final TimeUnit unit,
                                                    final boolean cancelOnTimeout){
         final CompletableFuture<T> cf = new CompletableFuture<T>();
+        final Callable<T> bizCall = wrapCallable(() -> supplier.get());
         final Future<T> f;
-        try { f = submit(new Callable<T>() { public T call() throws Exception { return supplier.get(); }}); }
+        try { f = submit(bizCall); }
         catch (RejectedExecutionException rex){ cf.completeExceptionally(rex); return cf; }
 
-        executor.execute(new Runnable() {
-            public void run() {
+        final Runnable completer = wrapRunnable(() -> {
+
                 try { cf.complete(f.get()); }
                 catch (CancellationException e){ cf.completeExceptionally(e); }
                 catch (InterruptedException e){ Thread.currentThread().interrupt(); cf.completeExceptionally(e); }
                 catch (ExecutionException e){ cf.completeExceptionally(e.getCause()); }
-            }
-        });
+            });
+        executor.execute(completer);
+
+
+        // 超时调度：回调与 fallback 也要包（否则调度线程丢上下文）
         if (timeout>0) {
-            scheduler.schedule(new Runnable() {
-                public void run(){
+                final Runnable onTimeout = wrapRunnable(() ->{
                     if (!cf.isDone()) {
                         if (cancelOnTimeout) f.cancel(true);
                         cf.completeExceptionally(new TimeoutException("engine.supplyFailFast timeout"));
                     }
-                }
-            }, timeout, unit);
+                });
+            scheduler.schedule(onTimeout, timeout, unit);
         }
+
         return cf;
     }
 
@@ -251,17 +271,22 @@ public final class Engine {
                     } else {
                         boolean allDone = true;
                         for (CompletableFuture<?> o : cfs) if (!o.isDone()) { allDone=false; break; }
-                        if (allDone && done.compareAndSet(false, true)) completeWithFallback(out, fallback, e);
+                        if (allDone && done.compareAndSet(false, true)) completeWithFallbackWrapped(out, fallback, e);
                     }
                 }
             });
         }
 
-        if (timeout>0) {
-            scheduler.schedule(new Runnable() {
-                public void run(){ if (done.compareAndSet(false,true)) completeWithFallback(out, fallback, new TimeoutException("engine.anyOf timeout")); }
-            }, timeout, unit);
+        if (timeout > 0) {
+            final Runnable onTimeout = wrapRunnable(() -> {
+                if (done.compareAndSet(false, true))
+                    completeWithFallbackWrapped(out, fallback, new TimeoutException("engine.anyOf timeout"));
+            });
+
+            scheduler.schedule(onTimeout, timeout, unit);
         }
+
+
         return out;
     }
 
@@ -293,6 +318,60 @@ public final class Engine {
         if (last instanceof Exception) throw (Exception) last;
         throw new Exception(last);
     }
+
+    /** 用 TaskWrapper 捕获父线程上下文，生成可在工作线程恢复上下文后执行的 Runnable */
+    private Runnable wrapRunnable(Runnable r) {
+        return this.taskWrapper.wrap(r); // 你已有的接口：提交时捕获，执行时恢复+清理
+    }
+
+    /** 用 TaskWrapper 捕获父线程上下文，生成可在工作线程恢复上下文后执行的 Callable<T> */
+    private <T> Callable<T> wrapCallable(Callable<T> c) {
+        // 思路：把 Callable 包进一个 Runnable，提交时 wrap 捕获上下文；执行时在工作线程恢复后运行。
+        final AtomicReference<T> ref = new AtomicReference<>();
+        final AtomicReference<Exception> ex = new AtomicReference<>();
+
+        final Runnable wrapped = this.taskWrapper.wrap(() -> {
+            try {
+                ref.set(c.call());
+            } catch (Exception e) {
+                ex.set(e);
+            }
+        });
+
+        return () -> {
+            wrapped.run();                 // 在被工作线程调用时，先恢复上下文再执行真正的 c.call()
+            if (ex.get() != null) throw ex.get();
+            return ref.get();
+        };
+    }
+
+
+    private static <T> void completeWithFallback(CompletableFuture<T> cf, Supplier<T> fb, Throwable cause) {
+        if (cf.isDone()) return;
+        try {
+            cf.complete(fb == null ? null : fb.get());
+        } catch (Throwable ex) {
+            if (cause != null) ex.addSuppressed(cause);
+            cf.completeExceptionally(ex);
+        }
+    }
+
+
+    /**
+     * 在“当前线程”执行已包装的 fallback：保证 MDC/BizContext 正确且只写一次 cf
+     */
+    private <T> void completeWithFallbackWrapped(CompletableFuture<T> cf, Supplier<T> fallback, Throwable cause) {
+        if (cf.isDone()) return;
+        try {
+            // fallback 也要在捕获的上下文里执行
+            T fb = wrapCallable(() -> fallback.get()).call();
+            cf.complete(fb);
+        } catch (Throwable ex) {
+            if (cause != null) ex.addSuppressed(cause);
+            cf.completeExceptionally((ex instanceof Exception) ? ex: new RuntimeException(ex));
+        }
+    }
+
 
     /* ============== 关闭 ============== */
 
