@@ -16,7 +16,7 @@ public class FusionConfig {
     public DispatcherAdapter dispatcherAdapter(CfEngine engine) { return new DispatcherAdapter(engine); }
 
     @Bean
-    public OrchestratorServiceV2 orchestratorServiceV2(CoreService coreService, DispatcherAdapter dispatcherAdapter, CfEngine engine) {
+    public OrchestratorServiceV2 orchestratorServiceV2(CoreServiceV2 coreService, DispatcherAdapter dispatcherAdapter, CfEngine engine) {
         return new OrchestratorServiceV2(coreService, dispatcherAdapter, engine);
     }
 }

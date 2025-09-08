@@ -3,6 +3,8 @@ package com.st.modules.thread.framework.v4;
 import static org.junit.jupiter.api.Assertions.*;
 
 // src/test/java/com/best/concurrent/tests/EngineTest.java
+import com.st.modules.thread.framework.v4.core.Engine;
+import com.st.modules.thread.framework.v4.core.TaskWrappers;
 import com.st.modules.thread.framework.v4.test.TestHelpers;
 import org.junit.jupiter.api.*;
 
@@ -11,8 +13,6 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class EngineTest {
 

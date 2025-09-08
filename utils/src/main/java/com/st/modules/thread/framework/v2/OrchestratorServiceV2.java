@@ -21,12 +21,12 @@ import java.util.function.Supplier;
  */
 public class OrchestratorServiceV2 {
 
-    private final CoreService coreService;
+    private final CoreServiceV2 coreService;
     private final DispatcherAdapter dispatcher;
     private final CfEngine engine;
     private final ConcurrentMap<String, Object> ticketStore = new ConcurrentHashMap<String, Object>();
 
-    public OrchestratorServiceV2(CoreService coreService, DispatcherAdapter dispatcher, CfEngine engine) {
+    public OrchestratorServiceV2(CoreServiceV2 coreService, DispatcherAdapter dispatcher, CfEngine engine) {
         this.coreService = coreService;
         this.dispatcher = dispatcher;
         this.engine = engine;

@@ -42,7 +42,7 @@ public class Main {
         Executor executor = CallableThreadPoolUtils.getExecutor("Module/FunctionA");
         CoreService coreService = new CoreService();
         Dispatcher dispatcher = new Dispatcher();
-        OrchestratorService orchestrator = new OrchestratorService(coreService, dispatcher);
+        OrchestratorService_v1 orchestrator = new OrchestratorService_v1(coreService, dispatcher);
 
         List<String> names = Arrays.asList("taskA", "taskB", "taskC");
         orchestrator.processTasks(names);

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.st.modules.demo.dao.mapper.User2Mapper">
+
+    <resultMap id="BaseResultMap" type="com.st.modules.demo.model.entity.User2">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- <sql id="Base_Column_List">
+         id
+         ,name,age,
+         email
+     </sql>-->
+
+    <!--    select name from user2  ${ew.customSqlSegment}-->
+    <!--    select u.name from user2 u left join  user e on  u.id = e.id ${ew.customSqlSegment}dd-->
+    <select id="queryByPage" resultType="Map">
+        select u.id uid, u.name uname, e.id eid
+        from user2 u,
+        user e
+            <if test="flag != null">
+                ${ew.customSqlSegment}
+            </if>
+    </select>
+</mapper>

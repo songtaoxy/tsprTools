@@ -129,3 +129,24 @@ management:
     distribution:
       percentiles-histogram:
         http.server.requests: true
+
+
+ftp:
+  clients:
+    ftpA:
+      protocol: ftp
+      host: 192.168.1.100
+      port: 21
+      username: user
+      password: pass
+      paths:
+        upload: /upload
+        download: /download
+    sftpB:
+      protocol: sftp
+      host: 192.168.1.101
+      port: 22
+      username: user2
+      password: pass2
+      paths:
+        upload: /data/in

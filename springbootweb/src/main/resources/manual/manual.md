@@ -47,7 +47,7 @@
 配置, 及api
 
 - yaml配置
-- com.st.tools.common.config.redis.RedisConfig
+- redis.config.common.com.st.RedisConfig
 - Spring data redis  -》lettuce (客户端) -〉redis (本地安装的服务)
 - RedisTemplate 提供api
 
@@ -266,13 +266,13 @@ jvm_threads_states_threads{application="\"stApps\"",state="runnable",} 11.0
 jvm_threads_peak_threads{application="\"stApps\"",} 43.0
 # HELP application_started_time_seconds Time taken (ms) to start the application
 # TYPE application_started_time_seconds gauge
-application_started_time_seconds{application="\"stApps\"",main_application_class="com.st.tools.WebApplication",} 0.831
+application_started_time_seconds{application="\"stApps\"",main_application_class="com.st.WebApplication",} 0.831
 # HELP system_load_average_1m The sum of the number of runnable entities queued to available processors and the number of runnable entities running on the available processors averaged over a period of time
 # TYPE system_load_average_1m gauge
 system_load_average_1m{application="\"stApps\"",} 4.55517578125
 # HELP application_ready_time_seconds Time taken (ms) for the application to be ready to service requests
 # TYPE application_ready_time_seconds gauge
-application_ready_time_seconds{application="\"stApps\"",main_application_class="com.st.tools.WebApplication",} 0.832
+application_ready_time_seconds{application="\"stApps\"",main_application_class="com.st.WebApplication",} 0.832
 # HELP tomcat_sessions_alive_max_seconds  
 # TYPE tomcat_sessions_alive_max_seconds gauge
 tomcat_sessions_alive_max_seconds{application="\"stApps\"",} 0.0
