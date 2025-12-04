@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.codehaus.plexus.component.manager.ClassicSingletonComponentManager;
 
 import java.lang.reflect.Type;
 

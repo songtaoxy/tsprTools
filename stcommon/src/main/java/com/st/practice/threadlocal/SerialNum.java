@@ -1,8 +1,6 @@
 package com.st.practice.threadlocal;
 
-import com.google.errorprone.annotations.Var;
-import com.sun.tools.javadoc.Start;
-import lombok.Getter;
+
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;

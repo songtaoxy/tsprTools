@@ -1,8 +1,8 @@
 package com.st.common.response;
 
-import com.st.modules.json.jackson.JacksonUtils_V1;
 import com.st.common.i18n.I18nUtil;
 import com.st.common.utils.bean.SpringContextUtils;
+import com.st.modules.json.jackson.JacksonUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.stereotype.Component;
@@ -106,7 +106,7 @@ public class Response<R> {
 
     public static <T> String format(Response<T> response) {
         String resStr = null;
-        resStr = JacksonUtils_V1.toPrettyJson(response);
+        resStr = JacksonUtils.toPrettyJson(response);
         return resStr;
     }
 

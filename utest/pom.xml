@@ -21,11 +21,11 @@
 
 
     <dependencies>
-        <dependency>
-            <groupId>com.st.tools</groupId>
-            <artifactId>stcommon</artifactId>
-            <version>TV20210629</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.st.tools</groupId>-->
+<!--            <artifactId>stcommon</artifactId>-->
+<!--            <version>TV20210629</version>-->
+<!--        </dependency>-->
 
     </dependencies>
     <build>

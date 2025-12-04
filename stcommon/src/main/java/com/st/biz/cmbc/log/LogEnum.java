@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.JsonObject;
 //import com.st.utils.json.gson.GsonUtils;
 import com.st.modules.json.jackson.JacksonUtils;
-import com.st.modules.json.jackson.JacksonUtils_V1;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -151,7 +150,6 @@ public enum LogEnum {
 
 		//Object o = GsonUtils.convertBean(LogEnum.L_gson_convert_listObjT2ListR, JsonObject.class);
 
-		log.info(JacksonUtils_V1.toPrettyJson(LogEnum.L_gson_convert_listObjT2ListR));
 
 
 

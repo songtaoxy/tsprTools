@@ -3,11 +3,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <!-- parent -->
+<!--    <parent>-->
+<!--        <groupId>com.st.tools</groupId>-->
+<!--        <artifactId>tspr</artifactId>-->
+<!--        <version>tv20210521</version>-->
+<!--    </parent>-->
+
     <parent>
-        <groupId>com.st.tools</groupId>
-        <artifactId>tspr</artifactId>
-        <version>tv20210521</version>
+        <groupId>com.st.base</groupId>
+        <artifactId>base-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../base-parent/pom.xml</relativePath>
     </parent>
+
+
 
     <artifactId>stcommon</artifactId>
     <version>TV20210629</version>
@@ -33,13 +42,37 @@
         <dependency>
             <groupId>com.st.tools</groupId>
             <artifactId>utils</artifactId>
-            <version>tv20210521</version>
+            <version>1.0.0</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.st.tools</groupId>-->
+<!--            <artifactId>stbptools008</artifactId>-->
+<!--            <version>v20231114</version>-->
+<!--&lt;!&ndash;            <scope>test</scope>&ndash;&gt;-->
+<!--        </dependency>-->
+
         <dependency>
-            <groupId>com.st.tools</groupId>
-            <artifactId>stbptools008</artifactId>
-            <version>v20231114</version>
-<!--            <scope>test</scope>-->
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <!--            <scope>test</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <!--            <scope>test</scope>-->
+        </dependency>
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 

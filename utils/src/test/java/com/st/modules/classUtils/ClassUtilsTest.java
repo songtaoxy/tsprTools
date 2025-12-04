@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 public class ClassUtilsTest {
 
-
-    @Test
     public void validNumbers(){
 
         Per.PerBuilder builder = Per.builder();

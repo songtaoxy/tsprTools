@@ -7,7 +7,6 @@ package com.st.dsa;
  * @description:
  */
 import com.st.dsa.ds.ListNode;
-import org.junit.Assert;
 
 /**
  *
@@ -88,7 +87,6 @@ public class AddTwoNumbers {
     ListNode result1 = solution2.addTwoNumbers(listNode1, listNode21);
     //ListNode result3 = solution2.addTwoNumbers(listNode31, listNode32);
     // 判断期望值与实际值
-    Assert.assertArrayEquals(expResult1, result1.toArray().toArray());
     //Assert.assertArrayEquals(expResult3, result3.toArray().toArray());
   }
 

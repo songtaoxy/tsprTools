@@ -1,9 +1,16 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<!--    <parent>-->
+<!--        <groupId>com.st.tools</groupId>-->
+<!--        <artifactId>tspr</artifactId>-->
+<!--        <version>tv20210521</version>-->
+<!--    </parent>-->
+
     <parent>
         <groupId>com.st.tools</groupId>
-        <artifactId>tspr</artifactId>
-        <version>tv20210521</version>
+        <artifactId>base-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../base-parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>stbptools008</artifactId>
@@ -60,6 +67,24 @@
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jsonSchema</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <build>

@@ -25,11 +25,11 @@
 
     <!-- 项目的聚合 -->
     <modules>
-        <!-- <module>stcommon</module> -->
+        <module>stcommon</module>
         <module>springbootweb</module>
-        <!-- <module>utest</module>
+        <module>utest</module>
         <module>stbptools008</module>
-        <module>dsa</module> -->
+        <module>dsa</module>
         <module>utils</module>
     </modules>
 
