@@ -28,6 +28,7 @@
     <fastjson2.version>2.0.1</fastjson2.version>
     <junit5.verson>5.8.1</junit5.verson>
     <hutool.version>5.7.16</hutool.version>
+    <druid>1.1.17</druid>
 
   </properties>
   <dependencyManagement>
@@ -102,6 +103,13 @@
         <groupId>cn.hutool</groupId>
         <artifactId>hutool-all</artifactId>
         <version>${hutool.version}</version>
+      </dependency>
+
+
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid-spring-boot-starter</artifactId>
+        <version>${druid}</version>
       </dependency>
 
     </dependencies>
