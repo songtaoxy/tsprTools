@@ -31,7 +31,7 @@
         <module>stbptools008</module>
         <module>dsa</module> -->
         <module>utils</module>
-        <module>web-common-starter</module>
+        <module></module>
     </modules>
 
 

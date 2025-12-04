@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * 注意事项:
  *  1. 可通过自定义注解跳过某些接口的包装。
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     /**
      * 入参:
