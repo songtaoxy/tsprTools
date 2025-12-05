@@ -183,7 +183,11 @@
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
-
+        <!--        http的client, webclient-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
 
     </dependencies>
 
